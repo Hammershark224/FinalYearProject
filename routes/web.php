@@ -42,6 +42,8 @@ Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('
 Route::view('/dashboard', 'ManageUser.dashboard')->name('home')->middleware('auth');
 
 Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
+Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
+Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
 
 
 Route::group(['middleware' => 'auth'], function () {

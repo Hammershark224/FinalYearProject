@@ -32,6 +32,21 @@ class DatabaseSeeder extends Seeder
             'ingredient_name' => 'rice',
             'ingredient_price' => '1.00'
         ]);
+        DB::table('ingredient_details')->insert([
+            'supplier_ID' => '1',
+            'ingredient_name' => 'sambal',
+            'ingredient_price' => '0.25'
+        ]);
+        DB::table('ingredient_details')->insert([
+            'supplier_ID' => '1',
+            'ingredient_name' => 'ikan lipis',
+            'ingredient_price' => '0.10'
+        ]);
+        DB::table('ingredient_details')->insert([
+            'supplier_ID' => '1',
+            'ingredient_name' => 'egg',
+            'ingredient_price' => '0.50'
+        ]);
         DB::table('dish_details')->insert([
             'ingredient_ID' => '1',
             'dish_name' => 'nasi lemak',
