@@ -7,8 +7,24 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Dish</h6>
+                        <div class="row align-items-center">
+                        <div class="col">
+                            <h6>Dish</h6>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" type="button"
+                                onclick="window.location='{{ route('dish.create') }}'">New</button>
+                        </div>
                     </div>
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+                </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">

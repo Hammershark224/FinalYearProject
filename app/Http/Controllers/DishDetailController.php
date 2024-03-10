@@ -14,7 +14,6 @@ class DishDetailController extends Controller
     }
 
     public function create() {
-        IngredientDetail::all();
         $ingredients = IngredientDetail::all();
         return view('ManageDish.addDish',['ingredients' => $ingredients]);
     }

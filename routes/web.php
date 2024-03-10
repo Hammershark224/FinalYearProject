@@ -26,7 +26,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DishDetailController;
-use App\Http\Controllers\SaleReportController;
+use App\Http\Controllers\MenuDetailController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
@@ -45,6 +45,10 @@ Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.m
 Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
 Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
 
+Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
+Route::get('/order-create', function () {
+	return view('ManageOrder.createOrder');
+})->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
@@ -54,6 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
