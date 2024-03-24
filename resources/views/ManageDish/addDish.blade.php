@@ -19,7 +19,13 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                            <p class="text-uppercase text-sm">Dish Info</p>
+                                <p class="text-uppercase text-sm">Dish Info</p>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="photo" class="form-control-label">Dish Photo</label>
+                                        <input type="file" name="dish_photo" class="form-control" accept="image/*">
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Dish Name</label>
@@ -34,16 +40,18 @@
                                 </div>
                             </div>
                             <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Ingredient</p>
+                            <p class="text-uppercase text-sm">Ingredients</p>
                             <div class="row">
                                 <div class="col-md-12">       
                                     <div class="form-group" id="dropdownLists">
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" id="addButton">Add Dropdown</button>
+                                        <button type="button" class="btn btn-primary" id="addButton">Add Ingredient</button>
                                     </div>
                                 </div>
                             </div>
+                            <input class="form-control" type="number" name="dish_cost" id="dish_cost" readonly>
+                            <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="1">
                         </div>
                         <script>
                             document.getElementById('addButton').addEventListener('click', function() {
@@ -51,17 +59,35 @@
                                 var newDropdown = document.createElement('div');
                                 newDropdown.classList.add('form-group');
                                 newDropdown.innerHTML = `
-                                <select class="form-control mt-2">
-                                    <option value="">Select Ingredient</option>
+                                <select class="form-control mt-2 ingredient" name="ingredients[]">
+                                    <option value="" data-price='0.00'>Select Ingredient</option>
                                     @foreach($ingredients as $ingredient)
-                                        <option value="{{ $ingredient->ingredient_ID }}">{{ $ingredient->ingredient_name }}</option>
+                                        <option value="{{ $ingredient->ingredient_ID }}" data-price="{{ $ingredient->ingredient_price }}">{{ $ingredient->ingredient_name }}</option>
                                     @endforeach
                                 </select>
                                 `;
                                 dropdownLists.appendChild(newDropdown);
+                                calculateCost();
+                            });
+
+                            function calculateCost() {
+                                var ingredientSelects = document.querySelectorAll('.ingredient');
+                                var totalCost = 0;
+                                ingredientSelects.forEach(function(select) {
+                                    var selectedOption = select.options[select.selectedIndex];
+                                    var price = parseFloat(selectedOption.getAttribute('data-price'));
+
+                                    totalCost += price;
+                                });
+                                document.getElementById('dish_cost').value = totalCost;
+                            }
+
+                            document.addEventListener('change', function(event) {
+                                if (event.target.classList.contains('ingredient')) {
+                                    calculateCost();
+                                }
                             });
                         </script>
-                        
                     </form>
                 </div>
             </div> 

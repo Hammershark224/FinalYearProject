@@ -11,4 +11,9 @@ class MenuDetailController extends Controller
         $dishes = DishDetail::all();
         return view('ManageMenu.menuManage',['dishes'=>$dishes]);
     }
+
+    public function indexRecipe() {
+        $dishes = DishDetail::all();
+        return view('ManageMenu.recipeManage',['dishes'=>$dishes]);
+    }
 }

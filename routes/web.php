@@ -44,8 +44,11 @@ Route::view('/dashboard', 'ManageUser.dashboard')->name('home')->middleware('aut
 Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
 Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
 Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
+Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
+Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
+Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {
 	return view('ManageOrder.createOrder');
 })->middleware('auth');

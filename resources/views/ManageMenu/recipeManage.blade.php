@@ -12,7 +12,8 @@
                             <h6>Dish</h6>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">New</button>
+                            <button class="btn btn-success" type="button"
+                                onclick="window.location='{{ route('dish.create') }}'">New</button>
                         </div>
                     </div>
 
@@ -29,20 +30,21 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Dish</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Type</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                        <th class="text-secondary opacity-7">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($dishes as $dish)
                                         <tr>
                                             <td>
-                                                <div class="align-middle text-center text-sm">
+                                                <div class="d-flex px-2 py-1">
 
                                                     <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">{{ $dish['dish_name'] }}
@@ -54,14 +56,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{$dish['dish_name'] }}
                                                 </p>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <input type="checkbox" name="status" data-plugin="switchery" data-color="#1bb99a" {{ $dish->status ? 'checked="1"' : 'checked="0"' }} >
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <a href="{{ route('dish.show', $dish['dish_ID']) }}" class="btn btn-info">VIEW</a>
-                                                <a href="{{ route('dish.show', $dish['dish_ID']) }}" class="btn btn-primary">EDIT</a>
-                                                <a href="{{ route('dish.delete', $dish['dish_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
-                                            </td>
+
                                         </tr>
                                     @endforeach
 

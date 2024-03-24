@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dish_details', function (Blueprint $table) {
-            $table->id("dish_ID");
-            $table->string("dish_name");
-            $table->string("dish_description");
-            $table->decimal('dish_cost', 8, 2);
-            $table->boolean("dish_status");
-            $table->string("dish_photo")->nullable();
+        Schema::create('recipe_details', function (Blueprint $table) {
+            $table->foreignId("ingredient_ID")->references("ingredient_ID")->on("ingredient_details");
+            $table->foreignId("dish_ID")->references("dish_ID")->on("dish_details");
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dish_details');
+        Schema::dropIfExists('recipe_details');
     }
 };

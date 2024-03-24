@@ -47,12 +47,5 @@ class DatabaseSeeder extends Seeder
             'ingredient_name' => 'egg',
             'ingredient_price' => '0.50'
         ]);
-        DB::table('dish_details')->insert([
-            'ingredient_ID' => '1',
-            'dish_name' => 'nasi lemak',
-            'dish_description' => 'sambal good',
-            'dish_cost' => '2.50'
-        ]);
-
     }
 }
