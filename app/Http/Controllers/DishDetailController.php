@@ -37,7 +37,7 @@ class DishDetailController extends Controller
         // Handle file upload
         if ($request->hasFile('dish_photo')) {
             $fileName = $request->file('dish_photo')->getClientOriginalName();
-            $request->file('dish_photo')->storeAs('dish_photos', $fileName);
+            $request->file('dish_photo')->storeAs('dish_photos', $fileName, 'public');
         } else {
             // Handle case when no file is uploaded
             // You can set a default photo or return an error message
