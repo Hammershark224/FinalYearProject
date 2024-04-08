@@ -9,10 +9,7 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                         <div class="col">
-                            <h6>Dish</h6>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">New</button>
+                            <h6>Ingredients</h6>
                         </div>
                     </div>
 
@@ -30,38 +27,32 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Dish</th>
+                                            Ingredient</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Cost (RM)</th>
+                                            Weight (kg)</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Action</th>
+                                            Price (RM)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($dishes as $dish)
+                                    @foreach ($ingredients as $ingredient)
                                         <tr>
                                             <td>
                                                 <div class="align-middle text-center text-sm">
 
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $dish['dish_name'] }}
+                                                        <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_name'] }}
                                                         </h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$dish['dish_cost'] }}
+                                                <p class="text-xs font-weight-bold mb-0">{{$ingredient['ingredient_weight'] }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <input type="checkbox" name="status" data-plugin="switchery" data-color="#1bb99a" {{ $dish->status ? 'checked="1"' : 'checked="0"' }} >
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <a href="{{ route('dish.show', $dish['dish_ID']) }}" class="btn btn-info">VIEW</a>
-                                                <a href="{{ route('dish.edit', $dish['dish_ID']) }}" class="btn btn-primary">EDIT</a>
-                                                <a href="{{ route('dish.delete', $dish['dish_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                                <p class="text-xs font-weight-bold mb-0">{{$ingredient['ingredient_price'] }}
+                                                </p>
                                             </td>
                                         </tr>
                                     @endforeach

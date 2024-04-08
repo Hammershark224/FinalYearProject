@@ -23,7 +23,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Dish Photo</label>
-                                        <p><img src="{{ $photoUrl }}"  style="width: 500px" style="height: 500px" alt="Dish Photo"></p>
+                                        <p><img src="{{ $photoUrl }}" style="width: 300px; height: 300px;" alt="Dish Photo"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -48,8 +48,16 @@
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
                             @foreach($ingredients as $ingredient)
-                                <div class="form-group">
-                                    <input class="form-control" type="text" value="{{ $ingredient->ingredient->ingredient_name }}" readonly>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" value="{{ $ingredient->ingredient->ingredient_name }}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" type="text" value="{{ $ingredient->recipe_weight }}" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" type="text" value="{{ $ingredient->recipe_weight * $ingredient->ingredient->ingredient_price }}" readonly>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

@@ -26,7 +26,9 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DishDetailController;
+use App\Http\Controllers\IngredientDetailController;
 use App\Http\Controllers\MenuDetailController;
+use App\Models\IngredientDetail;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
@@ -45,8 +47,10 @@ Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.m
 Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
 Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
 Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
+Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
 Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 
+Route::get('/ingredient-manage', [IngredientDetailController::class, 'index'])->name('ingredient.manage');
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {

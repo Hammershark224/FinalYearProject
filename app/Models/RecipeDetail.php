@@ -9,8 +9,8 @@ class RecipeDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ingredient_ID', 'dish_ID'];
     protected $primaryKey = ['dish_ID', 'ingredient_ID'];
+    protected $fillable = ['ingredient_ID', 'dish_ID', 'recipe_weight'];
     public $incrementing = false;
 
     public function ingredient()

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id("ingredient_ID");
             $table->foreignId("supplier_ID")->references("supplier_ID")->on("supplier_details");
             $table->string("ingredient_name");
-            $table->string("ingredient_price");
+            $table->float("ingredient_price");
+            $table->string("ingredient_weight");
             $table->timestamps();
         });
     }

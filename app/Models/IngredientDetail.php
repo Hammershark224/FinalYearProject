@@ -10,7 +10,7 @@ class IngredientDetail extends Model
     use HasFactory;
 
     protected $primaryKey = "ingredient_ID";
-    protected $fillable = ['ingredient_name','ingredient_price'];
+    protected $fillable = ['ingredient_name','ingredient_price','ingredient_weight'];
 
     // public function recipe()
     // {

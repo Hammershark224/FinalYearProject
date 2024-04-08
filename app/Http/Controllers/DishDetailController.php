@@ -15,7 +15,6 @@ class DishDetailController extends Controller
 {
     public function index() {
         $dishes = DishDetail::all();
-
         return view('ManageDish.dishManage',['dishes'=>$dishes]);
     }
 
@@ -39,8 +38,6 @@ class DishDetailController extends Controller
             $fileName = $request->file('dish_photo')->getClientOriginalName();
             $request->file('dish_photo')->storeAs('dish_photos', $fileName, 'public');
         } else {
-            // Handle case when no file is uploaded
-            // You can set a default photo or return an error message
             return back()->with('error', 'No dish photo uploaded.');
         }
 
@@ -54,19 +51,28 @@ class DishDetailController extends Controller
         ]);
         // dd($fileName);
 
-
-        // Attach ingredients to the dish
         $ingredients = $request->input('ingredients', []);
         // dd($ingredients);
-        // $dish->ingredients()->attach($ingredients);
 
-        foreach ($ingredients as $ingredientId) {
-            RecipeDetail::create([
-                'dish_ID' => $dish->dish_ID,
-                'ingredient_ID' => $ingredientId,
-            ]);
+        foreach ($ingredients as $index => $ingredientId) {
+            // Check if the 'recipe_weight' array has an element at the current index
+            if (isset($request->input('recipe_weight')[$index])) {
+                // Retrieve the weight of the ingredient from the request
+                $recipeWeight = $request->input('recipe_weight')[$index];
+                // dd($request);
+                RecipeDetail::create([
+                    'dish_ID' => $dish->dish_ID,
+                    'ingredient_ID' => $ingredientId,
+                    'recipe_weight' => $recipeWeight,
+                ]);
+                
+            } else {
+                // Handle the case where 'recipe_weight' is not set for this ingredient
+                // You can choose to skip this ingredient or handle it differently based on your requirements
+            }
         }
-
+        
+        
         return redirect(route('dish.manage'));
     }
     
@@ -83,12 +89,22 @@ class DishDetailController extends Controller
         return view('ManageDish.viewDish', ['dataDish' => $dataDish, 'ingredients' => $ingredients, 'photoUrl' => $photoUrl]);
     }
 
+    public function edit($id) {
+        $dataDish = DishDetail::findOrFail($id);
+        $ingredients = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
+        $photoUrl = null;
+    
+        if ($dataDish->dish_photo) {
+            // Generate URL for the dish photo
+            $photoUrl = Storage::url('dish_photos/' . $dataDish->dish_photo);
+        }
+    
+        return view('ManageDish.editDish', ['dataDish' => $dataDish, 'ingredients' => $ingredients, 'photoUrl' => $photoUrl]);
+    }
+
     public function delete($id) {
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();
-        // foreach($ingredients as $ingredient){
-        //     $ingredient->delete();
-        // }
         $dataDish -> delete();
         return redirect(route('dish.manage'));
     }

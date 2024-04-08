@@ -18,12 +18,7 @@ class MenuDetailController extends Controller
                 $photoUrls[$dish->dish_ID] = Storage::url('dish_photos/' . $dish->dish_photo);
             }
         }
-dd($photoUrls);
+// dd($photoUrls);
         return view('ManageMenu.menuManage', ['dishes' => $dishes, 'photoUrls' => $photoUrls]);
-    }
-
-    public function indexRecipe() {
-        $dishes = DishDetail::all();
-        return view('ManageMenu.recipeManage',['dishes'=>$dishes]);
     }
 }

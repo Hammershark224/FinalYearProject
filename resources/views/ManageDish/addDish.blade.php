@@ -44,9 +44,12 @@
                             <div class="row">
                                 <div class="col-md-12">       
                                     <div class="form-group" id="dropdownLists">
+                                        <!-- Initially, show one dropdown and one input field for weight -->
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" id="addButton">Add Ingredient</button>
+                                        <!-- Buttons to add or remove ingredients -->
+                                        <button type="button" class="btn btn-primary" id="addButton">+</button>
+                                        <button type="button" class="btn btn-danger" id="removeButton" style="display: none;">-</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,33 +60,62 @@
                             document.getElementById('addButton').addEventListener('click', function() {
                                 var dropdownLists = document.getElementById('dropdownLists');
                                 var newDropdown = document.createElement('div');
-                                newDropdown.classList.add('form-group');
+                                newDropdown.classList.add('form-group', 'ingredient-dropdown');
                                 newDropdown.innerHTML = `
-                                <select class="form-control mt-2 ingredient" name="ingredients[]">
-                                    <option value="" data-price='0.00'>Select Ingredient</option>
-                                    @foreach($ingredients as $ingredient)
-                                        <option value="{{ $ingredient->ingredient_ID }}" data-price="{{ $ingredient->ingredient_price }}">{{ $ingredient->ingredient_name }}</option>
-                                    @endforeach
-                                </select>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <select class="form-control mt-2 ingredient" name="ingredients[]">
+                                                <option value="" data-price='0.00'>Select Ingredient</option>
+                                                @foreach($ingredients as $ingredient)
+                                                    <option value="{{ $ingredient->ingredient_ID }}" data-price="{{ $ingredient->ingredient_price }}">{{ $ingredient->ingredient_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control mt-2 weight" type="number" step="0.01" min="0.01" max="1" name="recipe_weight[]" placeholder="Weight(kg) / (ml)">
+                                        </div>
+                                    </div>
+                                    <hr class="horizontal dark">
                                 `;
                                 dropdownLists.appendChild(newDropdown);
                                 calculateCost();
+                                showRemoveButton();
                             });
+
+                            document.getElementById('removeButton').addEventListener('click', function() {
+                                var dropdownLists = document.getElementById('dropdownLists');
+                                var dropdowns = dropdownLists.getElementsByClassName('ingredient-dropdown');
+                                if (dropdowns.length > 1) {
+                                    dropdowns[dropdowns.length - 1].remove();
+                                    calculateCost();
+                                    showRemoveButton();
+                                }
+                            });
+
+                            function showRemoveButton() {
+                                var dropdownLists = document.getElementById('dropdownLists');
+                                var dropdowns = dropdownLists.getElementsByClassName('ingredient-dropdown');
+                                if (dropdowns.length > 1) {
+                                    document.getElementById('removeButton').style.display = 'inline-block';
+                                } else {
+                                    document.getElementById('removeButton').style.display = 'none';
+                                }
+                            }
 
                             function calculateCost() {
                                 var ingredientSelects = document.querySelectorAll('.ingredient');
                                 var totalCost = 0;
-                                ingredientSelects.forEach(function(select) {
+                                ingredientSelects.forEach(function(select, index) {
                                     var selectedOption = select.options[select.selectedIndex];
                                     var price = parseFloat(selectedOption.getAttribute('data-price'));
-
-                                    totalCost += price;
+                                    var weight = parseFloat(document.querySelectorAll('.weight')[index].value);
+                                    totalCost += price * weight;
                                 });
                                 document.getElementById('dish_cost').value = totalCost;
                             }
 
                             document.addEventListener('change', function(event) {
-                                if (event.target.classList.contains('ingredient')) {
+                                if (event.target.classList.contains('ingredient') || event.target.classList.contains('weight')) {
                                     calculateCost();
                                 }
                             });

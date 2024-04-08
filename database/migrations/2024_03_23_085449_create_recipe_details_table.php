@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('recipe_details', function (Blueprint $table) {
             $table->foreignId("ingredient_ID")->references("ingredient_ID")->on("ingredient_details");
             $table->foreignId("dish_ID")->references("dish_ID")->on("dish_details");
+            $table->float("recipe_weight",5,2);
             $table->timestamps();
         });
     }
