@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplier_details', function (Blueprint $table) {
-            $table->id("supplier_ID");
+        Schema::create('company_details', function (Blueprint $table) {
+            $table->id("company_ID");
             $table->string("company_name");
             $table->string("company_address");
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier_details');
+        Schema::dropIfExists('company_details');
     }
 };

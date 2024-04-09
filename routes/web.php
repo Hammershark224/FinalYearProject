@@ -51,6 +51,8 @@ Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish
 Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 
 Route::get('/ingredient-manage', [IngredientDetailController::class, 'index'])->name('ingredient.manage');
+Route::get('/ingredient-add', [IngredientDetailController::class, 'create'])->name('ingredient.create');
+Route::post('/ingredient-store', [IngredientDetailController::class, 'store'])->name('ingredient.store');
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {

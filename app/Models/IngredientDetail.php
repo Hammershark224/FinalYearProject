@@ -10,7 +10,7 @@ class IngredientDetail extends Model
     use HasFactory;
 
     protected $primaryKey = "ingredient_ID";
-    protected $fillable = ['ingredient_name','ingredient_price','ingredient_weight'];
+    protected $fillable = ['ingredient_name','ingredient_weight'];
 
     // public function recipe()
     // {
@@ -19,6 +19,10 @@ class IngredientDetail extends Model
 
     public function dishes() {
         return $this->belongsToMany(DishDetail::class, 'recipe_details', 'ingredient_ID', 'dish_ID');
+    }
+    
+    public function supplier() {
+        return $this->hasMany(SupplierDetail::class);
     }
     
 }

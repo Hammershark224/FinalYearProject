@@ -8,19 +8,19 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
-                        <div class="col">
-                            <h6>Ingredients</h6>
+                            <div class="col">
+                                <h6>Ingredients</h6>
+                            </div>
                         </div>
-                    </div>
 
-                    @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                        </div>
-                    @endif
-                </div>
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+                    </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">
@@ -30,33 +30,41 @@
                                             Ingredient</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Weight (kg)</th>
+                                        @foreach ($companys as $company)
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Price (RM)</th>
+                                            Price (RM) <br>
+                                            {{ $company['company_name'] }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($ingredients as $ingredient)
-                                        <tr>
-                                            <td>
-                                                <div class="align-middle text-center text-sm">
-
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_name'] }}
-                                                        </h6>
-                                                    </div>
+                                    <tr>
+                                        @foreach ($ingredients as $ingredient)
+                                        <td>
+                                            <div class="align-middle text-center text-sm">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_name'] }}</h6>
                                                 </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$ingredient['ingredient_weight'] }}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$ingredient['ingredient_price'] }}
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="align-middle text-center text-sm">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_weight'] }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        @endforeach     
+                                        @foreach ($suppliers as $supplier)
+                                        <td>
+                                            <div class="align-middle text-center text-sm">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $supplier['ingredient_price'] }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        @endforeach   
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

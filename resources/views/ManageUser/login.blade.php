@@ -21,7 +21,7 @@
                                         @method('post')
                                         <!-- email input -->
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" value="{{ old('email')}}" value="admin@argon.com" paaria-label="Email">
+                                            <input type="email" name="email" class="form-control form-control-lg" value="admin@argon.com" placeholder="email" paaria-label="Email">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
 
