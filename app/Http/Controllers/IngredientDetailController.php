@@ -54,20 +54,6 @@ class IngredientDetailController extends Controller
         return view('ManageIngredient.addIngredient');
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'company_name' => 'required|string',
-            'company_address' => 'required|string',
-        ]);
-
-        $company = CompanyDetail::create([
-            'company_name' => $request->input('company_name'),
-            'company_address' => $request->input('company_address'),
-        ]);
-
-        return redirect(route('ingredient.manage'));
-    }
-
     public function upload_excel_file(Request $request)
     {
         $request->validate([
@@ -103,7 +89,7 @@ class IngredientDetailController extends Controller
         // Pass the company_ID to the IngredientsImport constructor
         Excel::import(new IngredientsImport($companyId), storage_path('app/excel/ingredient_list.xlsx'));
     
-        return redirect()->back()->with('success', 'File uploaded successfully.');
+        return redirect(route('ingredient.manage'));
     }
     
 

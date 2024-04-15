@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
 use App\Models\RecipeDetail;
+use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
 use League\CommonMark\Node\Block\Document;
 use PhpParser\Node\Scalar\MagicConst\Dir;
@@ -19,8 +20,8 @@ class DishDetailController extends Controller
     }
 
     public function create() {
-        $ingredients = IngredientDetail::all();
-        return view('ManageDish.addDish',['ingredients' => $ingredients]);
+        $suppliers = SupplierDetail::all();
+        return view('ManageDish.addDish',['suppliers' => $suppliers]);
     }
 
     public function store(Request $request) {

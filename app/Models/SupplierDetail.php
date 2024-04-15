@@ -14,11 +14,11 @@ class SupplierDetail extends Model
 
     public function ingredient()
     {
-        return $this->belongsTo(IngredientDetail::class);
+        return $this->belongsTo(IngredientDetail::class,'ingredient_ID', 'ingredient_ID');
     }
 
     public function company()
     {
-        return $this->belongsTo(CompanyDetail::class);
+        return $this->belongsTo(CompanyDetail::class,'company_ID', 'company_ID');
     }
 }

@@ -66,8 +66,12 @@
                                         <div class="col-md-6">
                                             <select class="form-control mt-2 ingredient" name="ingredients[]">
                                                 <option value="" data-price='0.00'>Select Ingredient</option>
-                                                @foreach($ingredients as $ingredient)
-                                                    <option value="{{ $ingredient->ingredient_ID }}" data-price="{{ $ingredient->ingredient_price }}">{{ $ingredient->ingredient_name }}</option>
+                                                @foreach($suppliers as $supplier)
+                                                <option data-price="{{ $supplier->ingredient_price }}">
+                                                    <span style="font-weight: bold;">{{ $supplier->company->company_name }}</span> -
+                                                    <span style="color: blue;">{{ $supplier->ingredient->ingredient_name }}</span> -
+                                                    <span style="font-style: italic;">RM {{$supplier->ingredient_price}}</span>
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
