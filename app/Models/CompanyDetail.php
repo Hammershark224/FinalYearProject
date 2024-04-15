@@ -13,4 +13,9 @@ class CompanyDetail extends Model
         'company_name',
         'company_address'
     ];
+
+    public function suppliers()
+    {
+        return $this->hasMany(SupplierDetail::class);
+    }
 }

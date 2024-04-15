@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ route('ingredient.store') }}" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('supplier.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
@@ -35,7 +35,7 @@
                             </div>
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
-
+                            <input type="file" name="ingredients_list" class="form-control" accept=".xlsx">
                         </div>
                     </form>
                 </div>

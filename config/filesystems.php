@@ -36,6 +36,11 @@ return [
             'throw' => false,
         ],
 
+        'xlsx' => [
+            'driver' => 'local',
+            'root' => storage_path('app/excel'), // Adjust the root directory as needed
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

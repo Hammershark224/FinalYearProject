@@ -9,11 +9,6 @@
     .bg-red {
         background-color: red;
     }
-
-    table th,
-    table td {
-        border-right: 1px solid #ccc;
-    }
 </style>
 @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
     <div class="container-fluid py-4">
@@ -23,7 +18,10 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6>Ingredients</h6>
+                                <h6>Company</h6>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-success" type="button" onclick="window.location='{{ route('supplier.create') }}'">New</button>
                             </div>
                         </div>
 
@@ -41,46 +39,28 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Ingredient</th>
+                                            Company Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Weight (kg)</th>
-                                        @foreach ($companies as $company)
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Price (RM) <br>
-                                            {{ $company['company_name'] }}</th>
-                                        @endforeach
+                                            Company Address</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($ingredients as $ingredient)
+                                    @foreach ($companies as $company)
                                     <tr>
                                         <td>
                                             <div class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $ingredient->ingredient_name }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $company['company_name'] }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $ingredient->ingredient_weight }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $company['company_address'] }}</h6>
                                                 </div>
                                             </div>
                                         </td>
-                                        @foreach ($companies as $company)
-                                        <td>
-                                            @foreach ($ingredient->suppliers as $supplier)
-                                            @if ($supplier->company_ID === $company->company_ID)
-                                            <div class="align-middle text-center text-sm{{ $supplier->ingredient_price == $ingredient->highest_price ? ' bg-yellow' : ($supplier->ingredient_price == $ingredient->lowest_price ? ' bg-red' : '') }}">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $supplier->ingredient_price }}</h6>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @endforeach
-                                        </td>
-                                        @endforeach
                                     </tr>
                                     @endforeach
                                 </tbody>

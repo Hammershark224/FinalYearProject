@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ingredient_details', function (Blueprint $table) {
             $table->id("ingredient_ID");
             $table->string("ingredient_name");
-            $table->string("ingredient_weight");
+            $table->string("ingredient_weight", 8, 2);
             $table->timestamps();
         });
     }

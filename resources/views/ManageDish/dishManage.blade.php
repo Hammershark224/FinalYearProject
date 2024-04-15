@@ -8,11 +8,12 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
-                        <div class="col">
-                            <h6>Dish</h6>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">New</button>
+                            <div class="col">
+                                <h6>Dish</h6>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">New</button>
+                            </div>
                         </div>
                     </div>
 

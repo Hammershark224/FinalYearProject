@@ -50,9 +50,11 @@ Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish
 Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
 Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 
-Route::get('/ingredient-manage', [IngredientDetailController::class, 'index'])->name('ingredient.manage');
-Route::get('/ingredient-add', [IngredientDetailController::class, 'create'])->name('ingredient.create');
-Route::post('/ingredient-store', [IngredientDetailController::class, 'store'])->name('ingredient.store');
+Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
+Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
+Route::get('/supplier-add', [IngredientDetailController::class, 'create'])->name('supplier.create');
+Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
+
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {

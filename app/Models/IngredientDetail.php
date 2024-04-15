@@ -21,8 +21,8 @@ class IngredientDetail extends Model
         return $this->belongsToMany(DishDetail::class, 'recipe_details', 'ingredient_ID', 'dish_ID');
     }
     
-    public function supplier() {
-        return $this->hasMany(SupplierDetail::class);
+    public function suppliers() {
+        return $this->hasMany(SupplierDetail::class, 'ingredient_ID');
     }
     
 }

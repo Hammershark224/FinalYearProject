@@ -60,6 +60,53 @@ class DatabaseSeeder extends Seeder
             'ingredient_price' => '32.50'
         ]);
 
+        DB::table('ingredient_details')->insert([
+            'ingredient_name' => 'F&N Sweetened Creamer Teh Tarik',
+            'ingredient_weight' => '0.5',
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '1',
+            'ingredient_ID' => '2',
+            'ingredient_price' => '3.75'
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '2',
+            'ingredient_ID' => '2',
+            'ingredient_price' => '4.35'
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '3',
+            'ingredient_ID' => '2',
+            'ingredient_price' => '3.50'
+        ]);
+
+        DB::table('ingredient_details')->insert([
+            'ingredient_name' => 'ais',
+            'ingredient_weight' => '1',
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '1',
+            'ingredient_ID' => '3',
+            'ingredient_price' => '5'
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '2',
+            'ingredient_ID' => '3',
+            'ingredient_price' => '4.50'
+        ]);
+
+        DB::table('supplier_details')->insert([
+            'company_ID' => '3',
+            'ingredient_ID' => '3',
+            'ingredient_price' => '4.75'
+        ]);
+
+
         // DB::table('supplier_details')->insert([
         //     'company_ID' => '1',
         //     'ingredient_weight' => '0.5',

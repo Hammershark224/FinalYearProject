@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('supplier_details', function (Blueprint $table) {
             $table->foreignId("company_ID")->references("company_ID")->on("company_details");
             $table->foreignId("ingredient_ID")->references("ingredient_ID")->on("ingredient_details");
-            $table->float("ingredient_price");
+            $table->float("ingredient_price", 8, 2);
             $table->timestamps();
         });
     }
