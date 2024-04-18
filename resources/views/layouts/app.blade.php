@@ -19,6 +19,17 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
+
+    <style>
+
+    .bg-yellow {
+        background-color: yellow;
+    }
+
+    .bg-red {
+        background-color: red;
+    }
+    </style>
 </head>
 
 <body class="{{ $class ?? '' }}">

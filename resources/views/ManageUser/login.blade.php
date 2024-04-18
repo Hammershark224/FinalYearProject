@@ -71,7 +71,7 @@
                         <div
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                                style="background-image: url('https://fk.ump.edu.my/images/2020/01/15/fk_01.jpg');
+                                style="background-image: url('https://media.licdn.com/dms/image/D5612AQFyzeAQIi6DEA/article-cover_image-shrink_720_1280/0/1683904453586?e=1718841600&v=beta&t=9te-fuEh_aECqT0Xs8m0_95GvWSfHJyM969wue6oGN8');
               background-size: cover;">
                                 <span class="mask bg-gradient-secondary opacity-4"></span>
                                 <h4 class="mt-5 text-white font-weight-bolder position-relative">"Welcome back!"</h4>

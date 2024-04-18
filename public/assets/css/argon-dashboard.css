@@ -22777,15 +22777,13 @@ hr.horizontal.gray-light {
 }
 .table td,
 .table th {
-  white-space: nowrap;
+  border-right: 2px solid #ccc;
 }
 .table.align-items-center td,
 .table.align-items-center th {
   vertical-align: middle;
 }
-.table tbody tr:last-child td {
-  border-width: 0;
-}
+
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: #e9ecef;
 }

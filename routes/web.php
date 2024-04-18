@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CalculationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,12 @@ Route::get('/company-manage', [IngredientDetailController::class, 'company_index
 Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 Route::get('/supplier-add', [IngredientDetailController::class, 'create'])->name('supplier.create');
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
+
+Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
+Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
+Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMarginCalculator'])->name('calculator.margin');
+Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
+Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
