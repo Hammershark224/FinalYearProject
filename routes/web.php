@@ -49,9 +49,11 @@ Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.cre
 Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
 Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
 Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
+Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
 Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
+Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
 Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 Route::get('/supplier-add', [IngredientDetailController::class, 'create'])->name('supplier.create');
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
@@ -63,6 +65,7 @@ Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMe
 Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
+Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {
 	return view('ManageOrder.createOrder');

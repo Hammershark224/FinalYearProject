@@ -33,6 +33,8 @@
                                             Company Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Company Address</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +53,11 @@
                                                     <h6 class="mb-0 text-sm">{{ $company['company_address'] }}</h6>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <a href="" class="btn btn-info">VIEW</a>
+                                            <a href="" class="btn btn-primary">EDIT</a>
+                                            <a href="" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                         </td>
                                     </tr>
                                     @endforeach

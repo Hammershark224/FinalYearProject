@@ -9,7 +9,10 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6>Ingredients</h6>
+                                <h6>Ingredient List</h6>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-success" type="button" onclick="window.location=''">New</button>
                             </div>
                         </div>
 
@@ -27,14 +30,11 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Ingredient</th>
+                                            Ingedient Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Weight (kg)</th>
-                                        @foreach ($companies as $company)
+                                            Ingredient Weight</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Price (RM) <br>
-                                            {{ $company['company_name'] }}</th>
-                                        @endforeach
+                                            Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,30 +43,20 @@
                                         <td>
                                             <div class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $ingredient->ingredient_name }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_name'] }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $ingredient->ingredient_weight }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $ingredient['ingredient_weight'] }}</h6>
                                                 </div>
                                             </div>
                                         </td>
-                                        @foreach ($companies as $company)
-                                        <td>
-                                            @foreach ($ingredient->suppliers as $supplier)
-                                            @if ($supplier->company_ID === $company->company_ID)
-                                            <div class="align-middle text-center text-sm{{ $supplier->ingredient_price == $ingredient->highest_price ? ' bg-grey' : ($supplier->ingredient_price == $ingredient->lowest_price ? ' bg-green' : '') }}">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $supplier->ingredient_price }}</h6>
-                                                </div>
-                                            </div>
-                                            @endif
-                                            @endforeach
+                                        <td class="align-middle text-center text-sm">
+                                            <a href="" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                         </td>
-                                        @endforeach
                                     </tr>
                                     @endforeach
                                 </tbody>

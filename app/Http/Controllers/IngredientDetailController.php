@@ -10,6 +10,11 @@ use App\Imports\IngredientsImport;
 
 class IngredientDetailController extends Controller
 {
+    public function index() {
+        $ingredients = IngredientDetail::all();
+        return view('ManageIngredient.ingredient', compact('ingredients'));
+    }
+
     public function company_index() {
         $companies = CompanyDetail::all();
         return view('ManageIngredient.companyManage', compact('companies'));

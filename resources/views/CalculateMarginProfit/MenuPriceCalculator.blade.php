@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Create'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Calculator'])
     <div id="alert">
         @include('components.alert')
     </div>
@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form id="calculationForm" role="form" method="POST" action="{{ route('calculation.menu') }}" enctype="multipart/form-data">
+                    <form id="calculationForm" role="form" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">

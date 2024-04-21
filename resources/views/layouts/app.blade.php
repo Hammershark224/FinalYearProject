@@ -15,6 +15,7 @@
     <link href="{{ asset('./assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('./assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="{{ asset('https://kit.fontawesome.com/42d5adcbca.js') }}" crossorigin="anonymous"></script>
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
@@ -22,12 +23,12 @@
 
     <style>
 
-    .bg-yellow {
-        background-color: yellow;
+    .bg-green {
+        background-color: #ACFFD0;
     }
 
-    .bg-red {
-        background-color: red;
+    .bg-grey {
+        background-color: #E8E8E8;
     }
     </style>
 </head>

@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <input class="form-control" type="number" name="dish_cost" id="dish_cost" readonly>
-                            <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="1">
+                            <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="off">
                         </div>
                         <script>
                             document.getElementById('addButton').addEventListener('click', function() {
@@ -115,6 +115,7 @@
                                     var weight = parseFloat(document.querySelectorAll('.weight')[index].value);
                                     totalCost += price * weight;
                                 });
+                                totalCost = totalCost.toFixed(2);
                                 document.getElementById('dish_cost').value = totalCost;
                             }
 

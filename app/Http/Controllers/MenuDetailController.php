@@ -21,4 +21,15 @@ class MenuDetailController extends Controller
 // dd($photoUrls);
         return view('ManageMenu.menuManage', ['dishes' => $dishes, 'photoUrls' => $photoUrls]);
     }
+
+    public function updateStatus(Request $request, $id) 
+    {
+        // Find the dish by its ID
+        $dish = DishDetail::find($id);
+        $dish -> update($request->all());
+
+        return redirect(route('menu.manage'));
+    }
+
+    
 }

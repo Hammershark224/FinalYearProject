@@ -351,6 +351,18 @@ textarea {
   line-height: inherit;
 }
 
+.red-column {
+  width: 40px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
+  background-color: red;
+  border-radius: 5px;
+}
+
+.trash-icon {
+  font-size: 20px; /* Adjust the font size of the trash icon */
+  color: white;
+}
+
 button,
 select {
   text-transform: none;

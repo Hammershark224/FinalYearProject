@@ -13,13 +13,13 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Ingredient</p>
+                                <p class="mb-0">Supplier</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <p class="text-uppercase text-sm">Supplier Info</p>
+                                <p class="text-uppercase text-sm">Company Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Company Name</label>

@@ -47,16 +47,15 @@
                             </div>
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
-                            @foreach($ingredients as $ingredient)
+                            @foreach($recipes as $recipe)
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <input class="form-control" type="text" value="{{ $ingredient->ingredient->ingredient_name }}" readonly>
+                                        <label for="example-text-input" class="form-control-label">Name</label>
+                                        <input class="form-control" type="text" value="{{ $recipe->ingredient->ingredient_name }}" readonly>
                                     </div>
                                     <div class="col-md-3">
-                                        <input class="form-control" type="text" value="{{ $ingredient->recipe_weight }}" readonly>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input class="form-control" type="text" value="{{ $ingredient->recipe_weight * $ingredient->ingredient->ingredient_price }}" readonly>
+                                        <label for="example-text-input" class="form-control-label">Weight</label>
+                                        <input class="form-control" type="text" value="{{ $recipe->recipe_weight }}" readonly>
                                     </div>
                                 </div>
                             @endforeach

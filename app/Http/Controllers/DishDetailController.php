@@ -68,18 +68,16 @@ class DishDetailController extends Controller
                 ]);
                 
             } else {
-                // Handle the case where 'recipe_weight' is not set for this ingredient
-                // You can choose to skip this ingredient or handle it differently based on your requirements
+
             }
         }
-        
         
         return redirect(route('dish.manage'));
     }
     
     public function show($id) {
         $dataDish = DishDetail::findOrFail($id);
-        $ingredients = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
+        $recipes = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
         $photoUrl = null;
     
         if ($dataDish->dish_photo) {
@@ -87,8 +85,9 @@ class DishDetailController extends Controller
             $photoUrl = Storage::url('dish_photos/' . $dataDish->dish_photo);
         }
     
-        return view('ManageDish.viewDish', ['dataDish' => $dataDish, 'ingredients' => $ingredients, 'photoUrl' => $photoUrl]);
+        return view('ManageDish.viewDish', ['dataDish' => $dataDish, 'recipes' => $recipes, 'photoUrl' => $photoUrl]);
     }
+    
 
     public function edit($id) {
         $dataDish = DishDetail::findOrFail($id);
@@ -101,6 +100,10 @@ class DishDetailController extends Controller
         }
     
         return view('ManageDish.editDish', ['dataDish' => $dataDish, 'ingredients' => $ingredients, 'photoUrl' => $photoUrl]);
+    }
+
+    public function update($id) {
+        
     }
 
     public function delete($id) {
