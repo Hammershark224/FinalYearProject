@@ -58,9 +58,9 @@
                                         <td>
                                             @foreach ($ingredient->suppliers as $supplier)
                                             @if ($supplier->company_ID === $company->company_ID)
-                                            <div class="align-middle text-center text-sm{{ $supplier->ingredient_price == $ingredient->highest_price ? ' bg-grey' : ($supplier->ingredient_price == $ingredient->lowest_price ? ' bg-green' : '') }}">
+                                            <div class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $supplier->ingredient_price }}</h6>
+                                                    <h6 class="mb-0 text-sm {{ $supplier->ingredient_price == $ingredient->highest_price ? ' text-secondary' : ($supplier->ingredient_price == $ingredient->lowest_price ? ' bg-green' : '') }}">{{ $supplier->ingredient_price }}</h6>
                                                 </div>
                                             </div>
                                             @endif

@@ -7,12 +7,41 @@ use App\Models\SupplierDetail;
 use App\Models\CompanyDetail;
 use Illuminate\Http\Request;
 use App\Imports\IngredientsImport;
+use App\Exports\IngredientsExport;
 
 class IngredientDetailController extends Controller
 {
     public function index() {
         $ingredients = IngredientDetail::all();
         return view('ManageIngredient.ingredient', compact('ingredients'));
+    }
+
+    public function export() {
+        return Excel::download(new IngredientsExport, 'ingredient_lists.xlsx');
+    }
+
+    public function createIngredient() {
+        return view('ManageIngredient.addIngredient');
+    }
+
+    public function storeIngredient(Request $request) {
+        $request->validate([
+            'ingredient_name' => 'required|string',
+            'ingredient_weight' => 'required|numeric',
+        ]);
+
+        $company = IngredientDetail::create([
+            'ingredient_name' => $request->input('ingredient_name'),
+            'ingredient_weight' => $request->input('ingredient_weight'),
+        ]);
+
+        return redirect(route('ingredient'));
+    }
+
+    public function deleteIngredient($id) {
+        $dataIngredient = IngredientDetail::find($id);
+        $dataIngredient -> delete();
+        return redirect(route('ingredient'));
     }
 
     public function company_index() {
@@ -55,8 +84,8 @@ class IngredientDetailController extends Controller
     }
     
 
-    public function create() {
-        return view('ManageIngredient.addIngredient');
+    public function createSupplier() {
+        return view('ManageIngredient.addSupplier');
     }
 
     public function upload_excel_file(Request $request)
@@ -95,7 +124,6 @@ class IngredientDetailController extends Controller
         Excel::import(new IngredientsImport($companyId), storage_path('app/excel/ingredient_list.xlsx'));
     
         return redirect(route('ingredient.manage'));
-    }
-    
+    }    
 
 }

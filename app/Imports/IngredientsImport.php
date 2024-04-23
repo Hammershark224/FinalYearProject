@@ -18,8 +18,8 @@ class IngredientsImport implements ToModel
     public function model(array $row)
     {
         // Find the corresponding IngredientDetail
-        $ingredientDetail = IngredientDetail::where('ingredient_name', $row[0])
-                                             ->where('ingredient_weight', $row[1])
+        $ingredientDetail = IngredientDetail::where('ingredient_name', $row[1])
+                                             ->where('ingredient_weight', $row[2])
                                              ->first();
         
         // Check if the IngredientDetail exists
@@ -28,7 +28,7 @@ class IngredientsImport implements ToModel
             return new SupplierDetail([
                 'company_ID' => $this->companyId,
                 'ingredient_ID' => $ingredientDetail->ingredient_ID,
-                'ingredient_price' => $row[2],
+                'ingredient_price' => $row[3],
             ]);
         } else {
             // Handle the case where the IngredientDetail doesn't exist

@@ -55,8 +55,12 @@ Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
 Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
-Route::get('/supplier-add', [IngredientDetailController::class, 'create'])->name('supplier.create');
+Route::get('/ingredient-add', [IngredientDetailController::class, 'createIngredient'])->name('ingredient.create');
+Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngredient'])->name('ingredient.store');
+Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
+Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'])->name('supplier.create');
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
+Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
 
 Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
 Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
