@@ -49,14 +49,55 @@ class IngredientDetailController extends Controller
         return view('ManageIngredient.companyManage', compact('companies'));
     }
 
+    public function createSupplier() {
+        return view('ManageIngredient.addSupplier');
+    }
+
+    public function upload_excel_file(Request $request)
+    {
+        $request->validate([
+            'ingredients_list' => 'required|file|mimes:xlsx,xls',
+            'company_name' => 'required|string',
+            'company_address' => 'required|string',
+        ]);
+    
+        // Create a new company
+        $company = CompanyDetail::create([
+            'company_name' => $request->input('company_name'),
+            'company_address' => $request->input('company_address'),
+        ]);
+    
+        // Get the company_ID & company_name
+        $companyId = $company->company_ID;
+        $companyName = $company->company_name;
+    
+        // Upload and import the Excel file
+        $file = $request->file('ingredients_list');
+        $filePath = $file->storeAs('excel', $file->getClientOriginalName());
+        $importFilePath = storage_path('app/excel/ingredients_list.xlsx');
+
+        //rename the excel file with proper name
+        $newFileName = $companyName . '_ingredients_list.xlsx';
+        rename($importFilePath, storage_path('app/excel/' . $newFileName));
+
+        // Pass the company_ID to the IngredientsImport constructor
+        Excel::import(new IngredientsImport($companyId), storage_path('app/excel/' . $newFileName));
+    
+        return redirect(route('ingredient.manage'));
+    }    
+
+    public function deleteSupplier($id) {
+        $dataCompany = CompanyDetail::find($id);
+        $dataSupplier = SupplierDetail::where('company_ID',$id)->delete();
+        $dataCompany -> delete();
+        return redirect(route('company.manage'));
+    }
+
     public function ingredient_index() {
-        // Fetch all companies
+
         $companies = CompanyDetail::all();
-        
-        // Fetch all suppliers
         $suppliers = SupplierDetail::all();
         
-        // Fetch all ingredients with their associated suppliers
         $ingredients = IngredientDetail::with('suppliers')->get();
         
         // Loop through each ingredient to calculate highest and lowest prices
@@ -79,51 +120,7 @@ class IngredientDetailController extends Controller
             }
         }
         
-        // Pass ingredients, suppliers, and companies data to the view
         return view('ManageIngredient.ingredientManage', compact('ingredients', 'suppliers', 'companies'));
     }
-    
-
-    public function createSupplier() {
-        return view('ManageIngredient.addSupplier');
-    }
-
-    public function upload_excel_file(Request $request)
-    {
-        $request->validate([
-            'ingredients_list' => 'required|file|mimes:xlsx,xls'
-        ]);
-    
-        $request->validate([
-            'company_name' => 'required|string',
-            'company_address' => 'required|string',
-        ]);
-    
-        // Create a new company
-        $company = CompanyDetail::create([
-            'company_name' => $request->input('company_name'),
-            'company_address' => $request->input('company_address'),
-        ]);
-    
-        // Debug: Check the company data
-     
-    
-        // Get the company_ID
-        $companyId = $company->company_ID;
-    
-        // Debug: Check the company ID
-
-    
-        // Upload and import the Excel file
-        $file = $request->file('ingredients_list');
-        $filePath = $file->storeAs('excel', $file->getClientOriginalName());
-    
-        // Debug: Check the file path
-
-        // Pass the company_ID to the IngredientsImport constructor
-        Excel::import(new IngredientsImport($companyId), storage_path('app/excel/ingredient_list.xlsx'));
-    
-        return redirect(route('ingredient.manage'));
-    }    
 
 }

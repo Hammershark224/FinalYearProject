@@ -13,7 +13,7 @@
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-info" type="button" onclick="window.location='{{ route('ingredient.export') }}'">
-                                <i class="fas fa-print mr-2"></i>Print
+                                <i class="fa fa-download" aria-hidden="true"></i> Export
                             </button>
                             <button class="btn btn-primary mr-2" type="button" onclick="window.location='{{ route('ingredient.create') }}'">Add New Ingredient</button>
                         </div>

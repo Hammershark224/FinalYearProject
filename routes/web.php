@@ -60,6 +60,7 @@ Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngre
 Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
 Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'])->name('supplier.create');
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
+Route::get('/supplier-delete/{id}', [IngredientDetailController::class, 'deleteSupplier'])->name('supplier.delete');
 Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
 
 Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');

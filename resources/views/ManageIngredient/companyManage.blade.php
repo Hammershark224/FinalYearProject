@@ -55,9 +55,7 @@
                                             </div>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <a href="" class="btn btn-info">VIEW</a>
-                                            <a href="" class="btn btn-primary">EDIT</a>
-                                            <a href="" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                            <a href="{{ route('supplier.delete', $company['company_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                         </td>
                                     </tr>
                                     @endforeach
