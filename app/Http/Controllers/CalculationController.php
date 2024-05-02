@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\DishDetail;
+use App\Models\MenuDetail;
 use Illuminate\Http\Request;
 
 class CalculationController extends Controller
@@ -11,7 +12,8 @@ class CalculationController extends Controller
     }
 
     public function menuPriceCalculator(){
-        return view('CalculateMarginProfit.MenuPriceCalculator');
+        $dishes = DishDetail::all();
+        return view('CalculateMarginProfit.MenuPriceCalculator',['dishes'=>$dishes]);
     }
 
     public function cashMarginCalculator(){
@@ -38,6 +40,19 @@ class CalculationController extends Controller
             'cash_margin' => $cashMargin,
             'sell_price' => $sellPrice
         ]);
+    }
+
+    public function storeMenu(Request $request) {
+        $request -> validate([
+            'sell_price' => 'required|numeric|min:0',
+        ]);
+
+        // dd($request);
+        MenuDetail::create([
+            'dish_ID' => $request->input('dish_ID'),
+            'menu_price' => $request->input('sell_price'),
+        ]);
+        return redirect(route('dish.manage'));
     }
 
     public function calculateMargin(Request $request){

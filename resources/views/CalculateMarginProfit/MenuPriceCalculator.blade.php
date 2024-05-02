@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form id="calculationForm" role="form" enctype="multipart/form-data">
+                    <form id="calculationForm" role="form" enctype="multipart/form-data" method="POST" action="{{ route('menu.store') }}">
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
@@ -19,10 +19,20 @@
                         <div class="card-body">
                             <p class="text-uppercase text-sm">Input</p>
                             <div class="col-md-6">
+                                <label for="dish">Select a Dish:</label>
+                                <select class="form-control mt-2" name="dish" id="dish">
+                                    <option value="" data-price='0.00'>Select Dish</option>
+                                    @foreach($dishes as $dish)
+                                        <option value="{{ $dish->dish_ID }}" data-price="{{ $dish->dish_cost }}">{{ $dish->dish_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <input id="dish_ID" class="form-control" type="number" name="dish_ID" readonly>
+                            <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="dish_cost" class="col-sm-4 col-form-label text-right">Dish Cost (RM)</label>
                                     <div class="col-sm-8">
-                                        <input id="dish_cost" class="form-control" type="number" step="0.01" min="0.01" name="dish_cost">
+                                        <input id="dish_cost" class="form-control" type="number" name="dish_cost" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -44,8 +54,8 @@
                                 </div>
                             </div>
                             <div class="row" id="outputFields" style="display: none;">
-                            <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Output</p>
+                                <hr class="horizontal dark">
+                                <p class="text-uppercase text-sm">Output</p>
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label for="cash_margin" class="col-sm-4 col-form-label text-right">Cash Margin (RM)</label>
@@ -62,6 +72,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-center">
+                                                <button type="submit" class="btn btn-danger" onclick="">Set as menu price?</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -73,42 +92,27 @@
 
     <script>
         function calculate() {
-            // Get input values
             var dishCost = parseFloat(document.getElementById('dish_cost').value);
             var targetMargin = parseFloat(document.getElementById('target_margin').value);
-    
-            // Make AJAX request to calculateMenuPrice endpoint
-            fetch('{{ route("calculation.menu") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    dish_cost: dishCost,
-                    target_margin: targetMargin
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Format values to two decimal places
-                var cashMargin = data.cash_margin.toFixed(2);
-                var sellPrice = data.sell_price.toFixed(2);
-    
-                // Update output fields with formatted values
-                document.getElementById('cash_margin').value = cashMargin;
-                document.getElementById('sell_price').value = sellPrice;
-    
-                // Show the output fields
-                document.getElementById('outputFields').style.display = 'block';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    
-            // Prevent form submission
-            return false;
+
+            // Calculate sell price and cash margin
+            var cashMargin = dishCost * (targetMargin / 100);
+            var sellPrice = dishCost + cashMargin;
+
+            // Display the output fields and values
+            document.getElementById('cash_margin').value = cashMargin.toFixed(2);
+            document.getElementById('sell_price').value = sellPrice.toFixed(2);
+            document.getElementById('outputFields').style.display = 'block';
         }
+
+        // Script to update the dish cost when a dish is selected
+        document.getElementById('dish').addEventListener('change', function() {
+            var selectedDish = this.options[this.selectedIndex];
+            var dishId = selectedDish.getAttribute('value');
+            var dishCost = selectedDish.getAttribute('data-price');
+            document.getElementById('dish_cost').value = dishCost;
+            document.getElementById('dish_ID').value = dishId;
+        });
     </script>
     
     

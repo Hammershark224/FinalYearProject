@@ -106,7 +106,6 @@ class DatabaseSeeder extends Seeder
             'ingredient_price' => '4.75'
         ]);
 
-
         // DB::table('supplier_details')->insert([
         //     'company_ID' => '1',
         //     'ingredient_weight' => '0.5',

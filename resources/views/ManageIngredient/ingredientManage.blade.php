@@ -9,7 +9,7 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6>Ingredients</h6>
+                                <h6>Ingredients Price Comparison</h6>
                             </div>
                         </div>
 

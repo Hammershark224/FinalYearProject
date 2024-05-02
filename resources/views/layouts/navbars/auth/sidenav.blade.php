@@ -25,17 +25,23 @@
 
             @if ($role == "owner")
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'dish-manage' ? 'active' : '' }}" href="{{ route('ingredient.manage') }}">
+                <a class="nav-link {{ Route::currentRouteName() == 'ingredient-manage' ? 'active' : '' }}" href="{{ route('ingredient.manage') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Ingredient</span>
+                    <span class="nav-link-text ms-1">Ingredient Compare</span>
+                </a>
+                <a class="nav-link {{ Route::currentRouteName() == 'ingredient' ? 'active' : '' }}" href="{{ route('ingredient') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Ingredient List</span>
                 </a>
                 <a class="nav-link {{ Route::currentRouteName() == 'company-manage' ? 'active' : '' }}" href="{{ route('company.manage') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Company</span>
+                    <span class="nav-link-text ms-1">Company List</span>
                 </a>
                 <a class="nav-link {{ Route::currentRouteName() == 'dish-manage' ? 'active' : '' }}" href="{{ route('dish.manage') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -44,6 +50,12 @@
                     <span class="nav-link-text ms-1">Dish</span>
                 </a>
                 <a class="nav-link {{ Route::currentRouteName() == 'menu-manage' ? 'active' : '' }}" href="{{ route('menu.manage') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Menu List</span>
+                </a>
+                <a class="nav-link {{ Route::currentRouteName() == 'menu' ? 'active' : '' }}" href="{{ route('menu') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
                     </div>

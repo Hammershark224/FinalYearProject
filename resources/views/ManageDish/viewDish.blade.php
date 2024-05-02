@@ -13,7 +13,7 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Dish</p>
+                                <p class="mb-0">View Dish Info</p>
                                 <button type="button" onclick="window.location='{{ route('dish.manage') }}'" class="btn btn-primary btn-sm ms-auto">Back</button>
                             </div>
                         </div>

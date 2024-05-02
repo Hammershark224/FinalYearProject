@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('menu_details', function (Blueprint $table) {
             $table->id("menu_ID");
             $table->foreignId("dish_ID")->references("dish_ID")->on("dish_details");
-            $table->string("menu_name");
-            $table->string("menu_description");
             $table->string("menu_price");
             $table->timestamps();
         });

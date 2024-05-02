@@ -9,10 +9,10 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6>Company</h6>
+                                <h6>Suppliers List</h6>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-success" type="button" onclick="window.location='{{ route('supplier.create') }}'">New</button>
+                                <button class="btn btn-success" type="button" onclick="window.location='{{ route('supplier.create') }}'">Create New</button>
                             </div>
                         </div>
 
@@ -30,9 +30,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Company Name</th>
+                                            Supplier Name</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Company Address</th>
+                                            Supplier Address</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>

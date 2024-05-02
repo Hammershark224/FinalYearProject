@@ -68,8 +68,11 @@ Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCa
 Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMarginCalculator'])->name('calculator.margin');
 Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
 Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
+Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
 
-Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu.manage');
+Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
+Route::get('/menu-manage', [MenuDetailController::class, 'menuTable'])->name('menu.manage');
+Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
 Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {

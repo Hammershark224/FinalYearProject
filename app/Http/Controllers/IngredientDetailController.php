@@ -17,7 +17,7 @@ class IngredientDetailController extends Controller
     }
 
     public function export() {
-        return Excel::download(new IngredientsExport, 'ingredient_lists.xlsx');
+        return Excel::download(new IngredientsExport, 'ingredients_list.xlsx');
     }
 
     public function createIngredient() {
@@ -54,37 +54,43 @@ class IngredientDetailController extends Controller
     }
 
     public function upload_excel_file(Request $request)
-    {
-        $request->validate([
-            'ingredients_list' => 'required|file|mimes:xlsx,xls',
-            'company_name' => 'required|string',
-            'company_address' => 'required|string',
-        ]);
-    
-        // Create a new company
-        $company = CompanyDetail::create([
-            'company_name' => $request->input('company_name'),
-            'company_address' => $request->input('company_address'),
-        ]);
-    
-        // Get the company_ID & company_name
-        $companyId = $company->company_ID;
-        $companyName = $company->company_name;
-    
-        // Upload and import the Excel file
-        $file = $request->file('ingredients_list');
-        $filePath = $file->storeAs('excel', $file->getClientOriginalName());
-        $importFilePath = storage_path('app/excel/ingredients_list.xlsx');
+{
+    $request->validate([
+        'ingredients_list' => 'required|file|mimes:xlsx,xls',
+        'company_name' => 'required|string',
+        'company_address' => 'required|string',
+    ]);
 
-        //rename the excel file with proper name
-        $newFileName = $companyName . '_ingredients_list.xlsx';
-        rename($importFilePath, storage_path('app/excel/' . $newFileName));
+    // Check if the number of companies exceeds 5
+    if (CompanyDetail::count() >= 5) {
+        return back()->with('error', 'Only five companies are allowed.');
+    }
 
-        // Pass the company_ID to the IngredientsImport constructor
-        Excel::import(new IngredientsImport($companyId), storage_path('app/excel/' . $newFileName));
+    // Create a new company
+    $company = CompanyDetail::create([
+        'company_name' => $request->input('company_name'),
+        'company_address' => $request->input('company_address'),
+    ]);
+
+    // Get the company_ID & company_name
+    $companyId = $company->company_ID;
+    $companyName = $company->company_name;
+
+    // Upload and import the Excel file
+    $file = $request->file('ingredients_list');
+    $filePath = $file->storeAs('excel', $file->getClientOriginalName());
+    $importFilePath = storage_path('app/excel/ingredients_list.xlsx');
+
+    // Rename the excel file with proper name
+    $newFileName = $companyName . '_ingredients_list.xlsx';
+    rename($importFilePath, storage_path('app/excel/' . $newFileName));
+
+    // Pass the company_ID to the IngredientsImport constructor
+    Excel::import(new IngredientsImport($companyId), storage_path('app/excel/' . $newFileName));
+
+    return redirect(route('ingredient.manage'));
+}
     
-        return redirect(route('ingredient.manage'));
-    }    
 
     public function deleteSupplier($id) {
         $dataCompany = CompanyDetail::find($id);

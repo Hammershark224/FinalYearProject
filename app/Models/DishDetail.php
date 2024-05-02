@@ -30,5 +30,9 @@ class DishDetail extends Model
     public function ingredients() {
         return $this->belongsToMany(IngredientDetail::class);
     }
+
+    public function menu() {
+        return $this->hasOne(MenuDetail::class);
+    }
     
 }

@@ -2,70 +2,72 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
-<div class="container-fluid py-4">
-    @php
-    $role = Auth::user() ? Auth::user()->role : null;
-@endphp
-
-@if ($role == "owner")
-    <div class="row">
-        @foreach ($dishes as $dish)
-        <div class="col-md-3 mb-4"> <!-- Use col-md-3 for small screens and above -->
-            <div class="card">
-                <img src="{{ $photoUrls[$dish->dish_ID] }}" class="mx-auto d-block mt-3" style="width: 100px; height: 100px;" alt="Dish Photo"> <!-- Added mt-3 for margin-top -->
-                <div class="card-body pt-0 p-3 text-center">
-                    <h5 class="card-title">{{ $dish['dish_name'] }}</h5>
-                    <span class="text-xs">RM {{ $dish['dish_cost'] }}</span>
-                    <hr class="horizontal dark my-3">
-                    <form role="form" method="post" action="{{ route('status.update', $dish['dish_ID']) }}" enctype="multipart/form-data">
-                    @csrf    
-                        <div class="align-middle text-center text-sm">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select id="dish_status" class="form-control" name="dish_status" required>
-                                        <option value="ON" @if($dish->dish_status == 'ON') selected @endif>ON</option>
-                                        <option value="OFF" @if($dish->dish_status == 'OFF') selected @endif>OFF</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <button class="btn btn-primary mr-2" type="submit">Update</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4"> 
-                                    <div class="red-column d-flex align-items-center justify-content-center">
-                                        <div class="trash-icon">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </div>
-                                    </div>
-                                </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6>Recipe List</h6>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-success" type="button" onclick="window.location='{{ route('menu.create') }}'">New</button>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-@else
-    <div class="row">
-        @foreach ($dishes as $dish)
-        <div class="col-md-3 mb-4"> <!-- Use col-md-3 for small screens and above -->
-            <div class="card">
-                <img src="{{ $photoUrls[$dish->dish_ID] }}" class="mx-auto d-block mt-3" style="width: 100px; height: 100px;" alt="Dish Photo"> <!-- Added mt-3 for margin-top -->
-                <div class="card-body pt-0 p-3 text-center">
-                    <h5 class="card-title">{{ $dish['dish_name'] }}</h5>
-                    <span class="text-xs">RM {{ $dish['dish_cost'] }}</span>
-                    <hr class="horizontal dark my-3">
-                    <div class="align-middle text-center text-sm">
-                        <a href="/order-create" class="btn btn-primary">Order</a>
+                    </div>
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Recipe</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Sell Price (RM)</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Action</th>    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($menus as $menu)
+                                        <tr>
+                                            <td>
+                                                <div class="align-middle text-center text-sm">
+
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $menu->dish->dish_name }}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-xs font-weight-bold mb-0">{{$menu['menu_price'] }}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <a href="" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @endforeach
+        
+        @include('layouts.footers.auth.footer')
     </div>
-@endif
-</div>
-@include('layouts.footers.auth.footer')
 @endsection

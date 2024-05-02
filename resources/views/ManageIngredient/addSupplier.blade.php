@@ -13,28 +13,29 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Supplier</p>
+                                <p class="mb-0">Add New Supplier</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <p class="text-uppercase text-sm">Company Info</p>
+                                <p class="text-uppercase text-sm">Supplier Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Company Name</label>
+                                        <label for="example-text-input" class="form-control-label">Supplier Name</label>
                                         <input class="form-control" type="text" name="company_name">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Company Address</label>
+                                        <label for="example-text-input" class="form-control-label">Supplier Address</label>
                                         <textarea class="form-control" name="company_address" rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
+                            <label for="example-text-input" class="form-control-label">*Only Excel File is accepted*</label>
                             <input type="file" name="ingredients_list" class="form-control" accept=".xlsx">
                         </div>
                     </form>

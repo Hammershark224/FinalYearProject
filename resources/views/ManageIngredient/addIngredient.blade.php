@@ -13,8 +13,8 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Ingredient</p>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Create</button>
+                                <p class="mb-0">Ingredients List</p>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Create New</button>
                             </div>
                         </div>
                         <div class="card-body">
