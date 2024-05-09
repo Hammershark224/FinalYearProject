@@ -20,8 +20,26 @@ class DishDetailController extends Controller
     }
 
     public function create() {
-        $suppliers = SupplierDetail::all();
-        return view('ManageDish.addDish',['suppliers' => $suppliers]);
+        // $suppliers = SupplierDetail::all();
+        // $ingredientList = IngredientDetail::with('lowestPrice')->get();
+        // $ingredientList = IngredientDetail::with(['suppliers' => function ($query) {
+        //     $query->orderBy('ingredient_price', 'asc')->take(2);
+        // }])->get();
+        $ingredientList = DB::table('supplier_details')
+        ->select(
+            'ingredient_details.ingredient_ID',
+            'ingredient_details.ingredient_name',
+            'ingredient_details.ingredient_weight',
+            DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
+        )
+        ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
+        ->groupBy('ingredient_details.ingredient_ID')
+        ->get();
+        
+        // $ingredientList = DB::select('select * from supplier_details join ingredient_details on supplier_details.ingredient_ID = ingredient_details.ingredient_ID GROUP BY ingredient_name');
+        // dd($ingredientList);
+        
+        return view('ManageDish.addDish', compact('ingredientList'));
     }
 
     public function store(Request $request) {
