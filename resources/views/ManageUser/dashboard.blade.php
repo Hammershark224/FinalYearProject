@@ -5,7 +5,6 @@
 
 @php
     $role = Auth::user()->role;
-    $has_kiosk = false;
 @endphp
 
 <div class="container-fluid">

@@ -13,7 +13,7 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <h6>Add New Dish</h6>
+                                <p class="mb-0">Dish</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>

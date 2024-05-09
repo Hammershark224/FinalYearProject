@@ -32,8 +32,9 @@ use App\Http\Controllers\MenuDetailController;
 use App\Models\IngredientDetail;
 
 Route::get('/', function () {
-	return redirect('/dashboard');
+    return redirect('/dashboard');
 })->middleware('auth');
+Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->middleware('auth')->name('menu.cus');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -71,6 +72,8 @@ Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateM
 Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
+Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
+Route::get('/cart', [MenuDetailController::class, 'viewCart'])->name('cart.view');
 Route::get('/menu-manage', [MenuDetailController::class, 'menuTable'])->name('menu.manage');
 Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
 Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');
