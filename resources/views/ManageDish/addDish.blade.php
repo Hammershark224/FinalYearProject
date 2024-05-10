@@ -67,18 +67,16 @@
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
-                                                <option value="" data-price='0.00'>Select Ingredient</option>
+                                                <option value="0" data-price='0.00'>Select Ingredient</option>
                                                 @foreach ($ingredientList as $ingredientItem)
-                                                <option value="{{ $ingredientItem->ingredient_ID }}">
-                                                  
-                                                    <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span> -
-                                                   
+                                                <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}">
+                                                    <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
                                                 </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input id="input_weight" class="form-control mt-2 weight" name="recipe_weight" placeholder="Weight(kg) / (ml)">
+                                            <input id="input_weight" class="form-control mt-2 weight" name="recipe_weight" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
                                         </div>
                                     </div>
                                     <hr class="horizontal dark">
@@ -88,28 +86,33 @@
                                 showRemoveButton();
                             });
                             
-
-                            const ingredientList = {!! json_encode($ingredientList) !!};
-                            const input_weight = document.getElementById('input_weight').value;
-                            const result = ingredientList[0].lowest_price / ingredientList[0].ingredient_weight * input_weight;
-
                             const calculateCost = async () => {
-                                console.log(result);
-                            }
+                                const dropdownLists = document.getElementById('dropdownLists');
+                                const ingredientDropdowns = dropdownLists.getElementsByClassName('ingredient-dropdown');
 
-                            // function calculate() {
-                            //     var ingredientSelects = document.getElementById('int').value;
-                            //     console.log(ingredientSelects);
-                            //     var totalCost = 0;
-                            //     ingredientSelects.forEach(function(select, index) {
-                            //         var selectedOption = select.options[select.selectedIndex];
-                            //         var price = parseFloat(selectedOption.getAttribute('data-price'));
-                            //         var weight = parseFloat(document.querySelectorAll('.weight')[index].value);
-                            //         totalCost += price * weight;
-                            //     });
-                            //     totalCost = totalCost.toFixed(2);
-                            //     document.getElementById('dish_cost').value = totalCost;
-                            // }
+                                let totalCost = 0;
+                                for (let dropdown of ingredientDropdowns) {
+                                    const selectedIngredient = dropdown.querySelector('.ingredient');
+                                    const selectedOption = selectedIngredient.options[selectedIngredient.selectedIndex];
+                                    const price = parseFloat(selectedOption.getAttribute('data-price'));
+                                    const weightInput = dropdown.querySelector('.weight');
+                                    const weight = parseFloat(weightInput.value);
+
+                                    console.log('Price:', price);
+                                    console.log('Weight:', weight);
+
+                                    // Check if price or weight is NaN
+                                    if (isNaN(price) || isNaN(weight)) {
+                                        console.error('Invalid price or weight:', price, weight);
+                                        continue; // Skip this iteration if price or weight is NaN
+                                    }
+
+                                    totalCost += price * weight;
+                                }
+
+                                totalCost = totalCost.toFixed(2);
+                                document.getElementById('dish_cost').value = totalCost;
+                            }
 
                             document.getElementById('removeButton').addEventListener('click', function() {
                                 var dropdownLists = document.getElementById('dropdownLists');
