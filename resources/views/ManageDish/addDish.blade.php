@@ -60,31 +60,32 @@
 
                         <script>
                             document.getElementById('addButton').addEventListener('click', function() {
-                                var dropdownLists = document.getElementById('dropdownLists');
-                                var newDropdown = document.createElement('div');
-                                newDropdown.classList.add('form-group', 'ingredient-dropdown');
-                                newDropdown.innerHTML = `
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
-                                                <option value="0" data-price='0.00'>Select Ingredient</option>
-                                                @foreach ($ingredientList as $ingredientItem)
-                                                <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}">
-                                                    <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input id="input_weight" class="form-control mt-2 weight" name="recipe_weight" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
-                                        </div>
-                                    </div>
-                                    <hr class="horizontal dark">
-                                `;
-                                dropdownLists.appendChild(newDropdown);
-                                calculateCost();
-                                showRemoveButton();
-                            });
+    var dropdownLists = document.getElementById('dropdownLists');
+    var newDropdown = document.createElement('div');
+    newDropdown.classList.add('form-group', 'ingredient-dropdown');
+    newDropdown.innerHTML = `
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
+                    <option value="0" data-price='0.00'>Select Ingredient</option>
+                    @foreach ($ingredientList as $ingredientItem)
+                    <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}">
+                        <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
+            </div>
+        </div>
+        <hr class="horizontal dark">
+    `;
+    dropdownLists.appendChild(newDropdown);
+    calculateCost();
+    showRemoveButton();
+});
+
                             
                             const calculateCost = async () => {
                                 const dropdownLists = document.getElementById('dropdownLists');

@@ -50,6 +50,8 @@ class DishDetailController extends Controller
             'dish_cost' => 'required|numeric',
             'dish_status' => 'required',
             'dish_photo' => 'required',
+            'ingredients' => 'required|array', // Ensure 'ingredients' is an array
+            'recipe_weight' => 'required|array', // Ensure 'recipe_weight' is an array
         ]);
     
         // Handle file upload
@@ -59,7 +61,7 @@ class DishDetailController extends Controller
         } else {
             return back()->with('error', 'No dish photo uploaded.');
         }
-
+    
         // Create a new dish
         $dish = DishDetail::create([
             'dish_name' => $request->input('dish_name'),
@@ -68,30 +70,24 @@ class DishDetailController extends Controller
             'dish_status' => $request->input('dish_status'),
             'dish_photo' => $fileName, // Assign the file name to the 'dish_photo' field
         ]);
-        // dd($fileName);
-
-        $ingredients = $request->input('ingredients', []);
-        // dd($ingredients);
-
-        foreach ($ingredients as $index => $ingredientId) {
-            // Check if the 'recipe_weight' array has an element at the current index
-            if (isset($request->input('recipe_weight')[$index])) {
-                // Retrieve the weight of the ingredient from the request
-                $recipeWeight = $request->input('recipe_weight')[$index];
-                // dd($request);
-                RecipeDetail::create([
-                    'dish_ID' => $dish->dish_ID,
-                    'ingredient_ID' => $ingredientId,
-                    'recipe_weight' => $recipeWeight,
-                ]);
-                
-            } else {
-
-            }
+    
+        $ingredients = $request->input('ingredients');
+        $recipeWeights = $request->input('recipe_weight');
+    
+        // Combine ingredients and their respective weights into an associative array
+        $ingredientsData = array_combine($ingredients, $recipeWeights);
+    
+        foreach ($ingredientsData as $ingredientId => $recipeWeight) {
+            RecipeDetail::create([
+                'dish_ID' => $dish->dish_ID,
+                'ingredient_ID' => $ingredientId,
+                'recipe_weight' => $recipeWeight,
+            ]);
         }
-        
+    
         return redirect(route('dish.manage'));
     }
+    
     
     public function show($id) {
         $dataDish = DishDetail::findOrFail($id);
