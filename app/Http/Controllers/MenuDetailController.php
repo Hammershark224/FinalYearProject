@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\DishDetail;
 use App\Models\RecipeDetail;
 use App\Models\MenuDetail;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 
 class MenuDetailController extends Controller
@@ -69,7 +70,31 @@ class MenuDetailController extends Controller
         return view('ManageOrder.cart', compact('cart'));
     }
     
-    
+    public function confirmOrder(Request $request)
+{
+    // Get the cart from the session
+    $cart = $request->session()->get('cart', []);
+
+    // Validate the request
+    $request->validate([
+        // Add any validation rules you need here
+    ]);
+
+    // Save the order to the database
+    $order = new OrderDetail();
+
+    // You may need to adjust this based on your actual Order model structure
+    $order->items = $cart;
+
+    // Save the order
+    $order->save();
+
+    // Destroy the session after the order is confirmed
+    $request->session()->forget('cart');
+
+    return redirect()->route('order.confirmation')->with('success', 'Order confirmed and saved.');
+}
+
     // public function confirmOrder(Request $request)
     // {
     //     // Get cart data from session
