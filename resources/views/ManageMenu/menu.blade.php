@@ -1,10 +1,5 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-<style>
-    .disabled {
-        pointer-events: none;
-        opacity: 0.7;
-    }
-</style>
+
 @section('content')
 @include('layouts.navbars.guest.sidenav')
 <div class="container-fluid py-4">

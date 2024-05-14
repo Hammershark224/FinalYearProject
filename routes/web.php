@@ -70,6 +70,7 @@ Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMargin
 Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
 Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
+Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
 Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
