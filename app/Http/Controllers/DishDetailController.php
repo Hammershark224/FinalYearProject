@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
+use App\Models\MenuDetail;
 use App\Models\RecipeDetail;
 use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
@@ -123,6 +124,7 @@ class DishDetailController extends Controller
     public function delete($id) {
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();
+        $menu = MenuDetail::where('dish_ID',$id)->delete();
         $dataDish -> delete();
         return redirect(route('dish.manage'));
     }

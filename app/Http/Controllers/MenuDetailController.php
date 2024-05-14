@@ -28,6 +28,7 @@ class MenuDetailController extends Controller
 
     public function indexCus() {
         $dishes = DishDetail::all();
+        $menus = MenuDetail::all();
         $recipes = RecipeDetail::with('ingredient')->get(); // Load ingredients for recipes
         $photoUrls = [];
     
@@ -38,7 +39,7 @@ class MenuDetailController extends Controller
             }
         }
     
-        return view('ManageMenu.menu', ['dishes' => $dishes, 'photoUrls' => $photoUrls, 'recipes' => $recipes]);
+        return view('ManageMenu.menu', compact('dishes','photoUrls','recipes', 'menus'));
     }
     
     public function addToCart(Request $request, $dishId)
@@ -77,7 +78,7 @@ class MenuDetailController extends Controller
 
     // Validate the request
     $request->validate([
-        // Add any validation rules you need here
+        'menu'
     ]);
 
     // Save the order to the database

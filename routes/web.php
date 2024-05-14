@@ -34,7 +34,7 @@ use App\Models\IngredientDetail;
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
-Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->middleware('auth')->name('menu.cus');
+Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
