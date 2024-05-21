@@ -18,6 +18,11 @@
                             <button class="btn btn-primary mr-2" type="button" onclick="window.location='{{ route('ingredient.create') }}'">Add New Ingredient</button>
                         </div>
                     </div>
+      
+                        <div class="col-4">
+                            <input type="text" id="searchInput" class="form-control border border-dark" placeholder="Search for ingredients...">
+                        </div>
+
 
                     @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -40,7 +45,7 @@
                                         Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="ingredientTableBody">
                                 @foreach ($ingredients as $ingredient)
                                 <tr>
                                     <td>
@@ -69,6 +74,26 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const tableBody = document.getElementById('ingredientTableBody');
+            const tableRows = tableBody.getElementsByTagName('tr');
+        
+            searchInput.addEventListener('keyup', function() {
+                const filter = searchInput.value.toLowerCase();
+                Array.from(tableRows).forEach(function(row) {
+                    const cells = row.getElementsByTagName('td');
+                    const ingredientName = cells[0].textContent || cells[0].innerText;
+                    if (ingredientName.toLowerCase().indexOf(filter) > -1) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+        </script>
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
