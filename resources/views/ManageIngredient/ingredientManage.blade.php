@@ -55,7 +55,7 @@
                                             </div>
                                         </td>
                                         @foreach ($companies as $company)
-                                        <td>
+                                        <td class="col-2">
                                             @foreach ($ingredient->suppliers as $supplier)
                                             @if ($supplier->company_ID === $company->company_ID)
                                             <div class="align-middle text-center text-sm">
