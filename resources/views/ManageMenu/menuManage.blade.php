@@ -55,7 +55,7 @@
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <a href="" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                                <a href="{{ route('menu.delete',$menu['menu_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -32,8 +32,9 @@ use App\Http\Controllers\MenuDetailController;
 use App\Models\IngredientDetail;
 
 Route::get('/', function () {
-	return redirect('/dashboard');
+    return redirect('/dashboard');
 })->middleware('auth');
+Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -54,6 +55,7 @@ Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('
 
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
+Route::get('/ingredient/search', [IngredientDetailController::class, 'search'])->name('ingredient.search');
 Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 Route::get('/ingredient-add', [IngredientDetailController::class, 'createIngredient'])->name('ingredient.create');
 Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngredient'])->name('ingredient.store');
@@ -69,8 +71,11 @@ Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMargin
 Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
 Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
+Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
 
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
+Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
+Route::get('/cart', [MenuDetailController::class, 'viewCart'])->name('cart.view');
 Route::get('/menu-manage', [MenuDetailController::class, 'menuTable'])->name('menu.manage');
 Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
 Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');

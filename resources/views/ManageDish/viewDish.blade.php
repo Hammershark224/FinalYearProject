@@ -47,18 +47,63 @@
                             </div>
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
-                            @foreach($recipes as $recipe)
+                            {{-- @foreach($recipes as $recipe)
+                            
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="example-text-input" class="form-control-label">Name</label>
+                                        <label for="example-text-input" class="form-control-label">Ingredient</label>
                                         <input class="form-control" type="text" value="{{ $recipe->ingredient->ingredient_name }}" readonly>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="example-text-input" class="form-control-label">Weight</label>
                                         <input class="form-control" type="text" value="{{ $recipe->recipe_weight }}" readonly>
                                     </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" type="text" value="{{ ($recipe->ingredient->suppliers->first()->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight }}" readonly>
+                                    </div>
                                 </div>
                             @endforeach
+                        </div> --}}
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Ingredient</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Weight</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Cost (RM)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($recipes as $recipe)
+                                        <tr>
+                                            <td>
+                                                <div class="align-middle text-center text-sm">
+
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h5 class="mb-0 text-sm">{{ $recipe->ingredient->ingredient_name }}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $recipe->recipe_weight }}
+                                                </h5>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <h5 class="text-xs font-weight-bold mb-0">
+                                                    {{ round(($recipe->ingredient->lowestPrice->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight,2) }}
+                                                </h5>
+                                                
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
                         </div>
                     </form>
                 </div>

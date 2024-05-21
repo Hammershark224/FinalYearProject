@@ -27,7 +27,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input id="dish_ID" class="form-control" type="number" name="dish_ID" readonly>
+                            <input id="dish_ID" class="form-control" type="hidden" name="dish_ID">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="dish_cost" class="col-sm-4 col-form-label text-right">Dish Cost (RM)</label>

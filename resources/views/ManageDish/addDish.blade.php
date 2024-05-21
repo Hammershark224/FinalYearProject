@@ -13,7 +13,7 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <h6>Add New Dish</h6>
+                                <p class="mb-0">Dish</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>
@@ -42,20 +42,22 @@
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Ingredients</p>
                             <div class="row">
-                                <div class="col-md-12">       
+                                <div class="col-md-12">
                                     <div class="form-group" id="dropdownLists">
                                         <!-- Initially, show one dropdown and one input field for weight -->
                                     </div>
                                     <div class="form-group">
                                         <!-- Buttons to add or remove ingredients -->
                                         <button type="button" class="btn btn-primary" id="addButton">+</button>
-                                        <button type="button" class="btn btn-danger" id="removeButton" style="display: none;">-</button>
+                                        <button type="button" class="btn btn-danger" id="removeButton"
+                                            style="display: none;">-</button>
                                     </div>
                                 </div>
                             </div>
                             <input class="form-control" type="number" name="dish_cost" id="dish_cost" readonly>
                             <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="off">
                         </div>
+
                         <script>
                             document.getElementById('addButton').addEventListener('click', function() {
                                 var dropdownLists = document.getElementById('dropdownLists');
@@ -64,19 +66,17 @@
                                 newDropdown.innerHTML = `
                                     <div class="row mb-3">
                                         <div class="col-md-6">
-                                            <select class="form-control mt-2 ingredient" name="ingredients[]">
-                                                <option value="" data-price='0.00'>Select Ingredient</option>
-                                                @foreach($suppliers as $supplier)
-                                                <option value="{{ $supplier->ingredient->ingredient_ID }}" data-price="{{ $supplier->ingredient_price }}">
-                                                    <span style="font-weight: bold;">{{ $supplier->company->company_name }}</span> -
-                                                    <span style="color: blue;">{{ $supplier->ingredient->ingredient_name }}</span> -
-                                                    <span style="font-style: italic;">RM {{$supplier->ingredient_price}}</span>
+                                            <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
+                                                <option value="0" data-price='0.00' data-ingredient-weight='1'>Select Ingredient</option>
+                                                @foreach ($ingredientList as $ingredientItem)
+                                                <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}" data-ingredient-weight="{{ $ingredientItem->ingredient_weight }}">
+                                                    <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
                                                 </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input class="form-control mt-2 weight" type="number" step="0.01" min="0.01" max="1" name="recipe_weight[]" placeholder="Weight(kg) / (ml)">
+                                            <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
                                         </div>
                                     </div>
                                     <hr class="horizontal dark">
@@ -85,6 +85,37 @@
                                 calculateCost();
                                 showRemoveButton();
                             });
+
+                            const calculateCost = async () => {
+                                const dropdownLists = document.getElementById('dropdownLists');
+                                const ingredientDropdowns = dropdownLists.getElementsByClassName('ingredient-dropdown');
+
+                                let totalCost = 0;
+                                for (let dropdown of ingredientDropdowns) {
+                                    const selectedIngredient = dropdown.querySelector('.ingredient');
+                                    const selectedOption = selectedIngredient.options[selectedIngredient.selectedIndex];
+                                    const price = parseFloat(selectedOption.getAttribute('data-price'));
+                                    const ingredientWeight = parseFloat(selectedOption.getAttribute('data-ingredient-weight'));
+                                    const weightInput = dropdown.querySelector('.weight');
+                                    const weight = parseFloat(weightInput.value);
+
+                                    console.log('Price:', price);
+                                    console.log('Ingredient Weight:', ingredientWeight);
+                                    console.log('Weight:', weight);
+
+                                    // Check if price, ingredient weight, or weight is NaN
+                                    if (isNaN(price) || isNaN(ingredientWeight) || isNaN(weight)) {
+                                        console.error('Invalid price, ingredient weight, or weight:', price, ingredientWeight, weight);
+                                        continue; // Skip this iteration if any of these values are NaN
+                                    }
+
+                                    // Calculate cost for this ingredient
+                                    totalCost += (price / ingredientWeight) * weight;
+                                }
+
+                                totalCost = totalCost.toFixed(2);
+                                document.getElementById('dish_cost').value = totalCost;
+                            }
 
                             document.getElementById('removeButton').addEventListener('click', function() {
                                 var dropdownLists = document.getElementById('dropdownLists');
@@ -106,28 +137,16 @@
                                 }
                             }
 
-                            function calculateCost() {
-                                var ingredientSelects = document.querySelectorAll('.ingredient');
-                                var totalCost = 0;
-                                ingredientSelects.forEach(function(select, index) {
-                                    var selectedOption = select.options[select.selectedIndex];
-                                    var price = parseFloat(selectedOption.getAttribute('data-price'));
-                                    var weight = parseFloat(document.querySelectorAll('.weight')[index].value);
-                                    totalCost += price * weight;
-                                });
-                                totalCost = totalCost.toFixed(2);
-                                document.getElementById('dish_cost').value = totalCost;
-                            }
-
                             document.addEventListener('change', function(event) {
                                 if (event.target.classList.contains('ingredient') || event.target.classList.contains('weight')) {
                                     calculateCost();
                                 }
                             });
+
                         </script>
                     </form>
                 </div>
-            </div> 
+            </div>
         </div>
         @include('layouts.footers.auth.footer')
     </div>

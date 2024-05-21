@@ -36,7 +36,11 @@
 <body class="{{ $class ?? '' }}">
 
     @guest
-        @yield('content')
+    {{-- @php
+        $bgColor = 'bg-success';
+    @endphp
+    <div class="min-height-300 {{ $bgColor }} position-absolute w-100"></div> --}}
+    @yield('content')
     @endguest
 
     @auth
@@ -49,14 +53,14 @@
 
                 // Set different background colors based on user roles
                 switch($userRole) {
-                    case 'student':
-                        $bgColor = 'bg-primary'; // Set the background color for student
+                    case 'owner':
+                        $bgColor = 'bg-info'; // Set the background color for student
                         break;
                     case 'vendor':
                         $bgColor = 'bg-success'; // Set the background color for outside vendor
                         break;
                     default:
-                        $bgColor = 'bg-info'; // Default background color for admins    
+                        $bgColor = 'bg-primary'; // Default background color for admins    
                         break;
                 }
             @endphp

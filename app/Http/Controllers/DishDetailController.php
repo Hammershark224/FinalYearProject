@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
+use App\Models\MenuDetail;
 use App\Models\RecipeDetail;
 use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
@@ -20,8 +21,26 @@ class DishDetailController extends Controller
     }
 
     public function create() {
-        $suppliers = SupplierDetail::all();
-        return view('ManageDish.addDish',['suppliers' => $suppliers]);
+        // $suppliers = SupplierDetail::all();
+        // $ingredientList = IngredientDetail::with('lowestPrice')->get();
+        // $ingredientList = IngredientDetail::with(['suppliers' => function ($query) {
+        //     $query->orderBy('ingredient_price', 'asc')->take(2);
+        // }])->get();
+        $ingredientList = DB::table('supplier_details')
+        ->select(
+            'ingredient_details.ingredient_ID',
+            'ingredient_details.ingredient_name',
+            'ingredient_details.ingredient_weight',
+            DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
+        )
+        ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
+        ->groupBy('ingredient_details.ingredient_ID')
+        ->get();
+        
+        // $ingredientList = DB::select('select * from supplier_details join ingredient_details on supplier_details.ingredient_ID = ingredient_details.ingredient_ID GROUP BY ingredient_name');
+        // dd($ingredientList);
+        
+        return view('ManageDish.addDish', compact('ingredientList'));
     }
 
     public function store(Request $request) {
@@ -32,6 +51,8 @@ class DishDetailController extends Controller
             'dish_cost' => 'required|numeric',
             'dish_status' => 'required',
             'dish_photo' => 'required',
+            'ingredients' => 'required|array', // Ensure 'ingredients' is an array
+            'recipe_weight' => 'required|array', // Ensure 'recipe_weight' is an array
         ]);
     
         // Handle file upload
@@ -41,7 +62,7 @@ class DishDetailController extends Controller
         } else {
             return back()->with('error', 'No dish photo uploaded.');
         }
-
+    
         // Create a new dish
         $dish = DishDetail::create([
             'dish_name' => $request->input('dish_name'),
@@ -50,30 +71,24 @@ class DishDetailController extends Controller
             'dish_status' => $request->input('dish_status'),
             'dish_photo' => $fileName, // Assign the file name to the 'dish_photo' field
         ]);
-        // dd($fileName);
-
-        $ingredients = $request->input('ingredients', []);
-        // dd($ingredients);
-
-        foreach ($ingredients as $index => $ingredientId) {
-            // Check if the 'recipe_weight' array has an element at the current index
-            if (isset($request->input('recipe_weight')[$index])) {
-                // Retrieve the weight of the ingredient from the request
-                $recipeWeight = $request->input('recipe_weight')[$index];
-                // dd($request);
-                RecipeDetail::create([
-                    'dish_ID' => $dish->dish_ID,
-                    'ingredient_ID' => $ingredientId,
-                    'recipe_weight' => $recipeWeight,
-                ]);
-                
-            } else {
-
-            }
+    
+        $ingredients = $request->input('ingredients');
+        $recipeWeights = $request->input('recipe_weight');
+    
+        // Combine ingredients and their respective weights into an associative array
+        $ingredientsData = array_combine($ingredients, $recipeWeights);
+    
+        foreach ($ingredientsData as $ingredientId => $recipeWeight) {
+            RecipeDetail::create([
+                'dish_ID' => $dish->dish_ID,
+                'ingredient_ID' => $ingredientId,
+                'recipe_weight' => $recipeWeight,
+            ]);
         }
-        
+    
         return redirect(route('dish.manage'));
     }
+    
     
     public function show($id) {
         $dataDish = DishDetail::findOrFail($id);
@@ -109,6 +124,7 @@ class DishDetailController extends Controller
     public function delete($id) {
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();
+        $menu = MenuDetail::where('dish_ID',$id)->delete();
         $dataDish -> delete();
         return redirect(route('dish.manage'));
     }

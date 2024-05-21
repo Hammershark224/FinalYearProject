@@ -4334,6 +4334,10 @@ textarea.form-control-lg {
 .dropdown-menu-dark .dropdown-header {
   color: #adb5bd;
 }
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
 
 .btn-group,
 .btn-group-vertical {

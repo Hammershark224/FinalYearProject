@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id("dish_ID");
             $table->string("dish_name");
             $table->string("dish_description");
-            $table->decimal('dish_cost', 8, 2);
+            $table->decimal('dish_cost', 8, 2)->nullable();
             $table->enum("dish_status",["ON", "OFF"]);
             $table->string("dish_photo")->nullable();
             $table->timestamps();

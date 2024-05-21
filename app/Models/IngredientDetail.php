@@ -24,5 +24,9 @@ class IngredientDetail extends Model
     public function suppliers() {
         return $this->hasMany(SupplierDetail::class, 'ingredient_ID');
     }
-    
+ 
+    public function lowestPrice()
+    {
+        return $this->hasOne(SupplierDetail::class, 'ingredient_ID','ingredient_ID')->orderBy('ingredient_price', 'asc')->limit(1);
+    }
 }
