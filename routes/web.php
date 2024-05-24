@@ -1,7 +1,4 @@
 <?php
-
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\CalculationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,8 +25,10 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\DishDetailController;
 use App\Http\Controllers\IngredientDetailController;
+use App\Http\Controllers\CalculationController;
+use App\Http\Controllers\CostDetailController;
 use App\Http\Controllers\MenuDetailController;
-use App\Models\IngredientDetail;
+use App\Http\Controllers\MenuPricingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -44,7 +43,7 @@ Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('gues
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::view('/dashboard', 'ManageUser.dashboard')->name('home')->middleware('auth');
-
+//Dish
 Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
 Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
 Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
@@ -52,7 +51,7 @@ Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish
 Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
 Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
 Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
-
+//Ingredient
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
 Route::get('/ingredient/search', [IngredientDetailController::class, 'search'])->name('ingredient.search');
@@ -64,7 +63,7 @@ Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
 Route::get('/supplier-delete/{id}', [IngredientDetailController::class, 'deleteSupplier'])->name('supplier.delete');
 Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
-
+//Calculation
 Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
 Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
 Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMarginCalculator'])->name('calculator.margin');
@@ -83,6 +82,10 @@ Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name
 Route::get('/order-create', function () {
 	return view('ManageOrder.createOrder');
 })->middleware('auth');
+
+Route::get('/price-manage', [CostDetailController::class,'index'])->name('price.manage')->middleware('auth');;
+Route::post('/calculate-price', [CostDetailController::class, 'calculatePrice'])->name('calculate.price');
+
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');

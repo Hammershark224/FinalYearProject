@@ -28,16 +28,16 @@
 
 			@if ($role == 'owner')
 				<li class="nav-item">
-					<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+					<a class="nav-link" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
 						aria-controls="collapseExample">
-						<i class="fa-solid fa-caret-down"></i> Ingredient
+						<i class="fas fa-carrot -32 text-dark text-sm opacity-10"></i> Ingredient
 					</a>
 					<div class="collapse" id="collapseExample">
 						<a class="nav-link {{ Route::currentRouteName() == 'ingredient.manage' ? 'active' : '' }}"
 							href="{{ route('ingredient.manage') }}">
 							<div
 								class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="ni ni-chart-bar-32 text-dark text-sm opacity-10"></i>
+								<i class="fa-solid fa-wheat-awn-32 text-dark text-sm opacity-10"></i>
 							</div>
 							<span class="nav-link-text ms-1">Ingredient Compare</span>
 						</a>
