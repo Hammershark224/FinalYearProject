@@ -10,14 +10,23 @@
                         <h5 class="card-title">Calculate Menu Price</h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('calculate.price') }}">
+                        <form id="priceForm">
                             @csrf
-                            <div class="form-group">
-                                <label for="ingredient_cost">Cost of Ingredients ($)</label>
-                                <input type="number" step="0.01" class="form-control" id="ingredient_cost" name="ingredient_cost" required>
+                            <div class="col-md-6">
+                                <label for="dish">Select a Dish:</label>
+                                <select class="form-control mt-2" name="dish" id="dish">
+                                    <option value="" data-price='0.00'>Select Dish</option>
+                                    @foreach($dishes as $dish)
+                                        <option value="{{ $dish->dish_ID }}" data-price="{{ $dish->dish_cost }}">{{ $dish->dish_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="labor_cost_per_hour">Labor Cost per Hour ($)</label>
+                                <label for="dish_cost">Dish Cost (RM)</label>
+                                <input type="number" step="0.01" class="form-control" id="dish_cost" name="dish_cost" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="labor_cost_per_hour">Labor Cost per Hour (RM)</label>
                                 <input type="number" step="0.01" class="form-control" id="labor_cost_per_hour" name="labor_cost_per_hour" required>
                             </div>
                             <div class="form-group">
@@ -25,7 +34,7 @@
                                 <input type="number" class="form-control" id="labor_time" name="labor_time" required>
                             </div>
                             <div class="form-group">
-                                <label for="overhead_cost">Overhead Cost per Dish ($)</label>
+                                <label for="overhead_cost">Overhead Cost per Dish (RM)</label>
                                 <input type="number" step="0.01" class="form-control" id="overhead_cost" name="overhead_cost" required>
                             </div>
                             <div class="form-group">
@@ -34,23 +43,39 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Calculate</button>
                         </form>
+                        <div id="result" class="mt-4" style="display: none;">
+                            <h5 class="card-title">Calculated Menu Price</h5>
+                            <p>The calculated menu price is: RM <input type="number" step="0.01" class="form-control" id="menu_price" name="menu_price" readonly>
+                                {{-- <span id="menu_price"></span></p> --}}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @if(session('menu_price'))
-        <div class="row mt-4">
-            <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Calculated Menu Price</h5>
-                        <p>The calculated menu price is: ${{ session('menu_price') }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-        
+        <script>
+            document.getElementById('dish').addEventListener('change', function() {
+                var selectedDish = this.options[this.selectedIndex];
+                var dishId = selectedDish.getAttribute('value');
+                var dishCost = selectedDish.getAttribute('data-price');
+                document.getElementById('dish_cost').value = dishCost;
+            });
+
+            $('#priceForm').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: "{{ route('calculate.price') }}",
+                    method: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#menu_price').text(response.menu_price);
+                        $('#result').show();
+                    },
+                    error: function(xhr) {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        </script>
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

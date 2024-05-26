@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyDetail;
+use App\Models\DishDetail;
+use App\Models\IngredientDetail;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +26,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('ManageUser.dashboard');
+        // dd('aaaa');
+        $ingredients = IngredientDetail::all()->count();
+        $dishes = DishDetail::all()->count();
+        $suppliers = CompanyDetail::all()->count();
+        $datas = [
+            'ingredients' => $ingredients,
+            'dishes' => $dishes,
+            'suppliers' => $suppliers,
+        ];
+    
+        return view('ManageUser.dashboard', compact('datas'));
     }
+    
 }

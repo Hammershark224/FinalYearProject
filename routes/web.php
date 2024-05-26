@@ -42,15 +42,7 @@ Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::view('/dashboard', 'ManageUser.dashboard')->name('home')->middleware('auth');
-//Dish
-Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
-Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
-Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
-Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
-Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
-Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
-Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
+Route::get('/dashboard',  [HomeController::class, 'index'])->name('home')->middleware('auth');
 //Ingredient
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
@@ -63,6 +55,14 @@ Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'
 Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
 Route::get('/supplier-delete/{id}', [IngredientDetailController::class, 'deleteSupplier'])->name('supplier.delete');
 Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
+//Dish
+Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
+Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
+Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
+Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
+Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
+Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
+Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 //Calculation
 Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
 Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
@@ -71,7 +71,11 @@ Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMe
 Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
 Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
-
+//price
+Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting')->middleware('auth');
+Route::post('/cost-store', [CostDetailController::class, 'store'])->name('cost.store')->middleware('auth');
+Route::post('/calculate-price', [CostDetailController::class, 'calculatePrice'])->name('calculate.price');
+//menu
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
 Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [MenuDetailController::class, 'viewCart'])->name('cart.view');
@@ -82,9 +86,6 @@ Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name
 Route::get('/order-create', function () {
 	return view('ManageOrder.createOrder');
 })->middleware('auth');
-
-Route::get('/price-manage', [CostDetailController::class,'index'])->name('price.manage')->middleware('auth');;
-Route::post('/calculate-price', [CostDetailController::class, 'calculatePrice'])->name('calculate.price');
 
 
 Route::group(['middleware' => 'auth'], function () {
