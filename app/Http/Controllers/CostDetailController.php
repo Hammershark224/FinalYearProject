@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CostDetail;
 use App\Models\DishDetail;
+use App\Models\MenuDetail;
 use Illuminate\Http\Request;
 
 class CostDetailController extends Controller
@@ -34,10 +35,28 @@ class CostDetailController extends Controller
         ]);
 
         // Redirect back with a success message
-        return redirect()->route('price.manage')->with('success', 'Cost settings updated successfully.');
+        return redirect()->route('cost.setting')->with('success', 'Cost settings updated successfully.');
     }
 
-    
+    public function settingPrice() {
+        $dishes = DishDetail::all();
+        $costSetting = CostDetail::first();
+        // dd($costSetting);
+        return view('ManageMenuPrice.priceSetting', compact('dishes', 'costSetting'));
+    }
+
+    public function storeMenuPrice(Request $request) {
+        $request -> validate([
+            'menu_price' => 'required|numeric|min:0',
+        ]);
+
+        // dd($request);
+        MenuDetail::create([
+            'dish_ID' => $request->input('dish_ID'),
+            'menu_price' => $request->input('menu_price'),
+        ]);
+        return redirect(route('menu.manage'));
+    }
 
     // public function calculatePrice(Request $request)
     // {

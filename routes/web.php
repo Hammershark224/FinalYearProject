@@ -33,6 +33,7 @@ use App\Http\Controllers\MenuPricingController;
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
 Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -42,7 +43,7 @@ Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::get('/dashboard',  [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/dashboard',  [HomeController::class, 'index'])->name('home');
 //Ingredient
 Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
@@ -72,9 +73,10 @@ Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateM
 Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
 Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
 //price
-Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting')->middleware('auth');
-Route::post('/cost-store', [CostDetailController::class, 'store'])->name('cost.store')->middleware('auth');
-Route::post('/calculate-price', [CostDetailController::class, 'calculatePrice'])->name('calculate.price');
+Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
+Route::post('/cost-store', [CostDetailController::class, 'store'])->name('cost.store');
+Route::get('/price-setting', [CostDetailController::class, 'settingPrice'])->name('price.setting');
+Route::post('/price-store', [CostDetailController::class, 'storeMenuPrice'])->name('price.store');
 //menu
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
 Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
@@ -85,8 +87,8 @@ Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus']
 Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 Route::get('/order-create', function () {
 	return view('ManageOrder.createOrder');
-})->middleware('auth');
-
+});
+});
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');

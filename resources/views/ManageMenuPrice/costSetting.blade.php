@@ -19,7 +19,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="overhead">Overhead Cost(%)</label>
-                                <i id="question-mark" class="fas fa-question-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#overheadDescription"></i>
+                                <i id="question-mark" class="fas fa-info-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#overheadDescription"></i>
                                 <div class="modal fade" id="overheadDescription" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="labor">Labor Cost (%)</label>
-                                <i id="question-mark" class="fas fa-question-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#laborDescription"></i>
+                                <i id="question-mark" class="fas fa-info-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#laborDescription"></i>
                                 <div class="modal fade" id="laborDescription" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -70,7 +70,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="profit_margin">Desired Profit Margin (%)</label>
-                                <i id="question-mark" class="fas fa-question-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#marginDescription"></i>
+                                <i id="question-mark" class="fas fa-info-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#marginDescription"></i>
                                 <div class="modal fade" id="marginDescription" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">

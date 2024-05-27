@@ -72,6 +72,34 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#priceCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-cog text-dark text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Price Setting</span>
+                    </a>
+                    <div class="collapse" id="priceCollapse">
+                        <ul class="navbar-nav ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link {{ Route::currentRouteName() == 'cost.setting' ? 'active' : '' }}" href="{{ route('cost.setting') }}">
+                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="material-icons text-dark text-sm opacity-10">attach_money</i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Cost Setting</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Route::currentRouteName() == 'price.setting' ? 'active' : '' }}" href="{{ route('price.setting') }}">
+                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="material-icons text-dark text-sm opacity-10">price_check</i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Menu Price Setting</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                     <a class="nav-link {{ Route::currentRouteName() == 'menu.manage' ? 'active' : '' }}" href="{{ route('menu.manage') }}">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons text-dark text-sm opacity-10">local_dining</i>
