@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CostDetail;
 use App\Models\DishDetail;
 use App\Models\MenuDetail;
+use App\Models\PriceDetail;
 use Illuminate\Http\Request;
 
 class CostDetailController extends Controller
@@ -24,16 +25,15 @@ class CostDetailController extends Controller
             'labor_cost' => 'required|numeric',
             'margin_cost' => 'required|numeric',
         ]);
-
         $costSetting = CostDetail::firstOrCreate([]);
-
+        
         // Update the cost settings
         $costSetting->update([
             'overhead_cost' => $request->input('overhead_cost'),
             'labor_cost' => $request->input('labor_cost'),
             'margin_cost' => $request->input('margin_cost'),
         ]);
-
+    
         // Redirect back with a success message
         return redirect()->route('cost.setting')->with('success', 'Cost settings updated successfully.');
     }
@@ -48,12 +48,22 @@ class CostDetailController extends Controller
     public function storeMenuPrice(Request $request) {
         $request -> validate([
             'menu_price' => 'required|numeric|min:0',
+            'overhead_price' => 'required|numeric',
+            'labor_price' => 'required|numeric',
+            'margin_price' => 'required|numeric',
         ]);
 
         // dd($request);
         MenuDetail::create([
             'dish_ID' => $request->input('dish_ID'),
             'menu_price' => $request->input('menu_price'),
+        ]);
+
+        $priceSetting = PriceDetail::create([
+            'dish_ID' => $request->input('dish_ID'),
+            'overhead_price' => $request->input('overhead_price'),
+            'labor_price' => $request->input('labor_price'),
+            'margin_price' => $request->input('margin_price'),
         ]);
         return redirect(route('menu.manage'));
     }

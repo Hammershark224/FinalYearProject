@@ -87,8 +87,7 @@ class DishDetailController extends Controller
         }
     
         return redirect(route('dish.manage'));
-    }
-    
+    } 
     
     public function show($id) {
         $dataDish = DishDetail::findOrFail($id);

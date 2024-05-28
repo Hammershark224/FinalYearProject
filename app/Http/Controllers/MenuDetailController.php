@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CostDetail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use App\Models\DishDetail;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 class MenuDetailController extends Controller
 {
     public function index() {
+        $menus = MenuDetail::with('dish')->get();
         $dishes = DishDetail::all();
         $photoUrls = [];
     
@@ -23,7 +25,22 @@ class MenuDetailController extends Controller
             }
         }
     // dd($photoUrls);
-        return view('ManageMenu.menuAdmin', ['dishes' => $dishes, 'photoUrls' => $photoUrls]);
+        return view('ManageMenu.menuAdmin', compact('menus','dishes','photoUrls'));
+    }
+
+    public function show($id) {
+        $dish = DishDetail::findOrFail($id);
+        $recipes = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
+        $photoUrl = null;
+        $menu = MenuDetail::findOrFail($id);
+        $costSetting = CostDetail::findOrFail($id);
+    
+        if ($dish->dish_photo) {
+            // Generate URL for the dish photo
+            $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
+        }
+    
+        return view('ManageMenu.viewRecipe', compact('dish', 'recipes', 'photoUrl', 'menu', 'costSetting'));
     }
 
     public function indexCus() {
@@ -41,60 +58,79 @@ class MenuDetailController extends Controller
     
         return view('ManageMenu.menu', compact('dishes','photoUrls','recipes', 'menus'));
     }
-    
-    public function addToCart(Request $request, $dishId)
-    {
-        // Retrieve dish details from the database based on $dishId
-        $dish = DishDetail::find($dishId);
-        
-        // Check if dish exists
-        if (!$dish) {
-            return redirect()->back()->with('error', 'Dish not found');
-        }
-        
-        // Add dish to the cart stored in the session
-        $cart = $request->session()->get('cart', []);
-        $cart[$dishId] = [
-            'name' => $dish->dish_name,
-            'price' => $dish->dish_cost,
-            'quantity' => $request->input('quantity'),
-        ];
-        $request->session()->put('cart', $cart);
-        
-        return redirect()->route('cart.view')->with('success', 'Dish added to cart');
+
+    public function menuTable() {
+        // $menus = MenuDetail::paginate(10); // Paginate with 10 items per page, adjust as needed
+        $menus = MenuDetail::with('dish')->get();
+        return view('ManageMenu.menuManage', ['menus' => $menus]);
+    }
+
+    public function createMenu() {
+        return view('ManageMenu.addRecipe');
     }
     
-    public function viewCart(Request $request)
+    public function updateStatus(Request $request, $id) 
     {
-        $cart = $request->session()->get('cart', []);
-    
-        return view('ManageOrder.cart', compact('cart'));
+        // Find the dish by its ID
+        $dish = DishDetail::find($id);
+        $dish -> update($request->all());
+
+        return redirect(route('menu.manage'));
     }
     
-    public function confirmOrder(Request $request)
-{
-    // Get the cart from the session
-    $cart = $request->session()->get('cart', []);
+    // public function addToCart(Request $request, $dishId)
+    // {
+    //     // Retrieve dish details from the database based on $dishId
+    //     $dish = DishDetail::find($dishId);
+        
+    //     // Check if dish exists
+    //     if (!$dish) {
+    //         return redirect()->back()->with('error', 'Dish not found');
+    //     }
+        
+    //     // Add dish to the cart stored in the session
+    //     $cart = $request->session()->get('cart', []);
+    //     $cart[$dishId] = [
+    //         'name' => $dish->dish_name,
+    //         'price' => $dish->dish_cost,
+    //         'quantity' => $request->input('quantity'),
+    //     ];
+    //     $request->session()->put('cart', $cart);
+        
+    //     return redirect()->route('cart.view')->with('success', 'Dish added to cart');
+    // }
+    
+    // public function viewCart(Request $request)
+    // {
+    //     $cart = $request->session()->get('cart', []);
+    
+    //     return view('ManageOrder.cart', compact('cart'));
+    // }
+    
+    // public function confirmOrder(Request $request)
+    // {
+    //     // Get the cart from the session
+    //     $cart = $request->session()->get('cart', []);
 
-    // Validate the request
-    $request->validate([
-        'menu'
-    ]);
+    //     // Validate the request
+    //     $request->validate([
+    //         'menu'
+    //     ]);
 
-    // Save the order to the database
-    $order = new OrderDetail();
+    //     // Save the order to the database
+    //     $order = new OrderDetail();
 
-    // You may need to adjust this based on your actual Order model structure
-    $order->items = $cart;
+    //     // You may need to adjust this based on your actual Order model structure
+    //     $order->items = $cart;
 
-    // Save the order
-    $order->save();
+    //     // Save the order
+    //     $order->save();
 
-    // Destroy the session after the order is confirmed
-    $request->session()->forget('cart');
+    //     // Destroy the session after the order is confirmed
+    //     $request->session()->forget('cart');
 
-    return redirect()->route('order.confirmation')->with('success', 'Order confirmed and saved.');
-}
+    //     return redirect()->route('order.confirmation')->with('success', 'Order confirmed and saved.');
+    // }
 
     // public function confirmOrder(Request $request)
     // {
@@ -140,25 +176,5 @@ class MenuDetailController extends Controller
     //     // dd($photoUrls);
     //     return view('ManageMenu.menu', ['dishes' => $dishes, 'photoUrls' => $photoUrls]);
     // }
-
-    public function menuTable() {
-        // $menus = MenuDetail::paginate(10); // Paginate with 10 items per page, adjust as needed
-        $menus = MenuDetail::with('dish')->get();
-        return view('ManageMenu.menuManage', ['menus' => $menus]);
-    }
-
-    public function createMenu() {
-        return view('ManageMenu.addRecipe');
-    }
-    
-    public function updateStatus(Request $request, $id) 
-    {
-        // Find the dish by its ID
-        $dish = DishDetail::find($id);
-        $dish -> update($request->all());
-
-        return redirect(route('menu.manage'));
-    }
-
     
 }

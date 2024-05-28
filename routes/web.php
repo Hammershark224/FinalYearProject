@@ -81,6 +81,7 @@ Route::post('/price-store', [CostDetailController::class, 'storeMenuPrice'])->na
 Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
 Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [MenuDetailController::class, 'viewCart'])->name('cart.view');
+Route::get('/menu-show/{id}', [MenuDetailController::class, 'show'])->name('menu.show');
 Route::get('/menu-manage', [MenuDetailController::class, 'menuTable'])->name('menu.manage');
 Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
 Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');

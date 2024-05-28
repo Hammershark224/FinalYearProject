@@ -46,6 +46,22 @@
                                     <input class="form-control" type="number" name="menu_price" id="menu_price" readonly>
                                 </div>
                             </div>
+                            <hr class="horizontal dark">
+                            <p class="text-uppercase text-sm">Breakdown of Costs</p>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="overhead_price">Overhead Cost</label>
+                                    <input class="form-control" type="number" name="overhead_price" id="overhead_price" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="labor_price">Labor Cost</label>
+                                    <input class="form-control" type="number" name="labor_price" id="labor_price" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="margin_price">Margin Cost</label>
+                                    <input class="form-control" type="number" name="margin_price" id="margin_price" readonly>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Set as Menu Price</button>
                         </form>
                     </div>
@@ -62,20 +78,30 @@
                 var dishCost = parseFloat($('#dish').find(':selected').data('price'));
                 var menuPrice = dishCost;
 
+                var overheadPrice = 0;
+                var laborPrice = 0;
+                var marginPrice = 0;
+
                 if ($('#overhead_cost').is(':checked')) {
                     var overheadCost = parseFloat($('#overhead_cost').val());
-                    menuPrice += (dishCost * overheadCost / 100);
+                    overheadPrice = dishCost * overheadCost / 100;
+                    menuPrice += overheadPrice;
                 }
                 if ($('#labor_cost').is(':checked')) {
                     var laborCost = parseFloat($('#labor_cost').val());
-                    menuPrice += (dishCost * laborCost / 100);
+                    laborPrice = dishCost * laborCost / 100;
+                    menuPrice += laborPrice;
                 }
                 if ($('#margin_cost').is(':checked')) {
                     var marginCost = parseFloat($('#margin_cost').val());
-                    menuPrice += (dishCost * marginCost / 100);
+                    marginPrice = dishCost * marginCost / 100;
+                    menuPrice += marginPrice;
                 }
 
                 $('#menu_price').val(menuPrice.toFixed(2));
+                $('#overhead_price').val(overheadPrice.toFixed(2));
+                $('#labor_price').val(laborPrice.toFixed(2));
+                $('#margin_price').val(marginPrice.toFixed(2));
             }
 
             $('#dish').change(function() {

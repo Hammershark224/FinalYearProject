@@ -99,7 +99,7 @@
                         </ul>
                     </div>
                 </li>
-
+                <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'menu.manage' ? 'active' : '' }}" href="{{ route('menu.manage') }}">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons text-dark text-sm opacity-10">local_dining</i>
@@ -117,23 +117,14 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteName() == 'cost.setting' ? 'active' : '' }}" href="{{ route('cost.setting') }}">
-                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fas fa-cog text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Cost Setting</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ Route::currentRouteName() == 'calculator.selection' ? 'active' : '' }}" href="{{ route('calculator.selection') }}">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="fa fa-calculator text-dark text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Margin Calculator</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
         </ul>
     </div>

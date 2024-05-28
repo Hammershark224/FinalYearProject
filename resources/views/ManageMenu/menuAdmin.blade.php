@@ -9,22 +9,22 @@
 
 @if ($role == "owner")
     <div class="row">
-        @foreach ($dishes as $dish)
+        @foreach ($menus as $menu)
         <div class="col-md-3 mb-4"> <!-- Use col-md-3 for small screens and above -->
             <div class="card">
-                <img src="{{ $photoUrls[$dish->dish_ID] }}" class="mx-auto d-block mt-3" style="width: 100px; height: 100px;" alt="Dish Photo"> <!-- Added mt-3 for margin-top -->
+                <img src="{{ $photoUrls[$menu->dish->dish_ID] }}" class="mx-auto d-block mt-3" style="width: 100px; height: 100px;" alt="Dish Photo"> <!-- Added mt-3 for margin-top -->
                 <div class="card-body pt-0 p-3 text-center">
-                    <h5 class="card-title">{{ $dish['dish_name'] }}</h5>
-                    <span class="text-xs">RM {{ $dish['dish_cost'] }}</span>
+                    <h5 class="card-title">{{ $menu->dish->dish_name }}</h5>
+                    <span class="text-xs">RM {{ $menu->menu_price }}</span>
                     <hr class="horizontal dark my-3">
-                    <form role="form" method="post" action="{{ route('status.update', $dish['dish_ID']) }}" enctype="multipart/form-data">
+                    <form role="form" method="post" action="{{ route('status.update', $menu->dish->dish_ID) }}" enctype="multipart/form-data">
                     @csrf    
                         <div class="align-middle text-center text-sm">
                             <div class="row">
                                 <div class="col-md-4">
                                     <select id="dish_status" class="form-control" name="dish_status" required>
-                                        <option value="ON" @if($dish->dish_status == 'ON') selected @endif>ON</option>
-                                        <option value="OFF" @if($dish->dish_status == 'OFF') selected @endif>OFF</option>
+                                        <option value="ON" @if($menu->dish->dish_status == 'ON') selected @endif>ON</option>
+                                        <option value="OFF" @if($menu->dish->dish_status == 'OFF') selected @endif>OFF</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">

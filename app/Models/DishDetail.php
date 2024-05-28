@@ -34,5 +34,9 @@ class DishDetail extends Model
     public function menu() {
         return $this->hasOne(MenuDetail::class);
     }
+
+    public function priceDetail() {
+        return $this->belongsToMany(PriceDetail::class);
+    }
     
 }

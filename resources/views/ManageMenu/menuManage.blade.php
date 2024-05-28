@@ -51,11 +51,12 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$menu['menu_price'] }}
+                                                <p class="text-xs font-weight-bold mb-0">{{$menu->menu_price }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <a href="{{ route('menu.delete',$menu['menu_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                                <a href="{{ route('menu.show', $menu->menu_ID) }}" class="btn btn-info">VIEW</a>
+                                                <a href="{{ route('menu.delete', $menu->menu_ID) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                             </td>
                                         </tr>
                                     @endforeach
