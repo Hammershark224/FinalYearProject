@@ -29,7 +29,7 @@ class MenuDetailController extends Controller
     }
 
     public function show($id) {
-        $dish = DishDetail::findOrFail($id);
+        $dish = DishDetail::with('priceDetail')->findOrFail($id);
         $recipes = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
         $photoUrl = null;
         $menu = MenuDetail::findOrFail($id);
