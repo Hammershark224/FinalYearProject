@@ -64,6 +64,7 @@ Route::get('/', function () {
 	Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
 	Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
 	Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
+	Route::get('/export', [DishDetailController::class, 'exportToExcel'])->name('export.dishes');
 	//Calculation
 	Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
 	Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');

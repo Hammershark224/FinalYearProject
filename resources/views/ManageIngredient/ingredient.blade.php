@@ -46,7 +46,7 @@
                                         Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="ingredientTableBody">
+                            <tbody id="TableBody">
                                 @foreach ($ingredients as $ingredient)
                                 <tr>
                                     <td>

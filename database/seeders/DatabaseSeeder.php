@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'username' => 'admin',
-            'phone_num' => '0123456789',
-            'email' => 'admin@argon.com',
+            'username' => 'owner',
+            'phone_num' => '0185792846',
+            'email' => 'xueliangchong1@gmail.com',
             'role' => 'owner',
             'password' => bcrypt('secret')
         ]);

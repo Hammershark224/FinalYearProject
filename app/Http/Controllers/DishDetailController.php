@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DishExport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
@@ -12,6 +13,7 @@ use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
 use League\CommonMark\Node\Block\Document;
 use PhpParser\Node\Scalar\MagicConst\Dir;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DishDetailController extends Controller
 {
@@ -126,5 +128,10 @@ class DishDetailController extends Controller
         $menu = MenuDetail::where('dish_ID',$id)->delete();
         $dataDish -> delete();
         return redirect(route('dish.manage'));
+    }
+
+    public function exportToExcel()
+    {
+        return Excel::download(new DishExport, 'dishes.xlsx');
     }
 }

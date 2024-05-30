@@ -2,6 +2,7 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
+<script src="{{ asset('assets/js/core/search.js') }}"></script>
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -15,7 +16,12 @@
                                 <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">Create New</button>
                             </div>
                         </div>
+                        <div class="col-4">
+                            <input type="text" id="searchInput" class="form-control border border-dark" placeholder="Search for dish...">
+                        </div>
                     </div>
+
+                        
 
                     @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -37,7 +43,7 @@
                                             Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="TableBody">
                                     @foreach ($dishes as $dish)
                                         <tr>
                                             <td class="col-4">

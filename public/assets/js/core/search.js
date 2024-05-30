@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
-    const tableBody = document.getElementById('ingredientTableBody');
+    const tableBody = document.getElementById('TableBody');
     const tableRows = tableBody.getElementsByTagName('tr');
 
     searchInput.addEventListener('keyup', function() {

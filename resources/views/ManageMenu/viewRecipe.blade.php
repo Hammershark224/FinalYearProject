@@ -15,6 +15,8 @@
                             <div class="d-flex align-items-center">
                                 <p class="mb-0">View Dish Info</p>
                                 <button type="button" onclick="window.location='{{ route('dish.manage') }}'" class="btn btn-primary btn-sm ms-auto">Back</button>
+                                <a href="{{ route('export.dishes') }}" class="btn btn-primary">Export to Excel</a>
+
                             </div>
                         </div>
                         <div class="card-body">

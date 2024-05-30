@@ -21,7 +21,7 @@
                                         @method('post')
                                         <!-- email input -->
                                         <div class="flex flex-col mb-3">
-                                            <input type="email" name="email" class="form-control form-control-lg" value="admin@argon.com" placeholder="email" paaria-label="Email">
+                                            <input type="email" name="email" class="form-control form-control-lg" value="xueliangchong1@gmail.com" placeholder="email" paaria-label="Email">
                                             @error('email') <p class="text-danger text-xs pt-1"> {{$message}} </p>@enderror
                                         </div>
 
@@ -32,7 +32,7 @@
                                         </div>
 
                                         <!-- role selection -->
-                                        <div class="flex flex-col mb-3">
+                                        {{-- <div class="flex flex-col mb-3">
                                         <select name="role" class="form-control" placeholder="Select your user group">
                                             <option selected disabled>Select your user group</option>
                                             <option value="owner">Restaurant Owner</option>
@@ -40,8 +40,8 @@
                                             <option value="worker">Restaurant Worker</option>
                                         </select>
                                         @error('role') <p class='text-danger text-xs pt-1'> {{ $message }} </p> @enderror
-                                        </div>
-
+                                        </div> --}}
+                                            <input type="hidden" name="role" value="owner">
                                         <!-- remember me toggle -->
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="remember" type="checkbox" id="rememberMe">
