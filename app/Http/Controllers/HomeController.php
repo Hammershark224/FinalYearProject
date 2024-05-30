@@ -6,6 +6,7 @@ use App\Models\CompanyDetail;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -39,4 +40,10 @@ class HomeController extends Controller
         return view('ManageUser.dashboard', compact('datas'));
     }
     
+    // public function showCurrentTime()
+    // {
+    //     $currentTime = Carbon::now();
+    //     // dd($currentTime);
+    //     return view('layouts.navbars.auth.topnav', compact('currentTime'));
+    // }
 }

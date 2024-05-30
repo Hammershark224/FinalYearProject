@@ -24,12 +24,24 @@ class IngredientsImport implements ToModel
         
         // Check if the IngredientDetail exists
         if ($ingredientDetail) {
-            // Create a new SupplierDetail with the foreign keys of the found IngredientDetail
-            return new SupplierDetail([
-                'company_ID' => $this->companyId,
-                'ingredient_ID' => $ingredientDetail->ingredient_ID,
-                'ingredient_price' => $row[3],
-            ]);
+            // Check if a SupplierDetail already exists for the combination of company and ingredient
+            $supplierDetail = SupplierDetail::where('company_ID', $this->companyId)
+                                             ->where('ingredient_ID', $ingredientDetail->ingredient_ID)
+                                             ->first();
+            if ($supplierDetail) {
+                // Update the existing SupplierDetail
+                $supplier = SupplierDetail::where('company_ID', $this->companyId);
+                $supplier->update([
+                    'ingredient_price' => $row[3],
+                ]);
+            } else {
+                // Create a new SupplierDetail
+                return new SupplierDetail([
+                    'company_ID' => $this->companyId,
+                    'ingredient_ID' => $ingredientDetail->ingredient_ID,
+                    'ingredient_price' => $row[3],
+                ]);
+            }
         } else {
             // Handle the case where the IngredientDetail doesn't exist
             // You may throw an exception, log an error, or handle it based on your requirement
@@ -38,4 +50,3 @@ class IngredientsImport implements ToModel
         }
     }
 }
-

@@ -300,6 +300,14 @@ svg {
   vertical-align: middle;
 }
 
+.table thead th {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
 table {
   caption-side: bottom;
   border-collapse: collapse;

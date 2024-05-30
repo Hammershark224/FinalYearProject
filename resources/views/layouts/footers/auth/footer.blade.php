@@ -10,7 +10,7 @@
                     PCPRO | All Rights Reserved
                 </div>
             </div>
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
                 <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                     <li class="nav-item">
                         <a href="https://www.ump.edu.my/en" class="nav-link text-muted" target="_blank">UMP SA</a>
@@ -19,7 +19,7 @@
                         <a href="https://fk.ump.edu.my/index.php/en/" class="nav-link text-muted" target="_blank">UMP SA Faculty of Computing</a>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>

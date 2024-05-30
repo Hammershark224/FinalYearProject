@@ -9,6 +9,7 @@
                 <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
             </ol>
             <h1 class="font-weight-bolder text-white mb-0">Welcome to PCPRO!</h1>
+            {{-- <p>{{ $currentTime }}</p> --}}
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">         

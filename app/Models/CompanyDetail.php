@@ -16,6 +16,6 @@ class CompanyDetail extends Model
 
     public function suppliers()
     {
-        return $this->hasMany(SupplierDetail::class);
+        return $this->hasMany(SupplierDetail::class, 'company_ID', 'company_ID');
     }
 }

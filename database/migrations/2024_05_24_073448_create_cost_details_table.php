@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('overhead_cost', 8, 2)->nullable();
             $table->decimal('labor_cost', 8, 2)->nullable();
             $table->decimal('margin_cost', 8, 2)->nullable();
+            $table->decimal('packaging_cost', 8, 2)->nullable();
             $table->timestamps();
         });
     }

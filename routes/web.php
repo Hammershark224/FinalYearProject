@@ -33,7 +33,7 @@ use App\Http\Controllers\MenuPricingController;
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
-
+	// Route::get('/current-time', [HomeController::class, 'showCurrentTime'])->name('time');
 	Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -54,6 +54,8 @@ Route::get('/', function () {
 	Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
 	Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'])->name('supplier.create');
 	Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
+	Route::get('/supplier-edit/{company_name}', [IngredientDetailController::class, 'editSupplier'])->name('supplier.edit');
+	Route::post('/supplier-update/{companyId}', [IngredientDetailController::class, 'updateSupplier'])->name('supplier.update');
 	Route::get('/supplier-delete/{id}', [IngredientDetailController::class, 'deleteSupplier'])->name('supplier.delete');
 	Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
 	//Dish
