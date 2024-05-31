@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('cost_details', function (Blueprint $table) {
             $table->id();
-            $table->decimal('overhead_cost', 8, 2)->nullable();
-            $table->decimal('labor_cost', 8, 2)->nullable();
-            $table->decimal('margin_cost', 8, 2)->nullable();
-            $table->decimal('packaging_cost', 8, 2)->nullable();
+            $table->string('cost_type');
+            $table->decimal('value', 8, 2)->nullable();
+            // $table->decimal('overhead_cost', 8, 2)->nullable();
+            // $table->decimal('labor_cost', 8, 2)->nullable();
+            // $table->decimal('margin_cost', 8, 2)->nullable();
+            // $table->decimal('packaging_cost', 8, 2)->nullable();
             $table->timestamps();
         });
     }

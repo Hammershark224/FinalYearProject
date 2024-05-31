@@ -20,25 +20,20 @@
                             <div class="form-group">
                                 <label for="dish">Select a Dish:</label>
                                 <select class="form-control mt-2" name="dish" id="dish">
-                                    <option value="" data-price='0.00'>Select Dish</option>
+                                    <option value="" data-price="0.00">Select Dish</option>
                                     @foreach($dishes as $dish)
                                         <option value="{{ $dish->dish_ID }}" data-price="{{ $dish->dish_cost }}">{{ $dish->dish_name }}</option>
                                     @endforeach
                                 </select>
                                 <input id="dish_ID" class="form-control" type="hidden" name="dish_ID">
                             </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="overhead_cost" name="overhead_cost" value="{{ $costSetting->overhead_cost }}">
-                                <label class="form-check-label" for="include_overhead">Include Overhead Cost (%)</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="labor_cost" name="labor_cost" value="{{ $costSetting->labor_cost }}">
-                                <label class="form-check-label" for="include_labor">Include Labor Cost (%)</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="margin_cost" name="margin_cost" value="{{ $costSetting->margin_cost }}">
-                                <label class="form-check-label" for="include_margin">Include Profit Margin (%)</label>
-                            </div>
+                            @foreach ($costSetting as $setting)
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input cost-checkbox" id="{{ $setting->id }}_cost" name="value[]" value="{{ $setting->value }}">
+                                    <label class="form-check-label" for="{{ $setting->cost_type }}">Include {{ $setting->cost_type }}</label>
+                                    <input type="hidden" class="form-control mt-2 cost-input" id="priceDetail" name="priceDetail[]" step="0.01" min="0">
+                                </div>
+                            @endforeach
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Menu Price</p>
                             <div class="col-md-12">
@@ -46,23 +41,9 @@
                                     <input class="form-control" type="number" name="menu_price" id="menu_price" readonly>
                                 </div>
                             </div>
-                            <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Breakdown of Costs</p>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="overhead_price">Overhead Cost</label>
-                                    <input class="form-control" type="number" name="overhead_price" id="overhead_price" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="labor_price">Labor Cost</label>
-                                    <input class="form-control" type="number" name="labor_price" id="labor_price" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="margin_price">Margin Cost</label>
-                                    <input class="form-control" type="number" name="margin_price" id="margin_price" readonly>
-                                </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Set as Menu Price</button>
                             </div>
-                            <button type="submit" class="btn btn-primary">Set as Menu Price</button>
                         </form>
                     </div>
                 </div>
@@ -71,48 +52,68 @@
         @include('layouts.footers.auth.footer')
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            function calculatePrice() {
-                var dishCost = parseFloat($('#dish').find(':selected').data('price'));
-                var menuPrice = dishCost;
-
-                var overheadPrice = 0;
-                var laborPrice = 0;
-                var marginPrice = 0;
-
-                if ($('#overhead_cost').is(':checked')) {
-                    var overheadCost = parseFloat($('#overhead_cost').val());
-                    overheadPrice = dishCost * overheadCost / 100;
-                    menuPrice += overheadPrice;
+        document.addEventListener('DOMContentLoaded', function () {
+            const dishSelect = document.getElementById('dish');
+            const dishIDInput = document.getElementById('dish_ID');
+            const menuPriceInput = document.getElementById('menu_price');
+            const costCheckboxes = document.querySelectorAll('.cost-checkbox');
+            const costInputs = document.querySelectorAll('.cost-input');
+    
+            function calculateMenuPrice() {
+                let selectedDish = dishSelect.options[dishSelect.selectedIndex];
+                let basePrice = parseFloat(selectedDish.getAttribute('data-price'));
+    
+                if (selectedDish.value) { // Only calculate if a dish is selected
+                    let totalPercentage = 0;
+    
+                    // Initialize priceDetail[] to 0
+                    let priceDetails = Array.from({ length: costInputs.length }, () => 0);
+    
+                    costCheckboxes.forEach((checkbox, index) => {
+                        let costInput = costInputs[index];
+                        let costValue = parseFloat(checkbox.value);
+                        if (checkbox.checked) {
+                            totalPercentage += costValue;
+                        }
+                        // Set the value regardless of checkbox state
+                        priceDetails[index] = (basePrice * costValue / 100).toFixed(2);
+                    });
+    
+                    // Update cost inputs with calculated values
+                    priceDetails.forEach((value, index) => {
+                        costInputs[index].value = value;
+                    });
+    
+                    let menuPrice = basePrice * (1 + totalPercentage / 100);
+                    menuPriceInput.value = menuPrice.toFixed(2);
+    
+                    // Set the dish ID input value
+                    dishIDInput.value = selectedDish.value;
+                } else {
+                    menuPriceInput.value = '';
+                    dishIDInput.value = '';
+    
+                    // Reset cost inputs to 0
+                    costInputs.forEach(input => input.value = 0);
                 }
-                if ($('#labor_cost').is(':checked')) {
-                    var laborCost = parseFloat($('#labor_cost').val());
-                    laborPrice = dishCost * laborCost / 100;
-                    menuPrice += laborPrice;
-                }
-                if ($('#margin_cost').is(':checked')) {
-                    var marginCost = parseFloat($('#margin_cost').val());
-                    marginPrice = dishCost * marginCost / 100;
-                    menuPrice += marginPrice;
-                }
-
-                $('#menu_price').val(menuPrice.toFixed(2));
-                $('#overhead_price').val(overheadPrice.toFixed(2));
-                $('#labor_price').val(laborPrice.toFixed(2));
-                $('#margin_price').val(marginPrice.toFixed(2));
             }
-
-            $('#dish').change(function() {
-                var selectedDishID = $(this).val();
-                $('#dish_ID').val(selectedDishID);
-                calculatePrice();
+    
+            // Initial calculation if there's a selected dish
+            if (dishSelect.value) {
+                calculateMenuPrice();
+            }
+    
+            dishSelect.addEventListener('change', function () {
+                calculateMenuPrice();
             });
-
-            $('#overhead_cost, #labor_cost, #margin_cost').change(function() {
-                calculatePrice();
+    
+            costCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    calculateMenuPrice();
+                });
             });
         });
     </script>
+    
 @endsection

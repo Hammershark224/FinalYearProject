@@ -106,6 +106,25 @@ class DatabaseSeeder extends Seeder
             'ingredient_price' => '4.75'
         ]);
 
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Overhead Cost',
+            'value' => '20',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Labor Cost',
+            'value' => '15',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Margin Cost',
+            'value' => '10',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'SST',
+            'value' => '8',
+        ]);
         // DB::table('supplier_details')->insert([
         //     'company_ID' => '1',
         //     'ingredient_weight' => '0.5',

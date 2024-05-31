@@ -77,6 +77,7 @@ Route::get('/', function () {
 	Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
 	//price
 	Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
+	Route::get('/cost-add', [CostDetailController::class, 'create'])->name('cost.create');
 	Route::post('/cost-store', [CostDetailController::class, 'store'])->name('cost.store');
 	Route::get('/price-setting', [CostDetailController::class, 'settingPrice'])->name('price.setting');
 	Route::post('/price-store', [CostDetailController::class, 'storeMenuPrice'])->name('price.store');

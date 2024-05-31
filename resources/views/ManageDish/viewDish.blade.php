@@ -94,7 +94,7 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <h5 class="text-xs font-weight-bold mb-0">
-                                                    {{ round(($recipe->ingredient->lowestPrice->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight,2) }}
+                                                    {{ round(($recipe->ingredient->lowestPrice->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight/1000, 2) }}
                                                 </h5>
                                                 
                                                 </h5>

@@ -16,12 +16,10 @@
                                 <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">Create New</button>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="row col-4">
                             <input type="text" id="searchInput" class="form-control border border-dark" placeholder="Search for dish...">
                         </div>
                     </div>
-
-                        
 
                     @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
