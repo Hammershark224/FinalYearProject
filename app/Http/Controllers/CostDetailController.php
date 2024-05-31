@@ -86,27 +86,23 @@ class CostDetailController extends Controller
         $costTypes = $request->input('value', []);
         $priceDetails = $request->input('priceDetail', []);
     
-        foreach ($costTypes as $index => $costType) {
-            // Check if the checkbox is ticked
-            if ($request->has('value.' . $index)) {
-                // Convert 'cost_type' to a more readable format
-                $priceType = $costType;
+        foreach ($costTypes as $costID => $costValue) {
+            // Get the calculated price value for the current cost type
+            $priceValue = isset($priceDetails[$costID]) ? $priceDetails[$costID] : 0;
     
-                // Get the calculated price value for the current cost type
-                $priceValue = isset($priceDetails[$index]) ? $priceDetails[$index] : 0;
-    
-                // Save price detail
-                PriceDetail::create([
-                    'dish_ID' => $dishID,
-                    'price_type' => $priceType,
-                    'value' => $priceValue,
-                ]);
-            }
+            // Save price detail
+            PriceDetail::create([
+                'dish_ID' => $dishID,
+                'price_type' => $costValue,
+                'value' => $priceValue,
+            ]);
         }
     
         // Redirect with success message
         return redirect(route('menu.manage'))->with('success', 'Menu price and details saved successfully');
     }
+    
+    
     
     
 

@@ -27,13 +27,15 @@
                                 </select>
                                 <input id="dish_ID" class="form-control" type="hidden" name="dish_ID">
                             </div>
+
                             @foreach ($costSetting as $setting)
                                 <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input cost-checkbox" id="{{ $setting->id }}_cost" name="value[]" value="{{ $setting->value }}">
-                                    <label class="form-check-label" for="{{ $setting->cost_type }}">Include {{ $setting->cost_type }}</label>
-                                    <input type="hidden" class="form-control mt-2 cost-input" id="priceDetail" name="priceDetail[]" step="0.01" min="0">
+                                    <input type="checkbox" class="form-check-input cost-checkbox" id="{{ $setting->id }}_cost" name="value[{{ $setting->id }}]" value="{{ $setting->value }}">
+                                    <label class="form-check-label" for="{{ $setting->id }}_cost">Include {{ $setting->cost_type }}</label>
+                                    <input type="hidden" class="form-control mt-2 cost-input" id="priceDetail_{{ $setting->id }}" name="priceDetail[{{ $setting->id }}]" step="0.01" min="0" value="0">
                                 </div>
                             @endforeach
+                            
                             <hr class="horizontal dark">
                             <p class="text-uppercase text-sm">Menu Price</p>
                             <div class="col-md-12">
@@ -48,7 +50,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         @include('layouts.footers.auth.footer')
     </div>
 
@@ -67,22 +68,15 @@
                 if (selectedDish.value) { // Only calculate if a dish is selected
                     let totalPercentage = 0;
     
-                    // Initialize priceDetail[] to 0
-                    let priceDetails = Array.from({ length: costInputs.length }, () => 0);
-    
                     costCheckboxes.forEach((checkbox, index) => {
                         let costInput = costInputs[index];
                         let costValue = parseFloat(checkbox.value);
                         if (checkbox.checked) {
                             totalPercentage += costValue;
+                            costInput.value = (basePrice * costValue / 100).toFixed(2);
+                        } else {
+                            costInput.value = 0;
                         }
-                        // Set the value regardless of checkbox state
-                        priceDetails[index] = (basePrice * costValue / 100).toFixed(2);
-                    });
-    
-                    // Update cost inputs with calculated values
-                    priceDetails.forEach((value, index) => {
-                        costInputs[index].value = value;
                     });
     
                     let menuPrice = basePrice * (1 + totalPercentage / 100);
