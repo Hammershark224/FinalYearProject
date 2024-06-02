@@ -38,6 +38,25 @@ class IngredientDetailController extends Controller
         return redirect(route('ingredient'));
     }
 
+    public function editIngredient($ingredient_name) {
+        $ingredient = IngredientDetail::where('ingredient_name', $ingredient_name)->firstOrFail();
+        return view('ManageIngredient.editIngredient', compact('ingredient'));
+    }
+
+    public function updateIngredient(Request $request, $id) {
+        $request->validate([
+            'ingredient_name' => 'required|string',
+            'ingredient_weight' => 'required|numeric',
+        ]);
+        $ingredient = IngredientDetail::findOrFail($id);
+        $ingredient->update([
+            'ingredient_name' => $request->input('ingredient_name'),
+            'ingredient_weight' => $request->input('ingredient_weight'),
+        ]);
+
+        return redirect(route('ingredient'));
+    }
+
     public function deleteIngredient($id) {
         $dataIngredient = IngredientDetail::find($id);
         $dataIngredient -> delete();
@@ -61,7 +80,7 @@ class IngredientDetailController extends Controller
         ]);
 
         // Check if the number of companies exceeds 5
-        if (CompanyDetail::count() >= 5) {
+        if (CompanyDetail::count() > 5) {
             return back()->with('error', 'Only five companies are allowed.');
         }
 

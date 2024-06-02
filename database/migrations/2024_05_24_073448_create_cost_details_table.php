@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cost_details', function (Blueprint $table) {
-            $table->id();
+            $table->id('cost_ID');
             $table->string('cost_type');
             $table->decimal('value', 8, 2)->nullable();
             // $table->decimal('overhead_cost', 8, 2)->nullable();

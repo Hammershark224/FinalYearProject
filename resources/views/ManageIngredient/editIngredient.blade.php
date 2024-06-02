@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ route('ingredient.store') }}" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('ingredient.update', $ingredient->ingredient_ID) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
@@ -23,14 +23,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Ingredient Name</label>
-                                        <input class="form-control" type="text" name="ingredient_name">
+                                        <input class="form-control" type="text" name="ingredient_name" value="{{ $ingredient->ingredient_name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Ingredient Weight</label>
                                         <p class='text-danger'>(in "kg" according to size available in market)</p>
-                                        <input class="form-control" type="number" step="0.01" min="0" name="ingredient_weight">
+                                        <input class="form-control" type="number" name="ingredient_weight" step="0.01" min="0" value="{{ $ingredient->ingredient_weight }}">
                                     </div>
                                 </div>
                             </div>

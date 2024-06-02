@@ -64,7 +64,8 @@
                                         </div>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <a href="{{ route('ingredient.delete',$ingredient['ingredient_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                        <a href="{{ route('ingredient.edit', $ingredient->ingredient_name) }}" class="btn btn-primary">EDIT</a>
+                                        <a href="{{ route('ingredient.delete',$ingredient->ingredient_ID) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                     </td>
                                 </tr>
                                 @endforeach

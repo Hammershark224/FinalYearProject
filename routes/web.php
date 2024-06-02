@@ -51,6 +51,8 @@ Route::get('/', function () {
 	Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 	Route::get('/ingredient-add', [IngredientDetailController::class, 'createIngredient'])->name('ingredient.create');
 	Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngredient'])->name('ingredient.store');
+	Route::get('/ingredient-edit/{ingredient_name}', [IngredientDetailController::class, 'editIngredient'])->name('ingredient.edit');
+	Route::post('/ingredient-update/{id}', [IngredientDetailController::class, 'updateIngredient'])->name('ingredient.update');
 	Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
 	Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'])->name('supplier.create');
 	Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
