@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\DishDetail;
 use App\Models\RecipeDetail;
 use App\Models\MenuDetail;
-use App\Models\OrderDetail;
+use App\Models\PriceDetail;
 use Illuminate\Http\Request;
 
 class MenuDetailController extends Controller
@@ -34,13 +34,14 @@ class MenuDetailController extends Controller
         $photoUrl = null;
         $menu = MenuDetail::findOrFail($id);
         $costSetting = CostDetail::findOrFail($id);
+        $priceDetail = PriceDetail::findOrFail($id);
     
         if ($dish->dish_photo) {
             // Generate URL for the dish photo
             $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
         }
     
-        return view('ManageMenu.viewRecipe', compact('dish', 'recipes', 'photoUrl', 'menu', 'costSetting'));
+        return view('ManageMenu.viewRecipe', compact('dish', 'recipes', 'photoUrl', 'menu', 'costSetting','priceDetail'));
     }
 
     public function indexCus() {

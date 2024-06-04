@@ -47,22 +47,22 @@
                                             <td class="col-4">
                                                 <div class="align-middle text-center text-sm">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $dish['dish_name'] }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $dish->dish_name }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="col-4">
                                                 <div class="align-middle text-center text-sm">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{ $dish['dish_cost'] }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $dish->dish_cost }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="col-4">
                                                 <div class="align-middle text-center text-sm">
-                                                    <a href="{{ route('dish.show', $dish['dish_ID']) }}" class="btn btn-info">VIEW</a>
-                                                    {{-- <a href="{{ route('dish.edit', $dish['dish_ID']) }}" class="btn btn-primary">EDIT</a> --}}
-                                                    <a href="{{ route('dish.delete', $dish['dish_ID']) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
+                                                    <a href="{{ route('dish.show', $dish->dish_ID) }}" class="btn btn-info">VIEW</a>
+                                                    <a href="{{ route('dish.edit', $dish->dish_ID) }}" class="btn btn-primary">EDIT</a>
+                                                    <a href="{{ route('dish.delete', $dish->dish_ID) }}" class="btn btn-danger" onclick="return confirm('Confirm to delete?')">DELETE</a>
                                                 </div>
                                             </td>
                                         </tr>

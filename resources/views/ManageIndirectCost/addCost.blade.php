@@ -106,7 +106,7 @@
                         <form id="priceForm" action="{{ route('cost.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <p class="text-uppercase text-sm">Dish Info</p>
+                                <p class="text-uppercase text-sm">Cost Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Cost Type</label>

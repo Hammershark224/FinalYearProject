@@ -34,19 +34,19 @@
                     <div class="collapse" id="collapseExample">
                         <ul class="navbar-nav ms-3">
                             <li class="nav-item">
+                                <a class="nav-link {{ Route::currentRouteName() == 'ingredient' ? 'active' : '' }}" href="{{ route('ingredient') }}">
+                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-list-ul text-dark text-sm opacity-10"></i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Ingredients List</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link {{ Route::currentRouteName() == 'ingredient.manage' ? 'active' : '' }}" href="{{ route('ingredient.manage') }}">
                                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                         <i class="fas fa-balance-scale-right text-dark text-sm opacity-10"></i>
                                     </div>
                                     <span class="nav-link-text ms-1">Ingredient Compare</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::currentRouteName() == 'ingredient' ? 'active' : '' }}" href="{{ route('ingredient') }}">
-                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="fas fa-list-ul text-dark text-sm opacity-10"></i>
-                                    </div>
-                                    <span class="nav-link-text ms-1">Ingredient List</span>
                                 </a>
                             </li>
                         </ul>
@@ -58,7 +58,7 @@
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-city text-dark text-sm opacity-10"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Supplier List</span>
+                        <span class="nav-link-text ms-1">Suppliers List</span>
                     </a>
                 </li>
 
@@ -67,7 +67,7 @@
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons text-dark text-sm opacity-10">restaurant</i>
                         </div>
-                        <span class="nav-link-text ms-1">Dish List</span>
+                        <span class="nav-link-text ms-1">Dishes List</span>
                     </a>
                 </li>
 
@@ -81,11 +81,11 @@
                     <div class="collapse" id="priceCollapse">
                         <ul class="navbar-nav ms-3">
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::currentRouteName() == 'cost.setting' ? 'active' : '' }}" href="{{ route('cost.setting') }}">
+                                <a class="nav-link {{ Route::currentRouteName() == 'cost.manage' ? 'active' : '' }}" href="{{ route('cost.manage') }}">
                                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                         <i class="material-icons text-dark text-sm opacity-10">attach_money</i>
                                     </div>
-                                    <span class="nav-link-text ms-1">Cost Setting</span>
+                                    <span class="nav-link-text ms-1">Indirect Cost List</span>
                                 </a>
                             </li>
                             <li class="nav-item">

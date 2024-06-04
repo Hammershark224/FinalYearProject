@@ -23,7 +23,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Supplier Name</label>
-                                        <input class="form-control" type="text" name="company_name" value="{{ $supplier->company->company_name }}">
+                                        <input class="form-control" type="text" name="company_name" value="{{ $supplier->company->company_name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

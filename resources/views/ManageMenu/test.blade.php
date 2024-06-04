@@ -13,8 +13,9 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">View Menu Info</p>
+                                <p class="mb-0">View Dish Info</p>
                                 <button type="button" onclick="window.location='{{ route('dish.manage') }}'" class="btn btn-primary btn-sm ms-auto">Back</button>
+                                <a href="{{ route('export.dishes') }}" class="btn btn-primary">Export to Excel</a>
 
                             </div>
                         </div>
@@ -37,6 +38,12 @@
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Dish Description</label>
                                         <textarea class="form-control" name="dish_description" rows="3" readonly>{{ $dish->dish_description }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Dish Cost</label>
+                                        <input class="form-control" type="number" name="dish_cost" id="dish_cost" value="{{ $dish->dish_cost }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +100,7 @@
                                                 <h5 class="mb-0 text-sm">Overhead Cost Percentage (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">20.00 %</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $costSetting->overhead_cost }}%</h5>
                                             </td>
                                         </tr>
                                         <tr>
@@ -101,7 +108,7 @@
                                                 <h5 class="mb-0 text-sm">Price with Overhead Cost (RM)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.37</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">RM {{ $dish->priceDetail->overhead_price }}</h5>
                                             </td>
                                         </tr>
                                         <tr>
@@ -109,12 +116,12 @@
                                                 <h5 class="mb-0 text-sm">Labor Cost Percentage (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">15.00 %</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $costSetting->labor_cost }}%</h5>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with Labor Cost (RM)</h5>
+                                                <h5 class="mb-0 text-sm">Price with Labor Cost (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
                                                 <h5 class="text-xs font-weight-bold mb-0">
@@ -129,34 +136,18 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Margin Cost Percentage (%)</h5>
+                                                <h5 class="mb-0 text-sm">Profit Margin Percentage (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">10.00 %</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $costSetting->margin_cost }}%</h5>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with Profit Margin (RM)</h5>
+                                                <h5 class="mb-0 text-sm">Price with Profit Margin (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.18</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">SST Cost Percentage (%)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">8.00 %</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with SST (RM)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.15</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $dish->priceDetail->margin_price }}</h5>
                                             </td>
                                         </tr>
                                         <tr>

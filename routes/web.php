@@ -29,6 +29,7 @@ use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\CostDetailController;
 use App\Http\Controllers\MenuDetailController;
 use App\Http\Controllers\MenuPricingController;
+use App\Http\Controllers\SupplierDetailController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -45,21 +46,22 @@ Route::get('/', function () {
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard',  [HomeController::class, 'index'])->name('home');
 	//Ingredient
-	Route::get('/company-manage', [IngredientDetailController::class, 'company_index'])->name('company.manage');
 	Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
 	Route::get('/ingredient/search', [IngredientDetailController::class, 'search'])->name('ingredient.search');
+	Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
 	Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 	Route::get('/ingredient-add', [IngredientDetailController::class, 'createIngredient'])->name('ingredient.create');
 	Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngredient'])->name('ingredient.store');
 	Route::get('/ingredient-edit/{ingredient_name}', [IngredientDetailController::class, 'editIngredient'])->name('ingredient.edit');
 	Route::post('/ingredient-update/{id}', [IngredientDetailController::class, 'updateIngredient'])->name('ingredient.update');
 	Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
-	Route::get('/supplier-add', [IngredientDetailController::class, 'createSupplier'])->name('supplier.create');
-	Route::post('/supplier-store', [IngredientDetailController::class, 'upload_excel_file'])->name('supplier.store');
-	Route::get('/supplier-edit/{company_name}', [IngredientDetailController::class, 'editSupplier'])->name('supplier.edit');
-	Route::post('/supplier-update/{companyId}', [IngredientDetailController::class, 'updateSupplier'])->name('supplier.update');
-	Route::get('/supplier-delete/{id}', [IngredientDetailController::class, 'deleteSupplier'])->name('supplier.delete');
-	Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
+	//Supplier
+	Route::get('/company-manage', [SupplierDetailController::class, 'company_index'])->name('company.manage');
+	Route::get('/supplier-add', [SupplierDetailController::class, 'createSupplier'])->name('supplier.create');
+	Route::post('/supplier-store', [SupplierDetailController::class, 'upload_excel_file'])->name('supplier.store');
+	Route::get('/supplier-edit/{company_name}', [SupplierDetailController::class, 'editSupplier'])->name('supplier.edit');
+	Route::post('/supplier-update/{companyId}', [SupplierDetailController::class, 'updateSupplier'])->name('supplier.update');
+	Route::get('/supplier-delete/{id}', [SupplierDetailController::class, 'deleteSupplier'])->name('supplier.delete');
 	//Dish
 	Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
 	Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
@@ -77,10 +79,14 @@ Route::get('/', function () {
 	Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 	Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
 	Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
-	//price
-	Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
+	//Additional Cost
+	// Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
+	Route::get('/cost-manage', [CostDetailController::class, 'index'])->name('cost.manage');
 	Route::get('/cost-add', [CostDetailController::class, 'create'])->name('cost.create');
 	Route::post('/cost-store', [CostDetailController::class, 'store'])->name('cost.store');
+	Route::get('/cost-edit/{id}', [CostDetailController::class, 'edit'])->name('cost.edit');
+	Route::post('/cost-update/{id}', [CostDetailController::class, 'update'])->name('cost.update');
+	Route::get('/cost-delete/{id}', [CostDetailController::class, 'delete'])->name('cost.delete');	
 	Route::get('/price-setting', [CostDetailController::class, 'settingPrice'])->name('price.setting');
 	Route::post('/price-store', [CostDetailController::class, 'storeMenuPrice'])->name('price.store');
 	//menu

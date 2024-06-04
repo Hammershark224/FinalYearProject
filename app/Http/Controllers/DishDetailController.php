@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
 use App\Models\MenuDetail;
+use App\Models\PriceDetail;
 use App\Models\RecipeDetail;
-use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
-use League\CommonMark\Node\Block\Document;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DishDetailController extends Controller
@@ -174,6 +172,7 @@ class DishDetailController extends Controller
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();
         $menu = MenuDetail::where('dish_ID',$id)->delete();
+        $priceDetail = PriceDetail::where('dish_ID',$id)->delete();
         $dataDish -> delete();
         return redirect(route('dish.manage'));
     }

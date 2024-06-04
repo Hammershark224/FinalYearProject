@@ -10,17 +10,23 @@ use Illuminate\Http\Request;
 
 class CostDetailController extends Controller
 {
+    // public function index() {
+    //     $costSetting = CostDetail::firstOrCreate([], [
+    //         'overhead_cost' => 0,
+    //         'labor_cost' => 0,
+    //         'margin_cost' => 0,
+    //     ]);
+    //     return view('ManageMenuPrice.costSetting', compact('costSetting'));
+    // }
+
     public function index() {
-        $costSetting = CostDetail::firstOrCreate([], [
-            'overhead_cost' => 0,
-            'labor_cost' => 0,
-            'margin_cost' => 0,
-        ]);
-        return view('ManageMenuPrice.costSetting', compact('costSetting'));
+        $costs = CostDetail::all();
+        return view('ManageIndirectCost.costManage', compact('costs'));
     }
 
+    
     public function create() {
-        return view('ManageMenuPrice.addCost');
+        return view('ManageIndirectCost.addCost');
     }
 
     public function store(Request $request) {
@@ -33,6 +39,31 @@ class CostDetailController extends Controller
             'cost_type' => $request->input('cost_type'),
             'value' => $request->input('value'),
         ]);
+        return redirect(route('cost.manage'));
+    }
+
+    public function edit($id) {
+        $cost = CostDetail::findOrFail($id);
+        return view('ManageIndirectCost.editCost', compact('cost'));
+    }
+
+    public function update(Request $request, $id) {
+        $costs = CostDetail::findOrFail($id);
+        $request->validate([
+            'cost_type' => 'required|string',
+            'value' => 'required|numeric',
+        ]);
+
+        $costSetting = CostDetail::create([
+            'cost_type' => $request->input('cost_type'),
+            'value' => $request->input('value'),
+        ]);
+    }
+
+    public function deleteIngredient($id) {
+        $dataIngredient = CostDetail::find($id);
+        $dataIngredient -> delete();
+        return redirect(route('cost.manage'));
     }
 
     // public function store(Request $request) {
