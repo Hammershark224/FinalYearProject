@@ -35,8 +35,8 @@ class DishDetail extends Model
         return $this->hasOne(MenuDetail::class);
     }
 
-    public function priceDetail() {
-        return $this->belongsTo(PriceDetail::class, 'dish_ID');
+    public function priceDetails() {
+        return $this->hasMany(PriceDetail::class, 'dish_ID');
     }
     
 }

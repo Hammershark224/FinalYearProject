@@ -36,7 +36,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Dish Description</label>
-                                        <textarea class="form-control" name="dish_description" rows="3" readonly>{{ $dish->dish_description }}</textarea>
+                                        <textarea class="form-control" name="dish_description" rows="3" readonly>{{ $menu->dish->dish_description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                         @endphp
                                         @foreach ($recipes as $recipe)
                                             @php
-                                                $ingredientCost = round(($recipe->ingredient->lowestPrice->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight, 2);
+                                                $ingredientCost = round(($recipe->ingredient->lowestPrice->ingredient_price / $recipe->ingredient->ingredient_weight) * $recipe->recipe_weight/1000, 2);
                                                 $totalCost += $ingredientCost;
                                             @endphp
                                             <tr>
@@ -82,83 +82,46 @@
                                                 <h5 class="mb-0 text-sm">Total Dish Cost</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM {{ $dish->dish_cost }}</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">RM {{ $menu->dish->dish_cost }}</h5>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3" class="text-center text-sm" style="font-weight: bold; font-size: 20px;">CALCULATING MENU PRICE</td>
                                         </tr>
+                                        @foreach ($costSetting as $cost)
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Overhead Cost Percentage (%)</h5>
+                                                <h5 class="mb-0 text-sm">{{ $cost->cost_type }} Percentage (%)</h5>
                                             </td>
                                             <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">20.00 %</h5>
+                                                <h5 class="text-xs font-weight-bold mb-0">{{ $cost->value }}</h5>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with Overhead Cost (RM)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.37</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Labor Cost Percentage (%)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">15.00 %</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with Labor Cost (RM)</h5>
+                                                <h5 class="mb-0 text-sm">Price with {{ $cost->cost_type }} (RM)</h5>
                                             </td>
                                             <td class="text-center text-sm">
                                                 <h5 class="text-xs font-weight-bold mb-0">
-                                                    @if (is_null($dish->priceDetail->labor_price) || $dish->priceDetail->labor_price == 0.00)
+                                                    @php
+                                                        $found = false;
+                                                    @endphp
+                                                    @foreach ($menu->dish->priceDetails as $priceDetail)
+                                                        @if ($priceDetail->price_type == $cost->cost_type)
+                                                            {{ $priceDetail->value }}
+                                                            @php
+                                                                $found = true;
+                                                            @endphp
+                                                            @break
+                                                        @endif
+                                                    @endforeach
+                                                    @if (!$found)
                                                         -
-                                                    @else
-                                                        {{ $dish->priceDetail->labor_price }}
                                                     @endif
                                                 </h5>
                                             </td>
-                                            
                                         </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Margin Cost Percentage (%)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">10.00 %</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with Profit Margin (RM)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.18</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">SST Cost Percentage (%)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">8.00 %</h5>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
-                                                <h5 class="mb-0 text-sm">Price with SST (RM)</h5>
-                                            </td>
-                                            <td class="text-center text-sm">
-                                                <h5 class="text-xs font-weight-bold mb-0">RM 0.15</h5>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                         <tr>
                                             <td colspan="2" class="text-end text-sm"> <!-- Aligned to right -->
                                                 <h5 class="mb-0 text-sm">TOTAL ALL COST (RM)</h5>

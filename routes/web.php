@@ -28,14 +28,15 @@ use App\Http\Controllers\IngredientDetailController;
 use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\CostDetailController;
 use App\Http\Controllers\MenuDetailController;
-use App\Http\Controllers\MenuPricingController;
+use App\Http\Controllers\PriceComparisonController;
+use App\Http\Controllers\PriceDetailController;
 use App\Http\Controllers\SupplierDetailController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 	// Route::get('/current-time', [HomeController::class, 'showCurrentTime'])->name('time');
-	Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
+	// Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -45,16 +46,16 @@ Route::get('/', function () {
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard',  [HomeController::class, 'index'])->name('home');
+	
 	//Ingredient
 	Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
-	Route::get('/ingredient/search', [IngredientDetailController::class, 'search'])->name('ingredient.search');
 	Route::get('/ingredient-export', [IngredientDetailController::class, 'export'])->name('ingredient.export');
-	Route::get('/ingredient-manage', [IngredientDetailController::class, 'ingredient_index'])->name('ingredient.manage');
 	Route::get('/ingredient-add', [IngredientDetailController::class, 'createIngredient'])->name('ingredient.create');
 	Route::post('/ingredient-store', [IngredientDetailController::class, 'storeIngredient'])->name('ingredient.store');
 	Route::get('/ingredient-edit/{ingredient_name}', [IngredientDetailController::class, 'editIngredient'])->name('ingredient.edit');
 	Route::post('/ingredient-update/{id}', [IngredientDetailController::class, 'updateIngredient'])->name('ingredient.update');
 	Route::get('/ingredient-delete/{id}', [IngredientDetailController::class, 'deleteIngredient'])->name('ingredient.delete');
+	
 	//Supplier
 	Route::get('/company-manage', [SupplierDetailController::class, 'company_index'])->name('company.manage');
 	Route::get('/supplier-add', [SupplierDetailController::class, 'createSupplier'])->name('supplier.create');
@@ -62,6 +63,10 @@ Route::get('/', function () {
 	Route::get('/supplier-edit/{company_name}', [SupplierDetailController::class, 'editSupplier'])->name('supplier.edit');
 	Route::post('/supplier-update/{companyId}', [SupplierDetailController::class, 'updateSupplier'])->name('supplier.update');
 	Route::get('/supplier-delete/{id}', [SupplierDetailController::class, 'deleteSupplier'])->name('supplier.delete');
+	
+	//Price Comparison
+	Route::get('/ingredient-manage', [PriceComparisonController::class, 'ingredient_index'])->name('ingredient.manage');
+	
 	//Dish
 	Route::get('/dish-manage', [DishDetailController::class, 'index'])->name('dish.manage');
 	Route::get('/dish-add', [DishDetailController::class, 'create'])->name('dish.create');
@@ -71,6 +76,7 @@ Route::get('/', function () {
 	Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
 	Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 	Route::get('/export', [DishDetailController::class, 'exportToExcel'])->name('export.dishes');
+	
 	//Calculation
 	Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
 	Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
@@ -78,8 +84,8 @@ Route::get('/', function () {
 	Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
 	Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
 	Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
-	Route::get('/menu-delete/{id}', [CalculationController::class, 'delete'])->name('menu.delete');
-	//Additional Cost
+	
+	//Indirect Cost
 	// Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
 	Route::get('/cost-manage', [CostDetailController::class, 'index'])->name('cost.manage');
 	Route::get('/cost-add', [CostDetailController::class, 'create'])->name('cost.create');
@@ -87,18 +93,21 @@ Route::get('/', function () {
 	Route::get('/cost-edit/{id}', [CostDetailController::class, 'edit'])->name('cost.edit');
 	Route::post('/cost-update/{id}', [CostDetailController::class, 'update'])->name('cost.update');
 	Route::get('/cost-delete/{id}', [CostDetailController::class, 'delete'])->name('cost.delete');	
-	Route::get('/price-setting', [CostDetailController::class, 'settingPrice'])->name('price.setting');
-	Route::post('/price-store', [CostDetailController::class, 'storeMenuPrice'])->name('price.store');
-	//menu
+	
+	//Menu Price
+	Route::get('/price-setting', [PriceDetailController::class, 'settingPrice'])->name('price.setting');
+	Route::post('/price-store', [PriceDetailController::class, 'storeMenuPrice'])->name('price.store');
+	
+	//Menu
 	Route::get('/menu', [MenuDetailController::class, 'index'])->name('menu');
-	Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
 	Route::get('/cart', [MenuDetailController::class, 'viewCart'])->name('cart.view');
 	Route::get('/menu-show/{id}', [MenuDetailController::class, 'show'])->name('menu.show');
 	Route::get('/menu-manage', [MenuDetailController::class, 'menuTable'])->name('menu.manage');
-	Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
+	Route::get('/menu-delete/{id}', [MenuDetailController::class, 'delete'])->name('menu.delete');
 	Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');
 	Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
-	Route::get('/order-create', function () {return view('ManageOrder.createOrder');});
+	Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
+	Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
 
 
 Route::group(['middleware' => 'auth'], function () {

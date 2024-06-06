@@ -29,20 +29,38 @@ class MenuDetailController extends Controller
     }
 
     public function show($id) {
-        $dish = DishDetail::with('priceDetail')->findOrFail($id);
-        $recipes = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
+
+        $menu = MenuDetail::with('dish')->findOrFail($id);
+        $dishId = $menu->dish_ID;
+        $recipes = RecipeDetail::where('dish_ID', $dishId)->with('ingredient')->get();
+        // dd($recipes);
         $photoUrl = null;
-        $menu = MenuDetail::findOrFail($id);
-        $costSetting = CostDetail::findOrFail($id);
-        $priceDetail = PriceDetail::findOrFail($id);
-    
-        if ($dish->dish_photo) {
+
+        $costSetting = CostDetail::all();
+        $priceDetail = PriceDetail::where('dish_ID', $dishId)->firstOrFail();
+        // dd($costSetting);
+        if ($menu->dish->dish_photo) {
             // Generate URL for the dish photo
-            $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
+            $photoUrl = Storage::url('dish_photos/' . $menu->dish->dish_photo);
         }
     
-        return view('ManageMenu.viewRecipe', compact('dish', 'recipes', 'photoUrl', 'menu', 'costSetting','priceDetail'));
+        return view('ManageMenu.viewRecipe', compact('recipes', 'photoUrl', 'menu', 'costSetting','priceDetail'));
     }
+
+    public function delete(Request $request, $id) {
+        $menu = MenuDetail::findOrFail($id);
+    
+        // Delete related price details
+        foreach ($menu->dish->priceDetails as $priceDetail) {
+            $priceDetail->delete();
+        }
+    
+        // Delete the menu item
+        $menu->delete();
+    
+        return redirect(route('menu.manage'))->with('success', 'Menu and related price details deleted successfully.');
+    }
+    
 
     public function indexCus() {
         $dishes = DishDetail::all();

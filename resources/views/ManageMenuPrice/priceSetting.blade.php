@@ -28,11 +28,11 @@
                                 <input id="dish_ID" class="form-control" type="hidden" name="dish_ID">
                             </div>
 
-                            @foreach ($costSetting as $setting)
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input cost-checkbox" id="{{ $setting->id }}_cost" name="value[{{ $setting->id }}]" value="{{ $setting->value }}">
-                                    <label class="form-check-label" for="{{ $setting->id }}_cost">Include {{ $setting->cost_type }}</label>
-                                    <input type="hidden" class="form-control mt-2 cost-input" id="priceDetail_{{ $setting->id }}" name="priceDetail[{{ $setting->id }}]" step="0.01" min="0" value="0">
+                            @foreach ($costSetting as $cost)
+                                <div class="form-group form-check col-auto">
+                                    <input type="checkbox" class="form-check-input cost-checkbox" id="{{ $cost->Cost_ID }}_cost" name="value[{{ $cost->Cost_ID }}]" value="{{ $cost->value }}">
+                                    <label class="form-check-label" for="{{ $cost->id }}_cost">Include {{ $cost->cost_type }}</label>
+                                    <input type="text" class="form-control mt-2 cost-input" id="priceDetail_{{ $cost->cost_type }}" name="priceDetail[{{ $cost->cost_type }}]" step="0.01" min="0" value="0">                         
                                 </div>
                             @endforeach
                             

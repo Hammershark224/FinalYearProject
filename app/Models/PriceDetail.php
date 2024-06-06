@@ -16,6 +16,6 @@ class PriceDetail extends Model
     ];
 
     public function dish() {
-        return $this->hasMany(DishDetail::class, 'dish_ID');
+        return $this->belongsTo(DishDetail::class, 'dish_ID');
     }
 }

@@ -92,46 +92,7 @@ class CostDetailController extends Controller
     //     return view('ManageMenuPrice.priceSetting', compact('dishes', 'costSetting'));
     // }
 
-    public function settingPrice() {
-        $dishes = DishDetail::all();
-        $costSetting = CostDetail::all();
-        // dd($costSetting);
-        return view('ManageMenuPrice.priceSetting', compact('dishes', 'costSetting'));
-    }
-
-    public function storeMenuPrice(Request $request) {
-        // Validate the request data
-        $request->validate([
-            'menu_price' => 'required|numeric|min:0',
-            'dish_ID' => 'required|exists:dish_details,dish_ID', // Validate if the dish ID exists in the 'dish_details' table
-        ]);
     
-        // Save menu price to MenuDetail model
-        $menuPrice = MenuDetail::create([
-            'dish_ID' => $request->input('dish_ID'),
-            'menu_price' => $request->input('menu_price'),
-        ]);
-    
-        // Save price details to PriceDetail model
-        $dishID = $request->input('dish_ID');
-        $costTypes = $request->input('value', []);
-        $priceDetails = $request->input('priceDetail', []);
-    
-        foreach ($costTypes as $costID => $costValue) {
-            // Get the calculated price value for the current cost type
-            $priceValue = isset($priceDetails[$costID]) ? $priceDetails[$costID] : 0;
-    
-            // Save price detail
-            PriceDetail::create([
-                'dish_ID' => $dishID,
-                'price_type' => $costValue,
-                'value' => $priceValue,
-            ]);
-        }
-    
-        // Redirect with success message
-        return redirect(route('menu.manage'))->with('success', 'Menu price and details saved successfully');
-    }
     
     
     

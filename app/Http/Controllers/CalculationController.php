@@ -55,12 +55,6 @@ class CalculationController extends Controller
         return redirect(route('dish.manage'));
     }
 
-    public function delete(Request $request, $id) {
-        $menu = MenuDetail::find($id);
-        $menu -> delete();
-        return redirect(route('menu.manage'));
-    }
-
     public function calculateMargin(Request $request){
         $request->validate([
             'dish_cost' => 'required|numeric',
