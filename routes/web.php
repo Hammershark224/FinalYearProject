@@ -78,14 +78,6 @@ Route::get('/', function () {
 	Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 	Route::get('/export', [DishDetailController::class, 'exportToExcel'])->name('export.dishes');
 	
-	//Calculation
-	Route::get('/calculator-selection', [CalculationController::class, 'index'])->name('calculator.selection');
-	Route::get('/menu-price-calculator', [CalculationController::class, 'menuPriceCalculator'])->name('calculator.menu');
-	Route::get('/cash-margin-calculator', [CalculationController::class, 'cashMarginCalculator'])->name('calculator.margin');
-	Route::post('/calculate-menu-price', [CalculationController::class, 'calculateMenuPrice'])->name('calculation.menu');
-	Route::post('/calculate-cash-margin', [CalculationController::class, 'calculateMargin'])->name('calculation.margin');
-	Route::post('/menu-store', [CalculationController::class, 'storeMenu'])->name('menu.store');
-	
 	//Indirect Cost
 	// Route::get('/cost-setting', [CostDetailController::class, 'index'])->name('cost.setting');
 	Route::get('/cost-manage', [CostDetailController::class, 'index'])->name('cost.manage');
