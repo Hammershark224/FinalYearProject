@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Create'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Edit'])
     <div id="alert">
         @include('components.alert')
     </div>
@@ -9,11 +9,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form role="form" method="POST" action="{{ route('dish.store') }}" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('dish.update', $dish->dish_ID) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Dish</p>
+                                <p class="mb-0">Edit Dish</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>
@@ -44,35 +44,36 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group" id="dropdownLists">
-                                        @foreach($recipeDetails as $recipeDetail)
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
-                                                        <option value="0" data-price='0.00' data-ingredient-weight='1'>Select Ingredient</option>
-                                                        @foreach ($ingredientList as $ingredientItem)
-                                                            <option value="{{ $ingredientItem->ingredient_ID }}" {{ $ingredientItem->ingredient_ID == $recipeDetail->ingredient_ID ? 'selected' : '' }} data-price="{{ $ingredientItem->lowest_price }}" data-ingredient-weight="{{ $ingredientItem->ingredient_weight }}">
-                                                                <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                        @foreach ($dish->recipes as $recipe)
+                                            <div class="form-group ingredient-dropdown">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <select class="form-control mt-2 ingredient" name="ingredients[]">
+                                                            <option value="0" data-price='0.00' data-ingredient-weight='1'>Select Ingredient</option>
+                                                            @foreach ($ingredientList as $ingredientItem)
+                                                                <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}" data-ingredient-weight="{{ $ingredientItem->ingredient_weight }}"
+                                                                    @if ($ingredientItem->ingredient_ID == $recipe->ingredient_ID) selected @endif>
+                                                                    {{ $ingredientItem->ingredient_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight (grams)" value="{{ $recipe->recipe_weight }}">
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight(kg) / (ml)" value="{{ $recipeDetail->recipe_weight }}" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
-                                                </div>
+                                                <hr class="horizontal dark">
                                             </div>
-                                            <hr class="horizontal dark">
                                         @endforeach
                                     </div>
                                     <div class="form-group">
-                                        <!-- Buttons to add or remove ingredients -->
                                         <button type="button" class="btn btn-primary" id="addButton">+</button>
-                                        <button type="button" class="btn btn-danger" id="removeButton"
-                                            style="display: none;">-</button>
+                                        <button type="button" class="btn btn-danger" id="removeButton" style="display: {{ count($dish->recipes) > 1 ? 'inline-block' : 'none' }};">-</button>
                                     </div>
                                 </div>
                             </div>
-                            <input class="form-control" type="number" name="dish_cost" id="dish_cost" value="dish_cost" readonly>
-                            <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="off">
+                            <input class="form-control" type="number" name="dish_cost" id="dish_cost" value="{{ $dish->dish_cost }}" readonly>
+                            <input class="form-control" type="hidden" name="dish_status" id="dish_status" value="{{ $dish->dish_status }}">
                         </div>
 
                         <script>
@@ -83,17 +84,17 @@
                                 newDropdown.innerHTML = `
                                     <div class="row mb-3">
                                         <div class="col-md-6">
-                                            <select class="form-control mt-2 ingredient" name="ingredients[]" id="int">
+                                            <select class="form-control mt-2 ingredient" name="ingredients[]">
                                                 <option value="0" data-price='0.00' data-ingredient-weight='1'>Select Ingredient</option>
                                                 @foreach ($ingredientList as $ingredientItem)
                                                 <option value="{{ $ingredientItem->ingredient_ID }}" data-price="{{ $ingredientItem->lowest_price }}" data-ingredient-weight="{{ $ingredientItem->ingredient_weight }}">
-                                                    <span style="color: blue;">{{ $ingredientItem->ingredient_name }}</span>
+                                                    {{ $ingredientItem->ingredient_name }}
                                                 </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
+                                            <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight (grams)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
                                         </div>
                                     </div>
                                     <hr class="horizontal dark">
@@ -116,10 +117,6 @@
                                     const weightInput = dropdown.querySelector('.weight');
                                     const weight = parseFloat(weightInput.value);
 
-                                    console.log('Price:', price);
-                                    console.log('Ingredient Weight:', ingredientWeight);
-                                    console.log('Weight:', weight);
-
                                     // Check if price, ingredient weight, or weight is NaN
                                     if (isNaN(price) || isNaN(ingredientWeight) || isNaN(weight)) {
                                         console.error('Invalid price, ingredient weight, or weight:', price, ingredientWeight, weight);
@@ -127,7 +124,7 @@
                                     }
 
                                     // Calculate cost for this ingredient
-                                    totalCost += (price / ingredientWeight) * weight;
+                                    totalCost += (price / ingredientWeight) * weight / 1000;
                                 }
 
                                 totalCost = totalCost.toFixed(2);
@@ -159,7 +156,6 @@
                                     calculateCost();
                                 }
                             });
-
                         </script>
                     </form>
                 </div>

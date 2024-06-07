@@ -10,7 +10,7 @@
                     <div class="card-header pb-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6>Dishes List</h6>
+                                <h6>Food Products List</h6>
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-success" type="button" onclick="window.location='{{ route('dish.create') }}'">Create New</button>
@@ -34,9 +34,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-4">
-                                            Dish</th>
+                                            Food Products</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-4">
-                                            Cost (RM)</th>
+                                            Ingredient Cost (RM)</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 col-4">
                                             Action</th>
                                     </tr>

@@ -32,9 +32,32 @@
                                         <textarea class="form-control" name="company_address" rows="3"></textarea>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Supplier Photo</label>
+                                        <input type="file" name="company_photo" class="form-control" accept="image/*">
+                                    </div>
+                                </div>
                             </div>
                             <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Ingredients</p>
+                            <h3 class="text-uppercase text-sm">Ingredients</h3>
+                            <p class=" text-sm">Excel file can be get from Ingredient List page</p>
+                            <i id="question-mark" class="fas fa-info-circle" style="cursor: pointer; color: #007bff;" data-bs-toggle="modal" data-bs-target="#overheadDescription"></i>
+                                <div class="modal fade" id="overheadDescription" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="descriptionModalLabel">Example Excel Content</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="{{ asset('img/excel.png') }}" alt="Excel Image" style="width: 470px; height: 400;">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <label for="example-text-input" class="form-control-label" style="color: red;">*Only Excel File is accepted*</label>
                             <input type="file" name="ingredients_list" class="form-control" accept=".xlsx">
                         </div>

@@ -13,13 +13,12 @@ class RecipeDetail extends Model
     protected $fillable = ['ingredient_ID', 'dish_ID', 'recipe_weight'];
     public $incrementing = false;
 
-    public function ingredient()
-    {
-        return $this->belongsTo(IngredientDetail::class, 'ingredient_ID', 'ingredient_ID');
+    public function dish() {
+        return $this->belongsTo(DishDetail::class, 'dish_ID');
     }
 
-    public function dish()
-    {
-        return $this->belongsTo(DishDetail::class, 'dish_ID', 'dish_ID');
+    // Define the relationship with IngredientDetail
+    public function ingredient() {
+        return $this->belongsTo(IngredientDetail::class, 'ingredient_ID');
     }
 }

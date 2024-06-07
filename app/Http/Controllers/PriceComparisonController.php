@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CompanyDetail;
 use App\Models\IngredientDetail;
 use App\Models\SupplierDetail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PriceComparisonController extends Controller
@@ -14,6 +16,9 @@ class PriceComparisonController extends Controller
         $companies = CompanyDetail::all();
         $suppliers = SupplierDetail::all();
         
+        foreach ($companies as $company) {
+            $company->photo_url = $company->company_photo ? Storage::url('company_photos/' . $company->company_photo) : null;
+        }
         $ingredients = IngredientDetail::with('suppliers')->get();
         
         // Loop through each ingredient to calculate highest and lowest prices
@@ -36,6 +41,6 @@ class PriceComparisonController extends Controller
             }
         }
         
-        return view('ManageIngredient.ingredientManage', compact('ingredients', 'suppliers', 'companies'));
+        return view('ManagePriceComparison.ingredientComparison', compact('ingredients', 'suppliers', 'companies'));
     }
 }

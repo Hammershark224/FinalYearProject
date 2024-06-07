@@ -26,9 +26,20 @@ class DishDetail extends Model
     public function recipeDetails() {
         return $this->hasMany(RecipeDetail::class);
     }
+
+    public function recipes() {
+        return $this->hasMany(RecipeDetail::class, 'dish_ID');
+    }
     
     public function ingredients() {
-        return $this->belongsToMany(IngredientDetail::class);
+        return $this->hasManyThrough(
+            IngredientDetail::class,
+            RecipeDetail::class,
+            'dish_ID',
+            'ingredient_ID',
+            'dish_ID',
+            'ingredient_ID'
+        );
     }
 
     public function menu() {

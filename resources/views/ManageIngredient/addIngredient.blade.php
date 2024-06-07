@@ -22,6 +22,12 @@
                                 <p class="text-uppercase text-sm">Ingredient Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label for="example-file-input" class="form-control-label">Ingredient Photo</label>
+                                        <input class="form-control" type="file" name="ingredient_photo" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Ingredient Name</label>
                                         <input class="form-control" type="text" name="ingredient_name">
                                     </div>
@@ -33,6 +39,7 @@
                                         <input class="form-control" type="number" step="0.01" min="0" name="ingredient_weight">
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </form>

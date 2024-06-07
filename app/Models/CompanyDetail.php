@@ -11,7 +11,8 @@ class CompanyDetail extends Model
     protected $primaryKey = 'company_ID';
     protected $fillable = [
         'company_name',
-        'company_address'
+        'company_address',
+        'company_photo'
     ];
 
     public function suppliers()

@@ -100,22 +100,29 @@ class DishDetailController extends Controller
         }
     
         return view('ManageDish.viewDish', ['dataDish' => $dataDish, 'recipes' => $recipes, 'photoUrl' => $photoUrl]);
-    }
-    
+    }   
 
     public function edit($id) {
-        // Find the dish by its ID
-        $dish = DishDetail::find($id);
+        $dish = DishDetail::with('recipes.ingredient')->findOrFail($id);
+        $photoUrl = null;
     
-        // Retrieve all ingredients
-        $ingredientList = IngredientDetail::all();
+        if ($dish->dish_photo) {
+            // Generate URL for the dish photo
+            $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
+        }
+        $ingredientList = DB::table('supplier_details')
+            ->select(
+                'ingredient_details.ingredient_ID',
+                'ingredient_details.ingredient_name',
+                'ingredient_details.ingredient_weight',
+                DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
+            )
+            ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
+            ->groupBy('ingredient_details.ingredient_ID')
+            ->get();
     
-        // Retrieve recipe details for the dish
-        $recipeDetails = RecipeDetail::where('dish_ID', $id)->get();
-    
-        return view('ManageDish.editDish', compact('dish', 'ingredientList', 'recipeDetails'));
+        return view('ManageDish.editDish', compact('dish', 'photoUrl', 'ingredientList'));
     }
-    
     
     public function update(Request $request, $id) {
         // Validate the request data
@@ -124,14 +131,21 @@ class DishDetailController extends Controller
             'dish_description' => 'required|string',
             'dish_cost' => 'required|numeric',
             'dish_status' => 'required',
-            'ingredients' => 'required|array', // Ensure 'ingredients' is an array
-            'recipe_weight' => 'required|array', // Ensure 'recipe_weight' is an array
+            'dish_photo' => 'nullable|image',
+            'ingredients' => 'required|array',
+            'recipe_weight' => 'required|array',
         ]);
     
-        // Find the dish by its ID
-        $dish = DishDetail::find($id);
+        $dish = DishDetail::findOrFail($id);
     
-        // Update dish data
+        // Handle file upload
+        if ($request->hasFile('dish_photo')) {
+            $fileName = $request->file('dish_photo')->getClientOriginalName();
+            $request->file('dish_photo')->storeAs('dish_photos', $fileName, 'public');
+            $dish->dish_photo = $fileName;
+        }
+    
+        // Update dish details
         $dish->update([
             'dish_name' => $request->input('dish_name'),
             'dish_description' => $request->input('dish_description'),
@@ -139,35 +153,37 @@ class DishDetailController extends Controller
             'dish_status' => $request->input('dish_status'),
         ]);
     
-        // Update dish photo if a new one is provided
-        if ($request->hasFile('dish_photo')) {
-            $fileName = $request->file('dish_photo')->getClientOriginalName();
-            $request->file('dish_photo')->storeAs('dish_photos', $fileName, 'public');
-            $dish->update(['dish_photo' => $fileName]);
-        }
-    
-        // Delete existing recipe details for the dish
-        RecipeDetail::where('dish_ID', $id)->delete();
-    
-        // Create new recipe details
         $ingredients = $request->input('ingredients');
         $recipeWeights = $request->input('recipe_weight');
-        
-        // Combine ingredients and their respective weights into an associative array
-        $ingredientsData = array_combine($ingredients, $recipeWeights);
-        
-        foreach ($ingredientsData as $ingredientId => $recipeWeight) {
-            RecipeDetail::create([
-                'dish_ID' => $dish->dish_ID,
-                'ingredient_ID' => $ingredientId,
-                'recipe_weight' => $recipeWeight,
-            ]);
+    
+        // Iterate over the ingredients and recipe weights to update or create RecipeDetail entries
+        for ($i = 0; $i < count($ingredients); $i++) {
+            $ingredientId = $ingredients[$i];
+            $recipeWeight = $recipeWeights[$i];
+    
+            $recipeDetail = RecipeDetail::where('dish_ID', $dish->dish_ID)
+                ->where('ingredient_ID', $ingredientId)
+                ->first();
+    
+            if ($recipeDetail) {
+                // Update existing recipe detail
+                $recipeDetail = RecipeDetail::where('dish_ID', $dish->dish_ID);
+                $recipeDetail->update([
+                    'recipe_weight' => $recipeWeight,
+                ]);
+            } else {
+                // Create new recipe detail
+                RecipeDetail::create([
+                    'dish_ID' => $dish->dish_ID,
+                    'ingredient_ID' => $ingredientId,
+                    'recipe_weight' => $recipeWeight,
+                ]);
+            }
         }
     
         return redirect(route('dish.manage'));
     }
     
-
     public function delete($id) {
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();

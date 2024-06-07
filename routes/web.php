@@ -37,8 +37,8 @@ Route::get('/', function () {
 })->middleware('auth');
 	// Route::get('/current-time', [HomeController::class, 'showCurrentTime'])->name('time');
 	// Route::get('/menuCus', [MenuDetailController::class, 'indexCus'])->name('menu.cus');
-	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
+	// Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+	// Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
@@ -46,6 +46,7 @@ Route::get('/', function () {
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard',  [HomeController::class, 'index'])->name('home');
+	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 	
 	//Ingredient
 	Route::get('/ingredient', [IngredientDetailController::class, 'index'])->name('ingredient');
@@ -73,7 +74,7 @@ Route::get('/', function () {
 	Route::post('/dish-store', [DishDetailController::class, 'store'])->name('dish.store');
 	Route::get('/dish-show/{id}', [DishDetailController::class, 'show'])->name('dish.show');
 	Route::get('/dish-edit/{id}', [DishDetailController::class, 'edit'])->name('dish.edit');
-	Route::get('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
+	Route::post('/dish-update/{id}', [DishDetailController::class, 'update'])->name('dish.update');
 	Route::get('/dish-delete/{id}', [DishDetailController::class, 'delete'])->name('dish.delete');
 	Route::get('/export', [DishDetailController::class, 'exportToExcel'])->name('export.dishes');
 	
@@ -107,17 +108,5 @@ Route::get('/', function () {
 	Route::post('/update-status/{id}', [MenuDetailController::class, 'updateStatus'])->name('status.update');
 	Route::get('/recipe-manage', [MenuDetailController::class, 'indexRecipe'])->name('recipe.manage');
 	Route::get('/menu-create', [MenuDetailController::class, 'createMenu'])->name('menu.create');
-	Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
-
-
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
-	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
-	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
-	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
-	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
-	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
-	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
-	Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-});
+	// Route::get('/add-to-cart/{itemId}', [MenuDetailController::class, 'addToCart'])->name('addToCart');
 
