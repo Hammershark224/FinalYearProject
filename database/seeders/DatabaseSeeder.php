@@ -26,20 +26,24 @@ class DatabaseSeeder extends Seeder
         DB::table('company_details')->insert([
             'company_name' => 'Tunas Manja Group',
             'company_address' => 'Kuantan, pahang',
+            'company_photo' => 'tmg_logo.png',
         ]);
 
         DB::table('company_details')->insert([
             'company_name' => 'Lotus',
             'company_address' => 'Kuala Lipis, pahang',
+            'company_photo' => 'lotus_logo.png',
         ]);
 
         DB::table('company_details')->insert([
             'company_name' => 'Pantai Selamat',
             'company_address' => 'Pekan, pahang',
+            'company_photo' => 'pantai_selamat_logo.png',
         ]);
         DB::table('ingredient_details')->insert([
-            'ingredient_name' => 'Milo',
+            'ingredient_name' => 'Milo Powder',
             'ingredient_weight' => '1.5',
+            'ingredient_photo' => 'milo_powder.png',
         ]);
 
         DB::table('supplier_details')->insert([
@@ -63,6 +67,7 @@ class DatabaseSeeder extends Seeder
         DB::table('ingredient_details')->insert([
             'ingredient_name' => 'F&N Sweetened Creamer Teh Tarik',
             'ingredient_weight' => '0.5',
+            'ingredient_photo' => 'sweetened_creamer.png',
         ]);
 
         DB::table('supplier_details')->insert([
@@ -84,8 +89,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('ingredient_details')->insert([
-            'ingredient_name' => 'ais',
+            'ingredient_name' => 'Ice',
             'ingredient_weight' => '1',
+            'ingredient_photo' => 'ice.png',
         ]);
 
         DB::table('supplier_details')->insert([
@@ -106,6 +112,25 @@ class DatabaseSeeder extends Seeder
             'ingredient_price' => '4.75'
         ]);
 
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Overhead Cost',
+            'value' => '20',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Labor Cost',
+            'value' => '15',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'Margin Cost',
+            'value' => '10',
+        ]);
+
+        DB::table('cost_details')->insert([
+            'cost_type' => 'SST',
+            'value' => '8',
+        ]);
         // DB::table('supplier_details')->insert([
         //     'company_ID' => '1',
         //     'ingredient_weight' => '0.5',

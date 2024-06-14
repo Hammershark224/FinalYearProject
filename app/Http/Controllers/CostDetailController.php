@@ -10,63 +10,97 @@ use Illuminate\Http\Request;
 
 class CostDetailController extends Controller
 {
+    // public function index() {
+    //     $costSetting = CostDetail::firstOrCreate([], [
+    //         'overhead_cost' => 0,
+    //         'labor_cost' => 0,
+    //         'margin_cost' => 0,
+    //     ]);
+    //     return view('ManageMenuPrice.costSetting', compact('costSetting'));
+    // }
+
     public function index() {
-        $costSetting = CostDetail::firstOrCreate([], [
-            'overhead_cost' => 0,
-            'labor_cost' => 0,
-            'margin_cost' => 0,
-        ]);
-        return view('ManageMenuPrice.costSetting', compact('costSetting'));
+        $costs = CostDetail::all();
+        return view('ManageIndirectCost.costManage', compact('costs'));
+    }
+
+    
+    public function create() {
+        return view('ManageIndirectCost.addCost');
     }
 
     public function store(Request $request) {
         $request->validate([
-            'overhead_cost' => 'required|numeric',
-            'labor_cost' => 'required|numeric',
-            'margin_cost' => 'required|numeric',
+            'cost_type' => 'required|string',
+            'value' => 'required|numeric',
         ]);
-        $costSetting = CostDetail::firstOrCreate([]);
+
+        $costSetting = CostDetail::create([
+            'cost_type' => $request->input('cost_type'),
+            'value' => $request->input('value'),
+        ]);
+        return redirect(route('cost.manage'));
+    }
+
+    public function edit($id) {
+        $cost = CostDetail::findOrFail($id);
+        return view('ManageIndirectCost.editCost', compact('cost'));
+    }
+
+    public function update(Request $request, $id) {
+        $costs = CostDetail::findOrFail($id);
+        $request->validate([
+            'cost_type' => 'required|string',
+            'value' => 'required|numeric',
+        ]);
+
+        $costSetting = CostDetail::create([
+            'cost_type' => $request->input('cost_type'),
+            'value' => $request->input('value'),
+        ]);
+    }
+
+    public function deleteIngredient($id) {
+        $dataIngredient = CostDetail::find($id);
+        $dataIngredient -> delete();
+        return redirect(route('cost.manage'));
+    }
+
+    // public function store(Request $request) {
+    //     $request->validate([
+    //         'overhead_cost' => 'required|numeric',
+    //         'labor_cost' => 'required|numeric',
+    //         'margin_cost' => 'required|numeric',
+    //     ]);
+    //     $costSetting = CostDetail::firstOrCreate([]);
         
-        // Update the cost settings
-        $costSetting->update([
-            'overhead_cost' => $request->input('overhead_cost'),
-            'labor_cost' => $request->input('labor_cost'),
-            'margin_cost' => $request->input('margin_cost'),
-        ]);
+    //     // Update the cost settings
+    //     $costSetting->update([
+    //         'overhead_cost' => $request->input('overhead_cost'),
+    //         'labor_cost' => $request->input('labor_cost'),
+    //         'margin_cost' => $request->input('margin_cost'),
+    //     ]);
     
-        // Redirect back with a success message
-        return redirect()->route('cost.setting')->with('success', 'Cost settings updated successfully.');
-    }
+    //     // Redirect back with a success message
+    //     return redirect()->route('cost.setting')->with('success', 'Cost settings updated successfully.');
+    // }
 
-    public function settingPrice() {
-        $dishes = DishDetail::all();
-        $costSetting = CostDetail::first();
-        // dd($costSetting);
-        return view('ManageMenuPrice.priceSetting', compact('dishes', 'costSetting'));
-    }
+    // public function settingPrice() {
+    //     $dishes = DishDetail::all();
+    //     $costSetting = CostDetail::first();
+    //     // dd($costSetting);
+    //     return view('ManageMenuPrice.priceSetting', compact('dishes', 'costSetting'));
+    // }
 
-    public function storeMenuPrice(Request $request) {
-        $request -> validate([
-            'menu_price' => 'required|numeric|min:0',
-            'overhead_price' => 'required|numeric',
-            'labor_price' => 'required|numeric',
-            'margin_price' => 'required|numeric',
-        ]);
+    
+    
+    
+    
+    
 
-        // dd($request);
-        MenuDetail::create([
-            'dish_ID' => $request->input('dish_ID'),
-            'menu_price' => $request->input('menu_price'),
-        ]);
-
-        $priceSetting = PriceDetail::create([
-            'dish_ID' => $request->input('dish_ID'),
-            'overhead_price' => $request->input('overhead_price'),
-            'labor_price' => $request->input('labor_price'),
-            'margin_price' => $request->input('margin_price'),
-        ]);
-        return redirect(route('menu.manage'));
-    }
+    
+    
+    
 
     // public function calculatePrice(Request $request)
     // {

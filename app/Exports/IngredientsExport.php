@@ -17,7 +17,7 @@ class IngredientsExport implements FromCollection, WithHeadings, ShouldAutoSize,
      */
     public function collection()
     {
-        return IngredientDetail::all();
+        return IngredientDetail::select('ingredient_ID', 'ingredient_name', 'ingredient_weight')->get();
     }
 
     /**

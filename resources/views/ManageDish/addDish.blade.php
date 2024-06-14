@@ -76,7 +76,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight(kg) / (ml)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
+                                            <input class="form-control mt-2 weight" name="recipe_weight[]" placeholder="Weight (grams)" value="0" onfocus="if(this.value==0)this.value='';" onblur="if(this.value=='')this.value=0;">
                                         </div>
                                     </div>
                                     <hr class="horizontal dark">
@@ -110,7 +110,7 @@
                                     }
 
                                     // Calculate cost for this ingredient
-                                    totalCost += (price / ingredientWeight) * weight;
+                                    totalCost += (price / ingredientWeight) * weight/1000;
                                 }
 
                                 totalCost = totalCost.toFixed(2);

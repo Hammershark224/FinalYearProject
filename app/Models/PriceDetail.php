@@ -11,12 +11,11 @@ class PriceDetail extends Model
     protected $primaryKey = "price_ID";
     protected $fillable = [
         'dish_ID',
-        'overhead_price',
-        'labor_price',
-        'margin_price',
+        'price_type',
+        'value',
     ];
 
     public function dish() {
-        return $this->hasMany(DishDetail::class, 'dish_ID');
+        return $this->belongsTo(DishDetail::class, 'dish_ID');
     }
 }

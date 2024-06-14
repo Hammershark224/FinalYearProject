@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DishDetail;
 use App\Models\IngredientDetail;
 use App\Models\MenuDetail;
+use App\Models\PriceDetail;
 use App\Models\RecipeDetail;
-use App\Models\SupplierDetail;
 use Illuminate\Http\Request;
-use League\CommonMark\Node\Block\Document;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DishDetailController extends Controller
@@ -102,30 +100,95 @@ class DishDetailController extends Controller
         }
     
         return view('ManageDish.viewDish', ['dataDish' => $dataDish, 'recipes' => $recipes, 'photoUrl' => $photoUrl]);
-    }
-    
+    }   
 
     public function edit($id) {
-        $dataDish = DishDetail::findOrFail($id);
-        $ingredients = RecipeDetail::where('dish_ID', $id)->with('ingredient')->get();
+        $dish = DishDetail::with('recipes.ingredient')->findOrFail($id);
         $photoUrl = null;
     
-        if ($dataDish->dish_photo) {
+        if ($dish->dish_photo) {
             // Generate URL for the dish photo
-            $photoUrl = Storage::url('dish_photos/' . $dataDish->dish_photo);
+            $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
+        }
+        $ingredientList = DB::table('supplier_details')
+            ->select(
+                'ingredient_details.ingredient_ID',
+                'ingredient_details.ingredient_name',
+                'ingredient_details.ingredient_weight',
+                DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
+            )
+            ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
+            ->groupBy('ingredient_details.ingredient_ID')
+            ->get();
+    
+        return view('ManageDish.editDish', compact('dish', 'photoUrl', 'ingredientList'));
+    }
+    
+    public function update(Request $request, $id) {
+        // Validate the request data
+        $request->validate([
+            'dish_name' => 'required|string',
+            'dish_description' => 'required|string',
+            'dish_cost' => 'required|numeric',
+            'dish_status' => 'required',
+            'dish_photo' => 'nullable|image',
+            'ingredients' => 'required|array',
+            'recipe_weight' => 'required|array',
+        ]);
+    
+        $dish = DishDetail::findOrFail($id);
+    
+        // Handle file upload
+        if ($request->hasFile('dish_photo')) {
+            $fileName = $request->file('dish_photo')->getClientOriginalName();
+            $request->file('dish_photo')->storeAs('dish_photos', $fileName, 'public');
+            $dish->dish_photo = $fileName;
         }
     
-        return view('ManageDish.editDish', ['dataDish' => $dataDish, 'ingredients' => $ingredients, 'photoUrl' => $photoUrl]);
+        // Update dish details
+        $dish->update([
+            'dish_name' => $request->input('dish_name'),
+            'dish_description' => $request->input('dish_description'),
+            'dish_cost' => $request->input('dish_cost'),
+            'dish_status' => $request->input('dish_status'),
+        ]);
+    
+        $ingredients = $request->input('ingredients');
+        $recipeWeights = $request->input('recipe_weight');
+    
+        // Iterate over the ingredients and recipe weights to update or create RecipeDetail entries
+        for ($i = 0; $i < count($ingredients); $i++) {
+            $ingredientId = $ingredients[$i];
+            $recipeWeight = $recipeWeights[$i];
+    
+            $recipeDetail = RecipeDetail::where('dish_ID', $dish->dish_ID)
+                ->where('ingredient_ID', $ingredientId)
+                ->first();
+    
+            if ($recipeDetail) {
+                // Update existing recipe detail
+                $recipeDetail = RecipeDetail::where('dish_ID', $dish->dish_ID);
+                $recipeDetail->update([
+                    'recipe_weight' => $recipeWeight,
+                ]);
+            } else {
+                // Create new recipe detail
+                RecipeDetail::create([
+                    'dish_ID' => $dish->dish_ID,
+                    'ingredient_ID' => $ingredientId,
+                    'recipe_weight' => $recipeWeight,
+                ]);
+            }
+        }
+    
+        return redirect(route('dish.manage'));
     }
-
-    public function update($id) {
-        
-    }
-
+    
     public function delete($id) {
         $dataDish = DishDetail::find($id);
         $ingredients = RecipeDetail::where('dish_ID',$id)->delete();
         $menu = MenuDetail::where('dish_ID',$id)->delete();
+        $priceDetail = PriceDetail::where('dish_ID',$id)->delete();
         $dataDish -> delete();
         return redirect(route('dish.manage'));
     }

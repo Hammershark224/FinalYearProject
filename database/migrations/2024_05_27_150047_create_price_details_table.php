@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('price_details', function (Blueprint $table) {
             $table->id("price_ID");
             $table->foreignId("dish_ID")->references("dish_ID")->on("dish_details");
-            $table->decimal("overhead_price",8 ,2)->nullable();
-            $table->decimal("labor_price",8 ,2)->nullable();
-            $table->decimal("margin_price",8 ,2)->nullable();
+            $table->string('price_type');
+            $table->decimal("value",8 ,2) ;       
+
+            // $table->decimal("overhead_price",8 ,2)->nullable();
+            // $table->decimal("labor_price",8 ,2)->nullable();
+            // $table->decimal("margin_price",8 ,2)->nullable();
             $table->timestamps();
         });
     }

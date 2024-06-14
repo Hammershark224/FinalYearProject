@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id("company_ID");
             $table->string("company_name");
             $table->string("company_address");
+            $table->string("company_photo")->nullable();
             $table->timestamps();
         });
     }

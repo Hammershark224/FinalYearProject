@@ -17,31 +17,6 @@
                     <h5 class="card-title">{{ $menu->dish->dish_name }}</h5>
                     <span class="text-xs">RM {{ $menu->menu_price }}</span>
                     <hr class="horizontal dark my-3">
-                    <form role="form" method="post" action="{{ route('status.update', $menu->dish->dish_ID) }}" enctype="multipart/form-data">
-                    @csrf    
-                        <div class="align-middle text-center text-sm">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select id="dish_status" class="form-control" name="dish_status" required>
-                                        <option value="ON" @if($menu->dish->dish_status == 'ON') selected @endif>ON</option>
-                                        <option value="OFF" @if($menu->dish->dish_status == 'OFF') selected @endif>OFF</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <button class="btn btn-primary mr-2" type="submit">Update</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4"> 
-                                    <div class="red-column d-flex align-items-center justify-content-center">
-                                        <div class="trash-icon">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
