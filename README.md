@@ -9,3 +9,5 @@ Command need to run, Open Terminal
 3. php artisan migrate:fresh --seed
 
 4. php artisan serve
+
+5. Login info can check in DatabaseSeeder.php
