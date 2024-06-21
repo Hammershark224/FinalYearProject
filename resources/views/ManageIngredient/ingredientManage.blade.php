@@ -2,7 +2,6 @@
 
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
-<script src="{{ asset('assets/js/core/search.js') }}"></script>
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
@@ -24,6 +23,13 @@
                         <input type="text" id="searchInput" class="form-control border border-dark" placeholder="Search for ingredients...">
                     </div>
                 </div>
+
+                @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -74,7 +80,28 @@
             </div>
         </div>
     </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('TableBody');
+    const tableRows = tableBody.getElementsByTagName('tr');
 
+    searchInput.addEventListener('keyup', function() {
+        const filter = searchInput.value.toLowerCase();
+        Array.from(tableRows).forEach(function(row) {
+            const cells = row.getElementsByTagName('td');
+            const ingredientName = cells[1].textContent.trim() || cells[1].innerText.trim(); // Adjust to second cell (index 1)
+            if (ingredientName.toLowerCase().indexOf(filter) > -1) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+
+
+</script>
     @include('layouts.footers.auth.footer')
 </div>
 @endsection

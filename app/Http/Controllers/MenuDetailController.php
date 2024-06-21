@@ -83,10 +83,6 @@ class MenuDetailController extends Controller
         $menus = MenuDetail::with('dish')->get();
         return view('ManageMenu.menuManage', ['menus' => $menus]);
     }
-
-    public function createMenu() {
-        return view('ManageMenu.addRecipe');
-    }
     
     public function updateStatus(Request $request, $id) 
     {

@@ -13,28 +13,28 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">Dish</p>
+                                <p class="mb-0">Food Product</p>
                                 <button type="submit" class="btn btn-primary btn-sm ms-auto">Submit</button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <p class="text-uppercase text-sm">Dish Info</p>
+                                <p class="text-uppercase text-sm">Food Product Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="photo" class="form-control-label">Dish Photo</label>
+                                        <label for="photo" class="form-control-label">Food Product Photo</label>
                                         <input type="file" name="dish_photo" class="form-control" accept="image/*">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Name</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Name</label>
                                         <input class="form-control" type="text" name="dish_name">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Description</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Description</label>
                                         <textarea class="form-control" name="dish_description" rows="3"></textarea>
                                     </div>
                                 </div>

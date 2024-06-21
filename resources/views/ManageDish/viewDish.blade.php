@@ -13,34 +13,34 @@
                         @csrf
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
-                                <p class="mb-0">View Dish Info</p>
+                                <p class="mb-0">View Food Product Info</p>
                                 <button type="button" onclick="window.location='{{ route('dish.manage') }}'" class="btn btn-primary btn-sm ms-auto">Back</button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <p class="text-uppercase text-sm">Dish Info</p>
+                                <p class="text-uppercase text-sm">Food Product Info</p>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Photo</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Photo</label>
                                         <p><img src="{{ $photoUrl }}" style="width: 300px; height: 300px;" alt="Dish Photo"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Name</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Name</label>
                                         <input class="form-control" type="text" name="dish_name" value="{{ $dataDish->dish_name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Description</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Description</label>
                                         <textarea class="form-control" name="dish_description" rows="3" readonly>{{ $dataDish->dish_description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Dish Cost</label>
+                                        <label for="example-text-input" class="form-control-label">Food Product Cost</label>
                                         <input class="form-control" type="number" name="dish_cost" id="dish_cost" value="{{ $dataDish->dish_cost }}" readonly>
                                     </div>
                                 </div>

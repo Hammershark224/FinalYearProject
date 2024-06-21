@@ -59,7 +59,7 @@ class SupplierDetailController extends Controller
     
         // Upload and import the Excel file
         if ($request->hasFile('ingredients_list')) {
-            try {
+            
                 $file = $request->file('ingredients_list');
                 $filePath = $file->storeAs('excel', $file->getClientOriginalName());
     
@@ -80,9 +80,8 @@ class SupplierDetailController extends Controller
     
                 // Pass the company_ID to the IngredientsImport constructor
                 Excel::import(new IngredientsImport($companyId), $newFilePath);
-            } catch (\Exception $e) {
-                return back()->with('error', 'No Ingredient Price');
-            }
+            
+            
         } else {
             return back()->with('error', 'No ingredients list uploaded.');
         }

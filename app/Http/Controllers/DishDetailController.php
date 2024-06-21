@@ -111,16 +111,15 @@ class DishDetailController extends Controller
             $photoUrl = Storage::url('dish_photos/' . $dish->dish_photo);
         }
         $ingredientList = DB::table('supplier_details')
-            ->select(
-                'ingredient_details.ingredient_ID',
-                'ingredient_details.ingredient_name',
-                'ingredient_details.ingredient_weight',
-                DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
-            )
-            ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
-            ->groupBy('ingredient_details.ingredient_ID')
-            ->get();
-    
+        ->select(
+            'ingredient_details.ingredient_ID',
+            'ingredient_details.ingredient_name',
+            'ingredient_details.ingredient_weight',
+            DB::raw('MIN(supplier_details.ingredient_price) as lowest_price')
+        )
+        ->join('ingredient_details', 'supplier_details.ingredient_ID', '=', 'ingredient_details.ingredient_ID')
+        ->groupBy('ingredient_details.ingredient_ID')
+        ->get();
         return view('ManageDish.editDish', compact('dish', 'photoUrl', 'ingredientList'));
     }
     
@@ -193,8 +192,8 @@ class DishDetailController extends Controller
         return redirect(route('dish.manage'));
     }
 
-    public function exportToExcel()
-    {
-        return Excel::download(new DishExport, 'dishes.xlsx');
-    }
+    // public function exportToExcel()
+    // {
+    //     return Excel::download(new DishExport, 'dishes.xlsx');
+    // }
 }
